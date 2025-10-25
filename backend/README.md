@@ -2,6 +2,80 @@
 
 Una API RESTful construida con NestJS, TypeScript, Arquitectura Limpia y principios de Domain-Driven Design (DDD). Incluye autenticación JWT, base de datos PostgreSQL y gestión completa de usuarios.
 
+## 📋 Prerequisitos
+
+- Node.js (v18 o superior)
+- Docker y Docker Compose
+- PostgreSQL (si se ejecuta sin Docker)
+
+## 🛠️ Instalación
+
+### Opción 1: Usando Docker (Recomendado)
+
+1. **Clonar el repositorio**
+
+   ```bash
+   cd backend
+   ```
+
+2. **Crear archivo `.env`**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+3. **Iniciar la aplicación**
+
+   ```bash
+   docker-compose up --build
+   ```
+
+   La API estará disponible en `http://localhost:3000`
+
+### Opción 2: Desarrollo Local
+
+1. **Instalar dependencias**
+
+   ```bash
+   npm install
+   ```
+
+2. **Crear archivo `.env`**
+
+   ```bash
+   cp .env.example .env
+   ```
+
+3. **Actualizar `.env` con las credenciales de tu base de datos local**
+
+   ```env
+   DB_HOST=localhost
+   DB_PORT=5432
+   DB_USERNAME=postgres
+   DB_PASSWORD=postgres
+   DB_DATABASE=aura_auth
+   JWT_SECRET=your-super-secret-jwt-key
+   JWT_EXPIRATION=1d
+   ```
+
+4. **Ejecutar PostgreSQL** (si no usas Docker)
+
+   ```bash
+   # Usando Docker solo para PostgreSQL
+   docker run --name postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=aura_auth -p 5432:5432 -d postgres:16-alpine
+   ```
+
+5. **Ejecutar migraciones**
+
+   ```bash
+   npm run migration:run
+   ```
+
+6. **Iniciar el servidor de desarrollo**
+   ```bash
+   npm run start:dev
+   ```
+
 ## 🏗️ Arquitectura
 
 Este proyecto sigue los principios de **Arquitectura Limpia** y **Domain-Driven Design (DDD)** con una clara separación de responsabilidades:
@@ -53,77 +127,12 @@ src/
 - ✅ **Principios SOLID** y mejores prácticas
 - ✅ **TypeScript** para seguridad de tipos
 
-## 📋 Prerequisitos
-
-- Node.js (v18 o superior)
-- Docker y Docker Compose
-- PostgreSQL (si se ejecuta sin Docker)
-
-## 🛠️ Instalación
-
-### Opción 1: Usando Docker (Recomendado)
-
-1. **Clonar el repositorio**
-   ```bash
-   cd backend
-   ```
-
-2. **Crear archivo `.env`**
-   ```bash
-   cp .env.example .env
-   ```
-
-3. **Iniciar la aplicación**
-   ```bash
-   docker-compose up --build
-   ```
-
-   La API estará disponible en `http://localhost:3000`
-
-### Opción 2: Desarrollo Local
-
-1. **Instalar dependencias**
-   ```bash
-   npm install
-   ```
-
-2. **Crear archivo `.env`**
-   ```bash
-   cp .env.example .env
-   ```
-
-3. **Actualizar `.env` con las credenciales de tu base de datos local**
-   ```env
-   DB_HOST=localhost
-   DB_PORT=5432
-   DB_USERNAME=postgres
-   DB_PASSWORD=postgres
-   DB_DATABASE=aura_auth
-   JWT_SECRET=your-super-secret-jwt-key
-   JWT_EXPIRATION=1d
-   ```
-
-4. **Ejecutar PostgreSQL** (si no usas Docker)
-   ```bash
-   # Usando Docker solo para PostgreSQL
-   docker run --name postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=aura_auth -p 5432:5432 -d postgres:16-alpine
-   ```
-
-5. **Ejecutar migraciones**
-   ```bash
-   npm run migration:run
-   ```
-
-6. **Iniciar el servidor de desarrollo**
-   ```bash
-   npm run start:dev
-   ```
-
 ## 📡 Endpoints de la API
 
 ### Autenticación
 
 #### Registrar un nuevo usuario
+
 ```http
 POST /api/auth/register
 Content-Type: application/json
@@ -137,6 +146,7 @@ Content-Type: application/json
 ```
 
 **Respuesta:**
+
 ```json
 {
   "message": "User registered successfully",
@@ -154,6 +164,7 @@ Content-Type: application/json
 ```
 
 #### Iniciar sesión
+
 ```http
 POST /api/auth/login
 Content-Type: application/json
@@ -165,6 +176,7 @@ Content-Type: application/json
 ```
 
 **Respuesta:**
+
 ```json
 {
   "message": "Login successful",
@@ -183,12 +195,14 @@ Content-Type: application/json
 ### Gestión de Usuarios (Requiere Autenticación)
 
 #### Obtener perfil del usuario actual
+
 ```http
 GET /api/users/profile
 Authorization: Bearer <token>
 ```
 
 **Respuesta:**
+
 ```json
 {
   "message": "Profile retrieved successfully",
@@ -204,6 +218,7 @@ Authorization: Bearer <token>
 ```
 
 #### Actualizar perfil de usuario
+
 ```http
 PUT /api/users/profile
 Authorization: Bearer <token>
@@ -217,12 +232,14 @@ Content-Type: application/json
 ```
 
 #### Listar todos los usuarios
+
 ```http
 GET /api/users
 Authorization: Bearer <token>
 ```
 
 **Respuesta:**
+
 ```json
 {
   "message": "Users retrieved successfully",
@@ -264,16 +281,19 @@ JWT_EXPIRATION=1d
 ## 🗄️ Migraciones de Base de Datos
 
 ### Crear una nueva migración
+
 ```bash
 npm run migration:generate -- src/infrastructure/database/migrations/MigrationName
 ```
 
 ### Ejecutar migraciones
+
 ```bash
 npm run migration:run
 ```
 
 ### Revertir última migración
+
 ```bash
 npm run migration:revert
 ```
@@ -392,8 +412,10 @@ MIT
 
 ## 👨‍💻 Autor
 
-Your Name
+Diego Rosas - [GitHub](https://github.com/diego-rosas)
 
----
+## 🤝 Contribuir
 
-**Construido con ❤️ usando NestJS, TypeScript y principios de Arquitectura Limpia**
+Si contribuyes al proyecto, por favor, abre un issue o un pull request.
+
+## Siéntete libre de incuir tu nombre en la lista de contribuidores
