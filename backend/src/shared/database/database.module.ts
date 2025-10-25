@@ -6,7 +6,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { UserOrmEntity } from './entity/user.orm-entity';
+import { UserOrmEntity } from '../../infrastructure/user/database/entity/user.orm-entity';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { UserOrmEntity } from './entity/user.orm-entity';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_DATABASE'),
         entities: [UserOrmEntity],
-        migrations: ['dist/infrastructure/database/migration/**/*.js'],
+        migrations: ['dist/shared/database/migrations/**/*.js'],
         synchronize: false,
         logging: configService.get('NODE_ENV') === 'development',
         migrationsRun: true, // Auto-run migrations on startup

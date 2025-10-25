@@ -7,8 +7,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 
+// Shared
+import { DatabaseModule } from './shared/database/database.module';
+
 // Infrastructure
-import { DatabaseModule } from './infrastructure/user/database/database.module';
 import { AuthModule } from './infrastructure/user/security/auth.module';
 import { UserRepository } from './infrastructure/user/repository/user.repository';
 

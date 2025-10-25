@@ -20,10 +20,12 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3000;
 
-  await app.listen(port);
+  // Bind to 0.0.0.0 to allow access from Windows host
+  await app.listen(port, '0.0.0.0');
 
   logger.log(`🚀 Application is running on: http://localhost:${port}`);
   logger.log(`📚 API endpoints available at: http://localhost:${port}/api`);
+  logger.log(`🌐 Accessible from Windows at: http://localhost:${port}`);
 }
 
 bootstrap();
