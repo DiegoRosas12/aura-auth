@@ -1,9 +1,3 @@
-/**
- * Domain Entity: User
- * Represents the core business logic and rules for a User in the domain layer.
- * This entity is framework-agnostic and contains only business logic.
- */
-
 import { Email } from '../value-object/email.vo';
 
 export class User {
@@ -35,9 +29,6 @@ export class User {
     this.validate();
   }
 
-  /**
-   * Validates the user entity according to business rules
-   */
   private validate(): void {
     if (!this._firstName || this._firstName.trim().length === 0) {
       throw new Error('First name cannot be empty');
@@ -52,9 +43,6 @@ export class User {
     }
   }
 
-  /**
-   * Updates user profile information
-   */
   public updateProfile(firstName?: string, lastName?: string, email?: Email): void {
     if (firstName) {
       this._firstName = firstName;
@@ -72,9 +60,6 @@ export class User {
     this.validate();
   }
 
-  /**
-   * Updates the user's password
-   */
   public updatePassword(newPassword: string): void {
     if (!newPassword || newPassword.length === 0) {
       throw new Error('Password cannot be empty');
@@ -83,7 +68,6 @@ export class User {
     this._updatedAt = new Date();
   }
 
-  // Getters
   get id(): string {
     return this._id;
   }
@@ -112,9 +96,6 @@ export class User {
     return this._updatedAt;
   }
 
-  /**
-   * Returns the full name of the user
-   */
   get fullName(): string {
     return `${this._firstName} ${this._lastName}`;
   }
