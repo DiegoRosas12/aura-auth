@@ -1,7 +1,5 @@
 [build]
 builder = "NIXPACKS"
 
-[deploy]
-
 [variables]
 NODE_VERSION = "20"
