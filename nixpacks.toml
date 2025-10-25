@@ -5,7 +5,7 @@ nixPkgs = ["nodejs_20", "yarn"]
 cmds = ["cd backend && yarn install --frozen-lockfile"]
 
 [phases.build]
-cmds = ["cd backend && yarn build", "chmod +x start.sh"]
+cmds = ["cd backend && yarn build"]
 
 [start]
-cmd = "./start.sh"
+cmd = "cd backend && yarn migration:run:prod && cd .. && node backend/dist/main.js"
