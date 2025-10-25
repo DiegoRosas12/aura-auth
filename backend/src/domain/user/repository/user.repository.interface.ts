@@ -1,5 +1,6 @@
 import { User } from '../entity/user.entity';
 import { Email } from '../value-object/email.vo';
+import { ListUsersQuery } from '../../../application/user/query/list-users.query';
 
 export interface IUserRepository {
   save(user: User): Promise<User>;
@@ -8,7 +9,7 @@ export interface IUserRepository {
 
   findByEmail(email: Email): Promise<User | null>;
 
-  findAll(): Promise<User[]>;
+  findAll(query: ListUsersQuery): Promise<User[]>;
 
   update(id: string, user: Partial<User>): Promise<User>;
 
