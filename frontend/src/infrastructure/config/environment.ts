@@ -1,7 +1,3 @@
-/**
- * Environment configuration
- * Centralizes all environment variables
- */
 export const environment = {
   apiBaseUrl: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000',
   useMockApi: import.meta.env.VITE_USE_MOCK_API === 'true',
