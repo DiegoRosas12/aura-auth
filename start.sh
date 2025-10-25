@@ -9,7 +9,7 @@ cd ./backend
 
 # Run migrations
 echo "🗄️  Running database migrations..."
-node dist/infrastructure/database/data-source.js || echo "⚠️  Migrations failed or already applied"
+npx typeorm migration:run -d dist/infrastructure/user/database/data-source.js || echo "⚠️  Migrations failed or already applied"
 
 # Start the application
 echo "✅ Starting server..."
