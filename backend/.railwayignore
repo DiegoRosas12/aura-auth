@@ -1,0 +1,25 @@
+# Railway ignore file - files to exclude from deployment
+
+# Development files
+.env.example
+.eslintrc.js
+.prettierrc
+*.md
+!README.md
+
+# Test files
+test/
+*.spec.ts
+*.test.ts
+coverage/
+
+# Documentation
+docs/
+
+# IDE
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
