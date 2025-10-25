@@ -2,7 +2,6 @@
 builder = "NIXPACKS"
 
 [deploy]
-startCommand = "./start.sh"
 
 [variables]
 NODE_VERSION = "20"
