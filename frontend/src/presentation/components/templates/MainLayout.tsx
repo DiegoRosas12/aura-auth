@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { Navbar } from '../organisms/Navbar'
+import { Sidebar } from '../organisms/Sidebar'
 
 interface MainLayoutProps {
   children: ReactNode
@@ -7,13 +7,13 @@ interface MainLayoutProps {
 
 /**
  * Main Layout
- * Layout for authenticated pages with navbar
+ * Layout for authenticated pages with sidebar
  */
 export const MainLayout = ({ children }: MainLayoutProps) => {
   return (
     <div className="min-h-screen bg-gray-50">
-      <Navbar />
-      <main className="container-custom py-8">{children}</main>
+      <Sidebar />
+      <main className="ml-[104px] py-8 px-6">{children}</main>
     </div>
   )
 }

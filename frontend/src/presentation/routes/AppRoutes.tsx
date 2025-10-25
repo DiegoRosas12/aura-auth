@@ -4,6 +4,7 @@ import { RegisterPage } from '../pages/RegisterPage'
 import { DashboardPage } from '../pages/DashboardPage'
 import { ProfilePage } from '../pages/ProfilePage'
 import { UsersPage } from '../pages/UsersPage'
+import { SearchDataPage } from '../pages/SearchDataPage'
 import { ProtectedRoute } from './ProtectedRoute'
 
 /**
@@ -18,6 +19,14 @@ export const AppRoutes = () => {
       <Route path="/register" element={<RegisterPage />} />
 
       {/* Protected routes */}
+      <Route
+        path="/search-data"
+        element={
+          <ProtectedRoute>
+            <SearchDataPage />
+          </ProtectedRoute>
+        }
+      />
       <Route
         path="/dashboard"
         element={
@@ -44,10 +53,10 @@ export const AppRoutes = () => {
       />
 
       {/* Default redirect */}
-      <Route path="/" element={<Navigate to="/dashboard" replace />} />
+      <Route path="/" element={<Navigate to="/search-data" replace />} />
       
-      {/* 404 - Redirect to dashboard */}
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      {/* 404 - Redirect to search-data */}
+      <Route path="*" element={<Navigate to="/search-data" replace />} />
     </Routes>
   )
 }

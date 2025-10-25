@@ -25,7 +25,7 @@ export const Button = ({
   const baseStyles = 'btn font-medium transition-all duration-200 disabled:opacity-50'
 
   const variantStyles = {
-    primary: 'bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500',
+    primary: 'bg-[#2d3648] text-white hover:bg-[#3d4758] focus:ring-[#2d3648] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] font-bold text-[18px] leading-[24px] tracking-[-0.18px]',
     secondary: 'bg-gray-200 text-gray-900 hover:bg-gray-300 focus:ring-gray-400',
     outline:
       'border-2 border-gray-300 bg-transparent text-gray-700 hover:bg-gray-50 focus:ring-gray-400',
@@ -34,7 +34,7 @@ export const Button = ({
 
   const sizeStyles = {
     sm: 'px-3 py-1.5 text-sm',
-    md: 'px-4 py-2 text-base',
+    md: 'px-[24px] py-[16px] rounded-[6px]',
     lg: 'px-6 py-3 text-lg',
   }
 

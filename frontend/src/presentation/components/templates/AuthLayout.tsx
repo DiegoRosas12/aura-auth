@@ -4,14 +4,28 @@ interface AuthLayoutProps {
   children: ReactNode
 }
 
+const logoUrl = 'http://localhost:3845/assets/f240a11f0568f3f5840ceb8444f3252649015fbf.png'
+
 /**
  * Authentication Layout
  * Layout for login and register pages
  */
 export const AuthLayout = ({ children }: AuthLayoutProps) => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-secondary-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">{children}</div>
+    <div className="min-h-screen bg-[#1b093c] relative">
+      {/* Logo */}
+      <div className="absolute left-[37px] top-[22px] h-[45px] w-[150px]">
+        <img 
+          src={logoUrl} 
+          alt="Aura Solutions Logo" 
+          className="w-full h-full object-cover"
+        />
+      </div>
+      
+      {/* Content */}
+      <div className="flex items-center justify-center min-h-screen">
+        {children}
+      </div>
     </div>
   )
 }

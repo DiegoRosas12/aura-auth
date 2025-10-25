@@ -2,7 +2,6 @@ import { useState, FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '@application/context/AuthContext'
 import { AuthLayout } from '../components/templates/AuthLayout'
-import { Card, CardContent, CardHeader, CardTitle } from '../components/atoms/Card'
 import { Input } from '../components/atoms/Input'
 import { Button } from '../components/atoms/Button'
 import { Alert } from '../components/atoms/Alert'
@@ -37,34 +36,28 @@ export const LoginPage = () => {
 
   return (
     <AuthLayout>
-      <div className="text-center mb-8">
-        <div className="flex justify-center mb-4">
-          <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary-600 text-white font-bold text-xl">
-            A
-          </div>
-        </div>
-        <h2 className="text-3xl font-bold text-gray-900">Welcome back</h2>
-        <p className="mt-2 text-gray-600">Sign in to your account to continue</p>
-      </div>
+      <div className="flex flex-col items-center">
+        {/* Welcome Title */}
+        <h1 className="text-white text-[48px] font-bold leading-[1.2] tracking-[0.48px] text-center mb-[122px] [text-shadow:0px_4px_4px_rgba(0,0,0,0.25)]">
+          Welcome
+        </h1>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Login</CardTitle>
-        </CardHeader>
-        <CardContent>
-          {error && (
-            <Alert variant="error" onClose={clearError} className="mb-4">
-              {error}
-            </Alert>
-          )}
+        {/* Error Alert */}
+        {error && (
+          <Alert variant="error" onClose={clearError} className="mb-4 w-[320px]">
+            {error}
+          </Alert>
+        )}
 
-          <form onSubmit={handleSubmit} className="space-y-4">
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="flex flex-col items-center gap-[40px]">
+          <div className="flex flex-col gap-[32px]">
             <Input
-              label="Email"
+              label="User"
               type="email"
               value={formData.email}
               onChange={handleChange('email')}
-              placeholder="you@example.com"
+              placeholder=""
               required
               autoComplete="email"
             />
@@ -74,24 +67,26 @@ export const LoginPage = () => {
               type="password"
               value={formData.password}
               onChange={handleChange('password')}
-              placeholder="••••••••"
+              placeholder=""
               required
               autoComplete="current-password"
+              helperText="Optional"
             />
-
-            <Button type="submit" fullWidth isLoading={isLoading}>
-              Sign In
-            </Button>
-          </form>
-
-          <div className="mt-6 text-center text-sm">
-            <span className="text-gray-600">Don't have an account? </span>
-            <Link to="/register" className="font-medium text-primary-600 hover:text-primary-700">
-              Sign up
-            </Link>
           </div>
-        </CardContent>
-      </Card>
+
+          <Button type="submit" fullWidth isLoading={isLoading}>
+            Continue
+          </Button>
+        </form>
+
+        {/* Sign up link */}
+        <div className="mt-8 text-center text-sm">
+          <span className="text-white">Don't have an account? </span>
+          <Link to="/register" className="font-medium text-white hover:text-gray-300 underline">
+            Sign up
+          </Link>
+        </div>
+      </div>
     </AuthLayout>
   )
 }
