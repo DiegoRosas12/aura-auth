@@ -5,6 +5,8 @@
 
 import { DataSource } from 'typeorm';
 import { config } from 'dotenv';
+import * as path from 'path';
+import { UserOrmEntity } from '../../infrastructure/user/database/entity/user.orm-entity';
 
 config();
 
@@ -15,8 +17,8 @@ export const AppDataSource = new DataSource({
   username: process.env.DB_USERNAME || 'postgres',
   password: process.env.DB_PASSWORD || 'postgres',
   database: process.env.DB_DATABASE || 'aura_auth',
-  entities: ['src/infrastructure/database/entities/**/*.ts'],
-  migrations: ['src/infrastructure/database/migrations/**/*.ts'],
+  entities: [UserOrmEntity],
+  migrations: [path.join(__dirname, 'migrations/**/*.{ts,js}')],
   synchronize: false,
-  logging: process.env.NODE_ENV === 'development',
+  logging: true, // Enable logging to see what's happening
 });

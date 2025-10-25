@@ -3,9 +3,9 @@
  * Creates the initial users table with all required columns and constraints
  */
 
-import { MigrationInterface, QueryRunner, Table, TableIndex } from 'typeorm';
+import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
-export class CreateUsersTable1698000000001 implements MigrationInterface {
+export class CreateUsersTable1730000000001 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
@@ -58,7 +58,6 @@ export class CreateUsersTable1698000000001 implements MigrationInterface {
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    await queryRunner.dropIndex('users', 'IDX_USERS_EMAIL');
     await queryRunner.dropTable('users');
   }
 }
