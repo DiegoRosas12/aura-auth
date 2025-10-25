@@ -7,8 +7,8 @@ echo "🚀 Starting Aura Auth Backend..."
 
 # Run migrations
 echo "🗄️  Running database migrations..."
-npm run typeorm migration:run -- -d dist/infrastructure/database/data-source.js
+cd backend && yarn migration:run:prod
 
 # Start the application
 echo "✅ Starting server..."
-node dist/main
+node backend/dist/main.js
