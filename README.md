@@ -1,6 +1,6 @@
 # 🔐 Aura Auth - Authentication System
 
-> **Live Playground**: [Aura Auth - Authentication System](https://auraauth.netlify.app/login)
+> **Live Playground**: [Aura Auth - Authentication System](https://auraauth.netlify.app)
 
 A complete, production-ready authentication system built with modern technologies and best practices. This monorepo contains both a NestJS backend API and a React frontend application, following Clean Architecture and Domain-Driven Design principles.
 
@@ -136,24 +136,20 @@ Both the backend and frontend follow **Clean Architecture** principles with clea
 ```
 src/
 ├── domain/              # Business logic and rules (framework-independent)
-│   ├── entities/        # Domain entities
-│   ├── value-objects/   # Immutable value objects
-│   ├── repositories/    # Repository interfaces
-│   └── services/        # Domain services
+│   ├── entity/          # Domain entities
+│   └── repository/      # Repository interfaces
 │
 ├── application/         # Use cases and application logic
-│   ├── dtos/           # Data Transfer Objects
-│   ├── commands/       # Command objects (CQRS)
-│   ├── queries/        # Query objects (CQRS)
-│   └── services/       # Application services
+│   ├── dto/            # Data Transfer Objects
+│   └── service/        # Application services
 │
 ├── infrastructure/      # External concerns (database, security)
 │   ├── database/       # TypeORM entities and migrations
-│   ├── repositories/   # Repository implementations
+│   ├── repository/     # Repository implementations
 │   └── security/       # JWT strategy and guards
 │
 └── presentation/        # HTTP layer (controllers)
-    └── controllers/    # REST API controllers
+    └── controller/     # REST API controllers
 ```
 
 ### Frontend Architecture
@@ -226,9 +222,7 @@ This ensures:
 4. **Design Patterns**
    - Repository Pattern: Abstracts data access logic
    - Dependency Injection: Loose coupling between components
-   - CQRS: Separation of commands and queries
-   - Value Objects: Immutable objects representing domain concepts
-   - Factory Pattern: Object creation logic
+   - DTOs (Data Transfer Objects): Validation and data transfer between layers
 
 ### Code Quality
 

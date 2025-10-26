@@ -9,7 +9,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { User } from '../../../domain/user/entity/user.entity';
-import { Email } from '../../../domain/user/value-object/email.vo';
 import { IUserRepository } from '../../../domain/user/repository/user.repository.interface';
 import { UserOrmEntity } from '../database/entity/user.orm-entity';
 
@@ -23,7 +22,7 @@ export class UserRepository implements IUserRepository {
   private toDomain(ormEntity: UserOrmEntity): User {
     return new User(
       ormEntity.id,
-      new Email(ormEntity.email),
+      ormEntity.email,
       ormEntity.password,
       ormEntity.firstName,
       ormEntity.lastName,
@@ -35,7 +34,7 @@ export class UserRepository implements IUserRepository {
   private toOrm(domainEntity: User): UserOrmEntity {
     const ormEntity = new UserOrmEntity();
     ormEntity.id = domainEntity.id;
-    ormEntity.email = domainEntity.email.value;
+    ormEntity.email = domainEntity.email;
     ormEntity.password = domainEntity.password;
     ormEntity.firstName = domainEntity.firstName;
     ormEntity.lastName = domainEntity.lastName;
@@ -55,9 +54,9 @@ export class UserRepository implements IUserRepository {
     return ormEntity ? this.toDomain(ormEntity) : null;
   }
 
-  async findByEmail(email: Email): Promise<User | null> {
+  async findByEmail(email: string): Promise<User | null> {
     const ormEntity = await this.userOrmRepository.findOne({
-      where: { email: email.value },
+      where: { email: email.toLowerCase().trim() },
     });
     return ormEntity ? this.toDomain(ormEntity) : null;
   }
@@ -69,7 +68,7 @@ export class UserRepository implements IUserRepository {
 
   async update(id: string, user: Partial<User>): Promise<User> {
     await this.userOrmRepository.update(id, {
-      email: user.email?.value,
+      email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
       updatedAt: new Date(),
@@ -83,9 +82,9 @@ export class UserRepository implements IUserRepository {
     await this.userOrmRepository.delete(id);
   }
 
-  async existsByEmail(email: Email): Promise<boolean> {
+  async existsByEmail(email: string): Promise<boolean> {
     const count = await this.userOrmRepository.count({
-      where: { email: email.value },
+      where: { email: email.toLowerCase().trim() },
     });
     return count > 0;
   }

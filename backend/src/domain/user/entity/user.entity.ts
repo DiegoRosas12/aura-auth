@@ -1,8 +1,6 @@
-import { Email } from '../value-object/email.vo';
-
 export class User {
   private readonly _id: string;
-  private _email: Email;
+  private _email: string;
   private _password: string;
   private _firstName: string;
   private _lastName: string;
@@ -11,7 +9,7 @@ export class User {
 
   constructor(
     id: string,
-    email: Email,
+    email: string,
     password: string,
     firstName: string,
     lastName: string,
@@ -19,7 +17,7 @@ export class User {
     updatedAt?: Date,
   ) {
     this._id = id;
-    this._email = email;
+    this._email = email.toLowerCase().trim();
     this._password = password;
     this._firstName = firstName;
     this._lastName = lastName;
@@ -43,7 +41,7 @@ export class User {
     }
   }
 
-  public updateProfile(firstName?: string, lastName?: string, email?: Email): void {
+  public updateProfile(firstName?: string, lastName?: string, email?: string): void {
     if (firstName) {
       this._firstName = firstName;
     }
@@ -53,7 +51,7 @@ export class User {
     }
 
     if (email) {
-      this._email = email;
+      this._email = email.toLowerCase().trim();
     }
 
     this._updatedAt = new Date();
@@ -72,7 +70,7 @@ export class User {
     return this._id;
   }
 
-  get email(): Email {
+  get email(): string {
     return this._email;
   }
 

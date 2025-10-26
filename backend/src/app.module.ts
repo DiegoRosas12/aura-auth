@@ -15,7 +15,6 @@ import { AuthModule } from './infrastructure/user/security/auth.module';
 import { UserRepository } from './infrastructure/user/repository/user.repository';
 
 // Domain
-import { UserDomainService } from './domain/user/service/user.domain-service';
 import { USER_REPOSITORY } from './domain/user/repository/user.repository.interface';
 
 // Application
@@ -40,7 +39,6 @@ import { ValidationPipe } from './shared/pipe/validation.pipe';
   ],
   controllers: [AuthController, UserController],
   providers: [
-    UserDomainService,
     UserApplicationService,
     {
       provide: USER_REPOSITORY,

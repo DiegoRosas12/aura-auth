@@ -84,35 +84,32 @@ Este proyecto sigue los principios de **Arquitectura Limpia** y **Domain-Driven 
 src/
 ├── domain/              # Lógica de negocio y reglas (independiente del framework)
 │   └── user/
-│       ├── entities/           # Entidades del dominio
-│       ├── value-objects/      # Objetos de valor inmutables
-│       ├── repositories/       # Interfaces de repositorios
-│       └── services/           # Servicios del dominio
+│       ├── entity/            # Entidades del dominio
+│       └── repository/        # Interfaces de repositorios
 │
 ├── application/         # Casos de uso y lógica de aplicación
 │   └── user/
-│       ├── dtos/              # Objetos de Transferencia de Datos
-│       ├── commands/          # Objetos de comando (patrón CQRS)
-│       ├── queries/           # Objetos de consulta (patrón CQRS)
-│       └── services/          # Servicios de aplicación
+│       ├── dto/               # Objetos de Transferencia de Datos
+│       └── service/           # Servicios de aplicación
 │
 ├── infrastructure/      # Preocupaciones externas (base de datos, seguridad)
 │   ├── database/
-│   │   ├── entities/          # Entidades TypeORM
+│   │   ├── entity/            # Entidades TypeORM
 │   │   ├── migrations/        # Migraciones de base de datos
 │   │   └── database.module.ts
-│   ├── repositories/          # Implementaciones de repositorios
+│   ├── repository/            # Implementaciones de repositorios
 │   └── security/              # Estrategia JWT y guards
 │
 ├── presentation/        # Capa HTTP (controladores)
 │   └── user/
 │       ├── auth.controller.ts
 │       ├── user.controller.ts
-│       └── dtos/
+│       └── dto/
 │
 └── shared/             # Utilidades compartidas
-    ├── exceptions/
-    └── pipes/
+    ├── exception/
+    ├── pipe/
+    └── utils/
 ```
 
 ## 🚀 Características
@@ -343,9 +340,7 @@ npm run format         # Formatear código con Prettier
 
 - **Patrón Repository**: Abstrae la lógica de acceso a datos
 - **Inyección de Dependencias**: Acoplamiento flexible entre componentes
-- **CQRS**: Separación de comandos y consultas
-- **Objetos de Valor**: Objetos inmutables que representan conceptos del dominio
-- **Servicios de Dominio**: Lógica de negocio que no encaja en entidades
+- **DTOs (Data Transfer Objects)**: Validación y transferencia de datos entre capas
 
 ## 🔒 Características de Seguridad
 
@@ -532,15 +527,15 @@ El proyecto utiliza:
 
 ```typescript
 // En Application Service
-async registerUser(command: RegisterUserCommand) {
-  const email = new Email(command.email);
-  const existingUser = await this.userRepository.findByEmail(email);
+async registerUser(dto: CreateUserDto) {
+  const existingUser = await this.userRepository.findByEmail(dto.email);
   
-  try {
-    this.userDomainService.validateUniqueEmail(existingUser, email);
-  } catch (error) {
+  if (existingUser) {
     throw new BadRequestException('The user already exists');
   }
+  
+  // Validate password strength
+  PasswordValidator.validate(dto.password);
   
   // ... resto del código
 }

@@ -17,24 +17,19 @@ import * as bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 
 import { User } from '../../../domain/user/entity/user.entity';
-import { Email } from '../../../domain/user/value-object/email.vo';
 import {
   IUserRepository,
   USER_REPOSITORY,
 } from '../../../domain/user/repository/user.repository.interface';
-import { UserDomainService } from '../../../domain/user/service/user.domain-service';
-
-import { RegisterUserCommand } from '../command/register-user.command';
-import { UpdateUserProfileCommand } from '../command/update-user-profile.command';
-import { GetUserProfileQuery } from '../query/get-user-profile.query';
-import { ListUsersQuery } from '../query/list-users.query';
+import { PasswordValidator } from '../../../shared/utils/password-validator';
+import { CreateUserDto } from '../dto/create-user.dto';
+import { UpdateUserDto } from '../dto/update-user.dto';
 
 @Injectable()
 export class UserApplicationService {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepository: IUserRepository,
-    private readonly userDomainService: UserDomainService,
     private readonly jwtService: JwtService,
   ) {}
 
@@ -42,34 +37,30 @@ export class UserApplicationService {
    * Use Case: Register a new user
    * Returns JWT token upon successful registration
    */
-  async registerUser(command: RegisterUserCommand): Promise<{ user: User; token: string }> {
-    const email = new Email(command.email);
-
+  async registerUser(dto: CreateUserDto): Promise<{ user: User; token: string }> {
     // Check if user already exists
-    const existingUser = await this.userRepository.findByEmail(email);
-    try {
-      this.userDomainService.validateUniqueEmail(existingUser, email);
-    } catch (error) {
+    const existingUser = await this.userRepository.findByEmail(dto.email);
+    if (existingUser) {
       throw new BadRequestException('The user already exists');
     }
 
     // Validate password strength
     try {
-      this.userDomainService.validatePasswordStrength(command.password);
+      PasswordValidator.validate(dto.password);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
 
     // Hash password
-    const hashedPassword = await bcrypt.hash(command.password, 10);
+    const hashedPassword = await bcrypt.hash(dto.password, 10);
 
     // Create user domain entity
-    const user = this.userDomainService.createUser(
+    const user = new User(
       uuidv4(),
-      email,
+      dto.email,
       hashedPassword,
-      command.firstName,
-      command.lastName,
+      dto.firstName,
+      dto.lastName,
     );
 
     // Persist user
@@ -86,8 +77,7 @@ export class UserApplicationService {
    * Validates credentials and returns JWT token
    */
   async loginUser(email: string, password: string): Promise<{ user: User; token: string }> {
-    const emailVO = new Email(email);
-    const user = await this.userRepository.findByEmail(emailVO);
+    const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
@@ -108,8 +98,8 @@ export class UserApplicationService {
   /**
    * Use Case: Get user profile
    */
-  async getUserProfile(query: GetUserProfileQuery): Promise<User> {
-    const user = await this.userRepository.findById(query.userId);
+  async getUserProfile(userId: string): Promise<User> {
+    const user = await this.userRepository.findById(userId);
 
     if (!user) {
       throw new NotFoundException('User not found');
@@ -121,22 +111,23 @@ export class UserApplicationService {
   /**
    * Use Case: Update user profile
    */
-  async updateUserProfile(command: UpdateUserProfileCommand): Promise<User> {
-    const user = await this.userRepository.findById(command.userId);
-    this.userDomainService.validateProfileUpdate(user);
-
-    const emailVO = command.email ? new Email(command.email) : undefined;
+  async updateUserProfile(userId: string, dto: UpdateUserDto): Promise<User> {
+    const user = await this.userRepository.findById(userId);
+    
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
 
     // If email is being changed, check if it's already taken
-    if (emailVO && !emailVO.equals(user.email)) {
-      const existingUser = await this.userRepository.findByEmail(emailVO);
+    if (dto.email && dto.email.toLowerCase().trim() !== user.email) {
+      const existingUser = await this.userRepository.findByEmail(dto.email);
       if (existingUser && existingUser.id !== user.id) {
         throw new ConflictException('Email already in use');
       }
     }
 
     // Update user profile
-    user.updateProfile(command.firstName, command.lastName, emailVO);
+    user.updateProfile(dto.firstName, dto.lastName, dto.email);
 
     // Persist changes
     return await this.userRepository.save(user);
@@ -145,8 +136,8 @@ export class UserApplicationService {
   /**
    * Use Case: List all users
    */
-  async listUsers(query: ListUsersQuery): Promise<User[]> {
-    return await this.userRepository.findAll(query);
+  async listUsers(): Promise<User[]> {
+    return await this.userRepository.findAll();
   }
 
   /**
@@ -155,7 +146,7 @@ export class UserApplicationService {
   private generateToken(user: User): string {
     const payload = {
       sub: user.id,
-      email: user.email.value,
+      email: user.email,
     };
 
     return this.jwtService.sign(payload);

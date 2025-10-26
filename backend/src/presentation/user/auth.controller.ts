@@ -7,7 +7,6 @@ import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { UserApplicationService } from '../../application/user/service/user.application-service';
 import { CreateUserDto } from '../../application/user/dto/create-user.dto';
 import { LoginDto } from './dto/login.dto';
-import { RegisterUserCommand } from '../../application/user/command/register-user.command';
 
 @Controller('api/auth')
 export class AuthController {
@@ -20,21 +19,14 @@ export class AuthController {
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
   async register(@Body() createUserDto: CreateUserDto) {
-    const command = new RegisterUserCommand(
-      createUserDto.email,
-      createUserDto.password,
-      createUserDto.firstName,
-      createUserDto.lastName,
-    );
-
-    const { user, token } = await this.userApplicationService.registerUser(command);
+    const { user, token } = await this.userApplicationService.registerUser(createUserDto);
 
     return {
       message: 'User registered successfully',
       data: {
         user: {
           id: user.id,
-          email: user.email.value,
+          email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
           createdAt: user.createdAt,
@@ -61,7 +53,7 @@ export class AuthController {
       data: {
         user: {
           id: user.id,
-          email: user.email.value,
+          email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
         },
