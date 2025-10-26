@@ -1,6 +1,6 @@
 # 🔐 Aura Auth - Authentication System
 
-> **Live Playground**: [Aura Auth - Authentication System](https://aura-auth-playground.example.com)
+> **Live Playground**: [Aura Auth - Authentication System](https://auraauth.netlify.app/login)
 
 A complete, production-ready authentication system built with modern technologies and best practices. This monorepo contains both a NestJS backend API and a React frontend application, following Clean Architecture and Domain-Driven Design principles.
 
