@@ -1,11 +1,11 @@
-import { IAuthRepository } from '@domain/repositories/IAuthRepository'
+import { AuthRepository } from '@domain/repository/AuthRepository'
 
 /**
  * Logout Use Case
  * Handles user logout business logic
  */
 export class LogoutUseCase {
-  constructor(private authRepository: IAuthRepository) {}
+  constructor(private authRepository: AuthRepository) {}
 
   async execute(): Promise<void> {
     await this.authRepository.logout()

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { User, UpdateUserDto } from '@domain/entities/User'
+import { User, UpdateUserDto } from '@domain/entity/User'
 import { container } from '../di/container'
 
 /**

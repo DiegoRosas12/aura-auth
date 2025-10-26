@@ -1,12 +1,12 @@
-import { IAuthRepository } from '@domain/repositories/IAuthRepository'
-import { AuthResponse, LoginCredentials } from '@domain/entities/User'
+import { AuthRepository } from '@domain/repository/AuthRepository'
+import { AuthResponse, LoginCredentials } from '@domain/entity/User'
 
 /**
  * Login Use Case
  * Handles user login business logic
  */
 export class LoginUseCase {
-  constructor(private authRepository: IAuthRepository) {}
+  constructor(private authRepository: AuthRepository) {}
 
   async execute(credentials: LoginCredentials): Promise<AuthResponse> {
     // Validate credentials

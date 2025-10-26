@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { User } from '@domain/entities/User'
+import { User } from '@domain/entity/User'
 import { container } from '../di/container'
 
 /**

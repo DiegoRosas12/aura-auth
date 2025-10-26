@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { environment } from '../config/environment'
-import { AppError, AuthError, NetworkError } from '@domain/errors/AppError'
+import { AppError, AuthError, NetworkError } from '@domain/error/AppError'
 
 /**
  * HTTP Client

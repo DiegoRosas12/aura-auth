@@ -355,6 +355,207 @@ npm run format         # Formatear código con Prettier
 - **Manejo de Errores**: Mensajes de error seguros sin datos sensibles
 - **Variables de Entorno**: Datos sensibles almacenados en archivos .env
 
+## ⚠️ Manejo de Códigos de Error HTTP
+
+La API utiliza códigos de estado HTTP estándar y un filtro de excepciones global para proporcionar respuestas de error consistentes.
+
+### Códigos de Estado Utilizados
+
+#### 2xx - Éxito
+- **200 OK**: Solicitud exitosa (GET, PUT)
+- **201 Created**: Recurso creado exitosamente (POST)
+
+#### 4xx - Errores del Cliente
+
+- **400 Bad Request**: Datos de entrada inválidos o reglas de negocio violadas
+  - Validación de datos fallida
+  - Usuario ya existe (email duplicado)
+  - Contraseña no cumple requisitos de seguridad
+  
+- **401 Unauthorized**: Autenticación fallida o token inválido
+  - Credenciales incorrectas
+  - Token JWT expirado o inválido
+  - Token no proporcionado
+  
+- **403 Forbidden**: Usuario autenticado pero sin permisos
+  - Acceso denegado a recurso
+  
+- **404 Not Found**: Recurso no encontrado
+  - Usuario no existe
+  - Endpoint no existe
+
+#### 5xx - Errores del Servidor
+- **500 Internal Server Error**: Error inesperado del servidor
+
+### Formato de Respuesta de Error
+
+Todas las respuestas de error siguen el mismo formato estructurado:
+
+```json
+{
+  "statusCode": 400,
+  "timestamp": "2024-01-01T00:00:00.000Z",
+  "path": "/api/auth/register",
+  "method": "POST",
+  "message": "The user already exists"
+}
+```
+
+Para errores de validación con múltiples campos:
+
+```json
+{
+  "statusCode": 400,
+  "timestamp": "2024-01-01T00:00:00.000Z",
+  "path": "/api/auth/register",
+  "method": "POST",
+  "message": "Validation failed",
+  "errors": [
+    {
+      "field": "email",
+      "constraints": "email must be a valid email address"
+    },
+    {
+      "field": "password",
+      "constraints": "password must be at least 8 characters"
+    }
+  ]
+}
+```
+
+### Ejemplos de Errores Comunes
+
+#### Registro con Email Duplicado
+
+**Request:**
+```http
+POST /api/auth/register
+Content-Type: application/json
+
+{
+  "email": "existing@example.com",
+  "password": "SecurePass123",
+  "firstName": "John",
+  "lastName": "Doe"
+}
+```
+
+**Response (400):**
+```json
+{
+  "statusCode": 400,
+  "timestamp": "2024-01-01T00:00:00.000Z",
+  "path": "/api/auth/register",
+  "method": "POST",
+  "message": "The user already exists"
+}
+```
+
+#### Contraseña Débil
+
+**Request:**
+```http
+POST /api/auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "weak",
+  "firstName": "John",
+  "lastName": "Doe"
+}
+```
+
+**Response (400):**
+```json
+{
+  "statusCode": 400,
+  "timestamp": "2024-01-01T00:00:00.000Z",
+  "path": "/api/auth/register",
+  "method": "POST",
+  "message": "Password must be at least 8 characters long"
+}
+```
+
+#### Credenciales Inválidas
+
+**Request:**
+```http
+POST /api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "wrongpassword"
+}
+```
+
+**Response (401):**
+```json
+{
+  "statusCode": 401,
+  "timestamp": "2024-01-01T00:00:00.000Z",
+  "path": "/api/auth/login",
+  "method": "POST",
+  "message": "Invalid credentials"
+}
+```
+
+#### Token JWT Inválido o Expirado
+
+**Request:**
+```http
+GET /api/users/profile
+Authorization: Bearer invalid_or_expired_token
+```
+
+**Response (401):**
+```json
+{
+  "statusCode": 401,
+  "timestamp": "2024-01-01T00:00:00.000Z",
+  "path": "/api/users/profile",
+  "method": "GET",
+  "message": "Authentication failed"
+}
+```
+
+### Implementación del Manejo de Errores
+
+El proyecto utiliza:
+
+1. **Excepciones de NestJS**: `BadRequestException`, `UnauthorizedException`, `NotFoundException`, etc.
+2. **Filtro Global de Excepciones**: `HttpExceptionFilter` en `src/shared/exception/http-exception.filter.ts`
+3. **Validación de Dominio**: Las reglas de negocio en la capa de dominio lanzan errores que son capturados y transformados en excepciones HTTP apropiadas
+
+**Ejemplo de implementación:**
+
+```typescript
+// En Application Service
+async registerUser(command: RegisterUserCommand) {
+  const email = new Email(command.email);
+  const existingUser = await this.userRepository.findByEmail(email);
+  
+  try {
+    this.userDomainService.validateUniqueEmail(existingUser, email);
+  } catch (error) {
+    throw new BadRequestException('The user already exists');
+  }
+  
+  // ... resto del código
+}
+```
+
+### Reglas de Validación de Contraseña
+
+Las contraseñas deben cumplir los siguientes requisitos:
+- Mínimo 8 caracteres
+- Al menos una letra mayúscula
+- Al menos una letra minúscula
+- Al menos un número
+
+Estos requisitos son validados tanto en el backend como en el frontend para proporcionar retroalimentación inmediata al usuario.
+
 ## 📝 Decisiones Técnicas
 
 ### ¿Por qué Arquitectura Limpia?

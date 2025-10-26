@@ -10,6 +10,7 @@ import {
   UnauthorizedException,
   ConflictException,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
@@ -46,10 +47,18 @@ export class UserApplicationService {
 
     // Check if user already exists
     const existingUser = await this.userRepository.findByEmail(email);
-    this.userDomainService.validateUniqueEmail(existingUser, email);
+    try {
+      this.userDomainService.validateUniqueEmail(existingUser, email);
+    } catch (error) {
+      throw new BadRequestException('The user already exists');
+    }
 
     // Validate password strength
-    this.userDomainService.validatePasswordStrength(command.password);
+    try {
+      this.userDomainService.validatePasswordStrength(command.password);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
 
     // Hash password
     const hashedPassword = await bcrypt.hash(command.password, 10);

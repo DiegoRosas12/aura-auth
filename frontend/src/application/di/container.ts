@@ -1,10 +1,6 @@
-import { environment } from '@infrastructure/config/environment'
-
 // Repositories
-import { authRepository } from '@infrastructure/repositories/AuthRepository'
-import { userRepository } from '@infrastructure/repositories/UserRepository'
-import { mockAuthRepository } from '@infrastructure/repositories/MockAuthRepository'
-import { mockUserRepository } from '@infrastructure/repositories/MockUserRepository'
+import { authRepository } from '@infrastructure/repository/AuthRepository'
+import { userRepository } from '@infrastructure/repository/UserRepository'
 
 // Use Cases
 import { RegisterUseCase } from '../use-cases/auth/RegisterUseCase'
@@ -20,8 +16,8 @@ import { GetAllUsersUseCase } from '../use-cases/user/GetAllUsersUseCase'
  */
 class Container {
   // Select repositories based on environment
-  private authRepo = environment.useMockApi ? mockAuthRepository : authRepository
-  private userRepo = environment.useMockApi ? mockUserRepository : userRepository
+  private authRepo = authRepository
+  private userRepo = userRepository
 
   // Auth Use Cases
   readonly registerUseCase = new RegisterUseCase(this.authRepo)

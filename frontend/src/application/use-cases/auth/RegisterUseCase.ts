@@ -1,12 +1,12 @@
-import { IAuthRepository } from '@domain/repositories/IAuthRepository'
-import { AuthResponse, CreateUserDto } from '@domain/entities/User'
+import { AuthRepository } from '@domain/repository/AuthRepository'
+import { AuthResponse, CreateUserDto } from '@domain/entity/User'
 
 /**
  * Register Use Case
  * Handles user registration business logic
  */
 export class RegisterUseCase {
-  constructor(private authRepository: IAuthRepository) {}
+  constructor(private authRepository: AuthRepository) {}
 
   async execute(userData: CreateUserDto): Promise<AuthResponse> {
     // Validate input

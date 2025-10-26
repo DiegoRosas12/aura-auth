@@ -1,6 +1,6 @@
 import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from '@application/context/AuthContext'
-import { AppRoutes } from '@presentation/routes/AppRoutes'
+import { AppRoutes } from '@presentation/route/AppRoutes'
 
 /**
  * Main App Component
