@@ -1,337 +1,337 @@
-# 🔐 Aura Auth - Authentication System
+# 🔐 Aura Auth - Sistema de Autenticación
 
-> **Live Playground**: [Aura Auth - Authentication System](https://auraauth.netlify.app)
+> **Demostración en Vivo**: [Aura Auth - Sistema de Autenticación](https://auraauth.netlify.app)
 
-A complete, production-ready authentication system built with modern technologies and best practices. This monorepo contains both a NestJS backend API and a React frontend application, following Clean Architecture and Domain-Driven Design principles.
-
----
-
-## 📚 Documentation
-
-This README provides an overview of the entire system. For detailed documentation on each component:
-
-- **[Backend Documentation](./backend/README.md)** - NestJS API with Clean Architecture and DDD
-- **[Frontend Documentation](./frontend/README.md)** - React application with Clean Architecture
+Un sistema de autenticación completo y listo para producción construido con tecnologías modernas y mejores prácticas. Este monorepo contiene tanto una API backend en NestJS como una aplicación frontend en React, siguiendo los principios de Arquitectura Limpia y Diseño Dirigido por el Dominio.
 
 ---
 
-## 🎯 Overview
+## 📚 Documentación
 
-Aura Auth is a full-stack authentication system that demonstrates enterprise-level architecture patterns and best practices. It includes:
+Este README proporciona una visión general de todo el sistema. Para documentación detallada de cada componente:
 
-- **Backend**: RESTful API built with NestJS, TypeScript, PostgreSQL, and JWT authentication
-- **Frontend**: Modern React SPA with TypeScript, TailwindCSS, and responsive design
-- **Architecture**: Both projects follow Clean Architecture principles with clear separation of concerns
-- **Security**: Industry-standard security practices including password hashing, JWT tokens, and input validation
+- **[Documentación del Backend](./backend/README.md)** - API NestJS con Arquitectura Limpia y DDD
+- **[Documentación del Frontend](./frontend/README.md)** - Aplicación React con Arquitectura Limpia
 
 ---
 
-## Project Assumptions
+## 🎯 Descripción General
 
-- The user needs a register section to add a new user and set a password.
-- There is a companies search section to find a company by name. The public api of autocomplete.clearbit.com is used to search for companies and add them to the favorites list.
-- Even if the design is not provided, the screens for user list view and edit profile are available.
-- A logout button is needed.
-- The password needs a basic security level so is required to have at least 8 characters, one uppercase letter and one lowercase letter.
-- The user can only edit their own profile.
+Aura Auth es un sistema de autenticación full-stack que demuestra patrones de arquitectura y mejores prácticas de nivel empresarial. Incluye:
 
---
-
-## ✨ Features
-
-### Backend Features
-
-- ✅ JWT-based authentication with Passport
-- ✅ User registration and login
-- ✅ User profile management
-- ✅ PostgreSQL database with TypeORM
-- ✅ Database migrations for version control
-- ✅ Clean Architecture with DDD principles
-- ✅ SOLID principles and design patterns
-- ✅ Comprehensive error handling
-- ✅ Docker support with docker-compose
-- ✅ Input validation with class-validator
-
-### Frontend Features
-
-- ✅ User authentication (Login/Register)
-- ✅ User profile management (View & Edit)
-- ✅ User list view
-- ✅ Protected routes with authentication
-- ✅ Mock API mode for local development
-- ✅ Clean Architecture implementation
-- ✅ TypeScript for type safety
-- ✅ Modern UI with TailwindCSS
-- ✅ Reusable component library (Atomic design)
-- ✅ Responsive design
+- **Backend**: API RESTful construida con NestJS, TypeScript, PostgreSQL y autenticación JWT
+- **Frontend**: SPA moderna en React con TypeScript, TailwindCSS y diseño responsivo
+- **Arquitectura**: Ambos proyectos siguen los principios de Arquitectura Limpia con clara separación de responsabilidades
+- **Seguridad**: Prácticas de seguridad estándar de la industria incluyendo hash de contraseñas, tokens JWT y validación de entrada
 
 ---
 
-## 🚀 Quick Start
+## Supuestos del Proyecto
 
-### Prerequisites
+- El usuario necesita una sección de registro para agregar un nuevo usuario y establecer una contraseña.
+- Existe una sección de búsqueda de empresas para encontrar una empresa por nombre. Se utiliza la API pública de autocomplete.clearbit.com para buscar empresas y agregarlas a la lista de favoritos.
+- Aunque no se proporcione el diseño, están disponibles las pantallas para la vista de lista de usuarios y edición de perfil.
+- Se necesita un botón de cierre de sesión.
+- La contraseña necesita un nivel básico de seguridad, por lo que se requiere que tenga al menos 8 caracteres, una letra mayúscula y una letra minúscula.
+- El usuario solo puede editar su propio perfil.
 
-- **Node.js** (v18 or higher)
-- **Docker** and **Docker Compose** (recommended)
-- **PostgreSQL** (if running without Docker)
-- **npm** or **yarn** package manager
+---
 
-### Running the Complete System
+## ✨ Características
 
-1. **Clone the repository**
+### Características del Backend
+
+- ✅ Autenticación basada en JWT con Passport
+- ✅ Registro e inicio de sesión de usuarios
+- ✅ Gestión de perfil de usuario
+- ✅ Base de datos PostgreSQL con TypeORM
+- ✅ Migraciones de base de datos para control de versiones
+- ✅ Arquitectura Limpia con principios DDD
+- ✅ Principios SOLID y patrones de diseño
+- ✅ Manejo integral de errores
+- ✅ Soporte Docker con docker-compose
+- ✅ Validación de entrada con class-validator
+
+### Características del Frontend
+
+- ✅ Autenticación de usuario (Inicio de sesión/Registro)
+- ✅ Gestión de perfil de usuario (Ver y Editar)
+- ✅ Vista de lista de usuarios
+- ✅ Rutas protegidas con autenticación
+- ✅ Modo API simulada para desarrollo local
+- ✅ Implementación de Arquitectura Limpia
+- ✅ TypeScript para seguridad de tipos
+- ✅ UI moderna con TailwindCSS
+- ✅ Biblioteca de componentes reutilizables (Diseño atómico)
+- ✅ Diseño responsivo
+
+---
+
+## 🚀 Inicio Rápido
+
+### Requisitos Previos
+
+- **Node.js** (v18 o superior)
+- **Docker** y **Docker Compose** (recomendado)
+- **PostgreSQL** (si se ejecuta sin Docker)
+- Gestor de paquetes **npm** o **yarn**
+
+### Ejecutar el Sistema Completo
+
+1. **Clonar el repositorio**
 
    ```bash
    git clone https://github.com/yourusername/aura-auth.git
    cd aura-auth
    ```
 
-2. **Backend Setup:**
+2. **Configuración del Backend:**
 
 ```bash
 cd backend
 
-# Install dependencies
+# Instalar dependencias
 npm install
 
-# Configure environment
+# Configurar entorno
 cp .env.example .env
-# Edit .env with your database credentials
+# Editar .env con tus credenciales de base de datos
 
-# Start PostgreSQL (if not using Docker)
+# Iniciar PostgreSQL (si no usas Docker)
 docker run --name postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=aura_auth -p 5432:5432 -d postgres:16-alpine
 
-# Run migrations
+# Ejecutar migraciones
 npm run migration:run
 
-# Start development server
+# Iniciar servidor de desarrollo
 npm run start:dev
 ```
 
-3. **Start the frontend** (in a new terminal)
+3. **Iniciar el frontend** (en una nueva terminal)
 
 ```bash
 cd frontend
 
-# Install dependencies
+# Instalar dependencias
 yarn install
 
-# Configure environment
+# Configurar entorno
 cp .env.example .env
-# Edit .env:
+# Editar .env:
 # VITE_API_BASE_URL=http://localhost:3000
 # VITE_USE_MOCK_API=false
 
-# Start development server
+# Iniciar servidor de desarrollo
 yarn dev
 ```
 
-## Frontend will be available at `http://localhost:3000`
+## El Frontend estará disponible en `http://localhost:3000`
 
-## 🏗️ Architecture
+## 🏗️ Arquitectura
 
-Both the backend and frontend follow **Clean Architecture** principles with clear separation of concerns:
+Tanto el backend como el frontend siguen los principios de **Arquitectura Limpia** con clara separación de responsabilidades:
 
-### Backend Architecture
-
-```
-src/
-├── domain/              # Business logic and rules (framework-independent)
-│   ├── entity/          # Domain entities
-│   └── repository/      # Repository interfaces
-│
-├── application/         # Use cases and application logic
-│   ├── dto/            # Data Transfer Objects
-│   └── service/        # Application services
-│
-├── infrastructure/      # External concerns (database, security)
-│   ├── database/       # TypeORM entities and migrations
-│   ├── repository/     # Repository implementations
-│   └── security/       # JWT strategy and guards
-│
-└── presentation/        # HTTP layer (controllers)
-    └── controller/     # REST API controllers
-```
-
-### Frontend Architecture
+### Arquitectura del Backend
 
 ```
 src/
-├── domain/              # Business logic & entities (innermost layer)
-│   ├── entities/       # Core domain models
-│   ├── repositories/   # Repository interfaces
-│   └── errors/         # Domain errors
+├── domain/              # Lógica de negocio y reglas (independiente del framework)
+│   ├── entity/          # Entidades del dominio
+│   └── repository/      # Interfaces de repositorio
 │
-├── infrastructure/      # External services & implementations
-│   ├── http/           # HTTP client
-│   ├── repositories/   # Repository implementations
-│   └── mock/           # Mock API for testing
+├── application/         # Casos de uso y lógica de aplicación
+│   ├── dto/            # Objetos de Transferencia de Datos
+│   └── service/        # Servicios de aplicación
 │
-├── application/         # Use cases & application logic
-│   ├── use-cases/      # Business use cases
-│   ├── hooks/          # Custom React hooks
-│   └── context/        # React context providers
+├── infrastructure/      # Preocupaciones externas (base de datos, seguridad)
+│   ├── database/       # Entidades TypeORM y migraciones
+│   ├── repository/     # Implementaciones de repositorio
+│   └── security/       # Estrategia JWT y guards
 │
-└── presentation/        # UI layer (outermost layer)
-    ├── components/     # React components (Atomic design)
-    ├── pages/          # Page components
-    └── routes/         # Routing configuration
+└── presentation/        # Capa HTTP (controladores)
+    └── controller/     # Controladores de API REST
 ```
 
-### Dependency Rule
-
-**Dependencies point inward**: Outer layers depend on inner layers, never the reverse.
+### Arquitectura del Frontend
 
 ```
-Presentation → Application → Domain ← Infrastructure
+src/
+├── domain/              # Lógica de negocio y entidades (capa más interna)
+│   ├── entities/       # Modelos del dominio central
+│   ├── repositories/   # Interfaces de repositorio
+│   └── errors/         # Errores del dominio
+│
+├── infrastructure/      # Servicios externos e implementaciones
+│   ├── http/           # Cliente HTTP
+│   ├── repositories/   # Implementaciones de repositorio
+│   └── mock/           # API simulada para pruebas
+│
+├── application/         # Casos de uso y lógica de aplicación
+│   ├── use-cases/      # Casos de uso de negocio
+│   ├── hooks/          # Hooks personalizados de React
+│   └── context/        # Proveedores de contexto de React
+│
+└── presentation/        # Capa de UI (capa más externa)
+    ├── components/     # Componentes React (Diseño atómico)
+    ├── pages/          # Componentes de página
+    └── routes/         # Configuración de enrutamiento
 ```
 
-This ensures:
+### Regla de Dependencias
 
-- **Testability**: Business logic can be tested without external dependencies
-- **Flexibility**: Easy to swap implementations (e.g., change database)
-- **Maintainability**: Clear separation makes code easier to understand and modify
-- **Scalability**: Well-organized structure supports growth
+**Las dependencias apuntan hacia adentro**: Las capas externas dependen de las capas internas, nunca al revés.
+
+```
+Presentación → Aplicación → Dominio ← Infraestructura
+```
+
+Esto asegura:
+
+- **Testabilidad**: La lógica de negocio puede probarse sin dependencias externas
+- **Flexibilidad**: Fácil intercambio de implementaciones (ej. cambiar base de datos)
+- **Mantenibilidad**: La separación clara hace que el código sea más fácil de entender y modificar
+- **Escalabilidad**: La estructura bien organizada soporta el crecimiento
 
 ---
 
-## 🎨 Best Practices Used
+## 🎨 Mejores Prácticas Utilizadas
 
-### Architecture & Design Patterns
+### Arquitectura y Patrones de Diseño
 
-1. **Clean Architecture**
+1. **Arquitectura Limpia**
 
-   - Clear separation of concerns across layers
-   - Business logic independent of frameworks
-   - Dependency inversion principle
+   - Clara separación de responsabilidades entre capas
+   - Lógica de negocio independiente de frameworks
+   - Principio de inversión de dependencias
 
-2. **Domain-Driven Design (DDD)**
+2. **Diseño Dirigido por el Dominio (DDD)**
 
-   - Domain entities and value objects
-   - Repository pattern for data access
-   - Domain services for business logic
-   - Ubiquitous language between developers and domain experts
+   - Entidades y objetos de valor del dominio
+   - Patrón Repository para acceso a datos
+   - Servicios de dominio para lógica de negocio
+   - Lenguaje ubicuo entre desarrolladores y expertos del dominio
 
-3. **SOLID Principles**
+3. **Principios SOLID**
 
-   - **S**ingle Responsibility: Each class has one reason to change
-   - **O**pen/Closed: Open for extension, closed for modification
-   - **L**iskov Substitution: Subtypes must be substitutable for their base types
-   - **I**nterface Segregation: Many specific interfaces over one general interface
-   - **D**ependency Inversion: Depend on abstractions, not concretions
+   - **S**ingle Responsibility: Cada clase tiene una razón para cambiar
+   - **O**pen/Closed: Abierto para extensión, cerrado para modificación
+   - **L**iskov Substitution: Los subtipos deben ser sustituibles por sus tipos base
+   - **I**nterface Segregation: Muchas interfaces específicas sobre una general
+   - **D**ependency Inversion: Depender de abstracciones, no de concreciones
 
-4. **Design Patterns**
-   - Repository Pattern: Abstracts data access logic
-   - Dependency Injection: Loose coupling between components
-   - DTOs (Data Transfer Objects): Validation and data transfer between layers
+4. **Patrones de Diseño**
+   - Patrón Repository: Abstrae la lógica de acceso a datos
+   - Inyección de Dependencias: Bajo acoplamiento entre componentes
+   - DTOs (Objetos de Transferencia de Datos): Validación y transferencia de datos entre capas
 
-### Code Quality
+### Calidad del Código
 
 5. **TypeScript**
 
-   - Type safety throughout the codebase
-   - Interfaces for contracts
-   - Strict mode enabled
+   - Seguridad de tipos en toda la base de código
+   - Interfaces para contratos
+   - Modo estricto habilitado
 
-6. **Code Organization**
+6. **Organización del Código**
 
-   - Modular structure
-   - Atomic design for UI components
-   - Clear naming conventions
-   - Single responsibility per file
+   - Estructura modular
+   - Diseño atómico para componentes UI
+   - Convenciones de nomenclatura claras
+   - Responsabilidad única por archivo
 
-7. **Testing Strategy**
-   - Unit tests for business logic
-   - Integration tests for repositories
-   - E2E tests for critical flows
-   - Mock implementations for testing
+7. **Estrategia de Pruebas**
+   - Pruebas unitarias para lógica de negocio
+   - Pruebas de integración para repositorios
+   - Pruebas E2E para flujos críticos
+   - Implementaciones simuladas para pruebas
 
-### Security
+### Seguridad
 
-8. **Authentication & Authorization**
+8. **Autenticación y Autorización**
 
-   - JWT-based authentication
-   - Password hashing with bcrypt
-   - Secure token storage
-   - Protected routes
+   - Autenticación basada en JWT
+   - Hash de contraseñas con bcrypt
+   - Almacenamiento seguro de tokens
+   - Rutas protegidas
 
-9. **Input Validation**
+9. **Validación de Entrada**
 
-   - Server-side validation with class-validator
-   - Client-side validation for UX
-   - Sanitization of user inputs
-   - Type checking with TypeScript
+   - Validación del lado del servidor con class-validator
+   - Validación del lado del cliente para UX
+   - Sanitización de entradas de usuario
+   - Verificación de tipos con TypeScript
 
-10. **Error Handling**
-    - Global exception filters
-    - Consistent error responses
-    - No sensitive data in error messages
-    - Proper HTTP status codes
+10. **Manejo de Errores**
+    - Filtros de excepción globales
+    - Respuestas de error consistentes
+    - Sin datos sensibles en mensajes de error
+    - Códigos de estado HTTP apropiados
 
-### Development Workflow
+### Flujo de Trabajo de Desarrollo
 
-11. **Version Control**
+11. **Control de Versiones**
 
-    - Git for source control
-    - Meaningful commit messages
-    - Feature branch workflow
+    - Git para control de código fuente
+    - Mensajes de commit significativos
+    - Flujo de trabajo con ramas de características
 
-12. **Environment Configuration**
+12. **Configuración de Entorno**
 
-    - Environment variables for sensitive data
-    - Separate configs for dev/prod
-    - .env.example files for documentation
+    - Variables de entorno para datos sensibles
+    - Configuraciones separadas para dev/prod
+    - Archivos .env.example para documentación
 
-13. **Code Formatting**
+13. **Formato de Código**
 
-    - ESLint for code linting
-    - Prettier for code formatting
-    - Consistent code style
+    - ESLint para linting de código
+    - Prettier para formato de código
+    - Estilo de código consistente
 
-14. **Database Management**
+14. **Gestión de Base de Datos**
 
-    - Database migrations for version control
-    - TypeORM for type-safe queries
-    - Connection pooling
+    - Migraciones de base de datos para control de versiones
+    - TypeORM para consultas con seguridad de tipos
+    - Pooling de conexiones
 
-15. **Documentation**
-    - Comprehensive README files
-    - Code comments for complex logic
-    - API documentation with examples
-    - Architecture diagrams
-
----
-
-## 📡 API Endpoints
-
-### Authentication
-
-| Method | Endpoint             | Description       | Auth Required |
-| ------ | -------------------- | ----------------- | ------------- |
-| POST   | `/api/auth/register` | Register new user | No            |
-| POST   | `/api/auth/login`    | Login user        | No            |
-
-### User Management
-
-| Method | Endpoint             | Description              | Auth Required |
-| ------ | -------------------- | ------------------------ | ------------- |
-| GET    | `/api/users/profile` | Get current user profile | Yes           |
-| PUT    | `/api/users/profile` | Update user profile      | Yes           |
-| GET    | `/api/users`         | List all users           | Yes           |
-
-For detailed API documentation with request/response examples, see the [Backend README](./backend/README.md).
+15. **Documentación**
+    - Archivos README completos
+    - Comentarios de código para lógica compleja
+    - Documentación de API con ejemplos
+    - Diagramas de arquitectura
 
 ---
 
-## 🔐 Environment Variables
+## 📡 Endpoints de la API
+
+### Autenticación
+
+| Método | Endpoint             | Descripción           | Autenticación Requerida |
+| ------ | -------------------- | --------------------- | ----------------------- |
+| POST   | `/api/auth/register` | Registrar nuevo usuario | No                      |
+| POST   | `/api/auth/login`    | Iniciar sesión        | No                      |
+
+### Gestión de Usuarios
+
+| Método | Endpoint             | Descripción                      | Autenticación Requerida |
+| ------ | -------------------- | -------------------------------- | ----------------------- |
+| GET    | `/api/users/profile` | Obtener perfil del usuario actual | Sí                      |
+| PUT    | `/api/users/profile` | Actualizar perfil de usuario     | Sí                      |
+| GET    | `/api/users`         | Listar todos los usuarios        | Sí                      |
+
+Para documentación detallada de la API con ejemplos de solicitud/respuesta, consulta el [README del Backend](./backend/README.md).
+
+---
+
+## 🔐 Variables de Entorno
 
 ### Backend (.env)
 
 ```env
-# Application
+# Aplicación
 NODE_ENV=development
 PORT=3000
 
-# Database
+# Base de datos
 DB_HOST=postgres
 DB_PORT=5432
 DB_USERNAME=postgres
@@ -339,197 +339,197 @@ DB_PASSWORD=postgres
 DB_DATABASE=aura_auth
 
 # JWT
-JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+JWT_SECRET=tu-clave-secreta-jwt-super-segura-cambia-esto-en-produccion
 JWT_EXPIRATION=1d
 ```
 
 ### Frontend (.env)
 
 ```env
-# API Configuration
+# Configuración de API
 VITE_API_BASE_URL=http://localhost:3000
 VITE_USE_MOCK_API=false
 ```
 
-⚠️ **Security Note**: Always use strong, random secrets in production and never commit `.env` files to version control.
+⚠️ **Nota de Seguridad**: Siempre usa secretos fuertes y aleatorios en producción y nunca hagas commit de archivos `.env` al control de versiones.
 
 ---
 
-## 🧪 Testing
+## 🧪 Pruebas
 
-### Backend Tests
+### Pruebas del Backend
 
 ```bash
 cd backend
 
-# Unit tests
+# Pruebas unitarias
 npm run test
 
-# E2E tests
+# Pruebas E2E
 npm run test:e2e
 
-# Test coverage
+# Cobertura de pruebas
 npm run test:cov
 ```
 
-### Frontend Tests
+### Pruebas del Frontend
 
 ```bash
 cd frontend
 
-# Run tests (when implemented)
+# Ejecutar pruebas (cuando estén implementadas)
 yarn test
 
-# Test coverage
+# Cobertura de pruebas
 yarn test:coverage
 ```
 
 ---
 
-## 📦 Available Scripts
+## 📦 Scripts Disponibles
 
 ### Backend
 
-| Command                    | Description                              |
-| -------------------------- | ---------------------------------------- |
-| `npm run start:dev`        | Start development server with watch mode |
-| `npm run build`            | Build for production                     |
-| `npm run start`            | Start production server                  |
-| `npm run migration:run`    | Run database migrations                  |
-| `npm run migration:revert` | Revert last migration                    |
-| `npm run lint`             | Run ESLint                               |
-| `npm run format`           | Format code with Prettier                |
+| Comando                    | Descripción                                    |
+| -------------------------- | ---------------------------------------------- |
+| `npm run start:dev`        | Iniciar servidor de desarrollo con modo watch |
+| `npm run build`            | Compilar para producción                       |
+| `npm run start`            | Iniciar servidor de producción                 |
+| `npm run migration:run`    | Ejecutar migraciones de base de datos          |
+| `npm run migration:revert` | Revertir última migración                      |
+| `npm run lint`             | Ejecutar ESLint                                |
+| `npm run format`           | Formatear código con Prettier                  |
 
 ### Frontend
 
-| Command        | Description                          |
-| -------------- | ------------------------------------ |
-| `yarn dev`     | Start development server (port 3000) |
-| `yarn build`   | Build for production                 |
-| `yarn preview` | Preview production build             |
-| `yarn lint`    | Run ESLint                           |
-| `yarn format`  | Format code with Prettier            |
+| Comando        | Descripción                                |
+| -------------- | ------------------------------------------ |
+| `yarn dev`     | Iniciar servidor de desarrollo (puerto 3000) |
+| `yarn build`   | Compilar para producción                   |
+| `yarn preview` | Vista previa de compilación de producción  |
+| `yarn lint`    | Ejecutar ESLint                            |
+| `yarn format`  | Formatear código con Prettier              |
 
 ---
 
-## 📚 Tech Stack
+## 📚 Stack Tecnológico
 
 ### Backend
 
-| Technology          | Purpose            |
-| ------------------- | ------------------ |
-| **NestJS**          | Node.js framework  |
-| **TypeScript**      | Type safety        |
-| **PostgreSQL**      | Database           |
-| **TypeORM**         | ORM and migrations |
-| **Passport**        | Authentication     |
-| **JWT**             | Token-based auth   |
-| **bcrypt**          | Password hashing   |
-| **class-validator** | Input validation   |
-| **Docker**          | Containerization   |
+| Tecnología          | Propósito           |
+| ------------------- | ------------------- |
+| **NestJS**          | Framework Node.js   |
+| **TypeScript**      | Seguridad de tipos  |
+| **PostgreSQL**      | Base de datos       |
+| **TypeORM**         | ORM y migraciones   |
+| **Passport**        | Autenticación       |
+| **JWT**             | Auth basada en tokens |
+| **bcrypt**          | Hash de contraseñas |
+| **class-validator** | Validación de entrada |
+| **Docker**          | Containerización    |
 
 ### Frontend
 
-| Technology       | Purpose                 |
-| ---------------- | ----------------------- |
-| **React 18**     | UI library              |
-| **TypeScript**   | Type safety             |
-| **Vite**         | Build tool & dev server |
-| **TailwindCSS**  | Utility-first CSS       |
-| **React Router** | Client-side routing     |
-| **Axios**        | HTTP client             |
-| **ESLint**       | Code linting            |
-| **Prettier**     | Code formatting         |
+| Tecnología       | Propósito                  |
+| ---------------- | -------------------------- |
+| **React 18**     | Biblioteca UI              |
+| **TypeScript**   | Seguridad de tipos         |
+| **Vite**         | Herramienta de compilación |
+| **TailwindCSS**  | CSS utility-first          |
+| **React Router** | Enrutamiento del cliente   |
+| **Axios**        | Cliente HTTP               |
+| **ESLint**       | Linting de código          |
+| **Prettier**     | Formato de código          |
 
 ---
 
-## 🤝 Contributing
+## 🤝 Contribuir
 
-We welcome contributions! Please follow these guidelines:
+¡Damos la bienvenida a contribuciones! Por favor sigue estas pautas:
 
-1. **Follow the existing architecture** - Maintain Clean Architecture principles
-2. **Write meaningful commit messages** - Use conventional commits format
-3. **Add tests** for new features
-4. **Update documentation** as needed
-5. **Follow code style** - Run linter and formatter before committing
-6. **Keep PRs focused** - One feature/fix per pull request
+1. **Sigue la arquitectura existente** - Mantén los principios de Arquitectura Limpia
+2. **Escribe mensajes de commit significativos** - Usa el formato de commits convencionales
+3. **Agrega pruebas** para nuevas características
+4. **Actualiza la documentación** según sea necesario
+5. **Sigue el estilo de código** - Ejecuta linter y formateador antes de hacer commit
+6. **Mantén los PRs enfocados** - Una característica/corrección por pull request
 
-### Development Workflow
+### Flujo de Trabajo de Desarrollo
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Make your changes following the architecture
-4. Run tests and linters
-5. Commit your changes (`git commit -m 'feat: add amazing feature'`)
-6. Push to the branch (`git push origin feature/amazing-feature`)
-7. Open a Pull Request
-
----
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+1. Haz fork del repositorio
+2. Crea una rama de característica (`git checkout -b feature/caracteristica-increible`)
+3. Realiza tus cambios siguiendo la arquitectura
+4. Ejecuta pruebas y linters
+5. Haz commit de tus cambios (`git commit -m 'feat: agregar característica increíble'`)
+6. Haz push a la rama (`git push origin feature/caracteristica-increible`)
+7. Abre un Pull Request
 
 ---
 
-## 👨‍💻 Author
+## 📄 Licencia
+
+Este proyecto está licenciado bajo la Licencia MIT - consulta el archivo [LICENSE](LICENSE) para más detalles.
+
+---
+
+## 👨‍💻 Autor
 
 **Diego Rosas** - [GitHub](https://github.com/diego-rosas)
 
 ---
 
-## 🆘 Troubleshooting
+## 🆘 Solución de Problemas
 
-### Common Issues
+### Problemas Comunes
 
-**Port already in use:**
+**Puerto ya en uso:**
 
-- Backend: Change `PORT` in backend `.env`
-- Frontend: Change port in `vite.config.ts`
+- Backend: Cambia `PORT` en el `.env` del backend
+- Frontend: Cambia el puerto en `vite.config.ts`
 
-**Database connection failed:**
+**Falló la conexión a la base de datos:**
 
-- Ensure PostgreSQL is running
-- Check database credentials in `.env`
-- Verify `DB_HOST` (use `localhost` for local, `postgres` for Docker)
+- Asegúrate de que PostgreSQL esté ejecutándose
+- Verifica las credenciales de la base de datos en `.env`
+- Verifica `DB_HOST` (usa `localhost` para local, `postgres` para Docker)
 
-**Frontend can't connect to backend:**
+**El frontend no puede conectarse al backend:**
 
-- Verify backend is running on correct port
-- Check `VITE_API_BASE_URL` in frontend `.env`
-- Ensure CORS is properly configured
+- Verifica que el backend esté ejecutándose en el puerto correcto
+- Verifica `VITE_API_BASE_URL` en el `.env` del frontend
+- Asegúrate de que CORS esté configurado correctamente
 
-**Authentication not working:**
+**La autenticación no funciona:**
 
-- Check JWT_SECRET is set in backend `.env`
-- Verify token is being stored in localStorage
-- Check browser console for errors
-
----
-
-## 📞 Support
-
-For questions, issues, or feature requests:
-
-- Check the documentation in this README and component-specific READMEs
-- Review the code comments and examples
-- Open an issue on GitHub
-- Contact the maintainers
+- Verifica que JWT_SECRET esté configurado en el `.env` del backend
+- Verifica que el token se esté almacenando en localStorage
+- Revisa la consola del navegador en busca de errores
 
 ---
 
-## 🙏 Acknowledgments
+## 📞 Soporte
 
-This project demonstrates modern software engineering practices and serves as a reference implementation for:
+Para preguntas, problemas o solicitudes de características:
 
-- Clean Architecture in full-stack applications
-- Domain-Driven Design principles
-- SOLID principles and design patterns
-- Secure authentication systems
-- TypeScript best practices
-
-Feel free to use this project as a learning resource or starting point for your own applications.
+- Consulta la documentación en este README y los READMEs específicos de componentes
+- Revisa los comentarios del código y ejemplos
+- Abre un issue en GitHub
+- Contacta a los mantenedores
 
 ---
 
-**Built with ❤️ by Diego Rosas**
+## 🙏 Agradecimientos
+
+Este proyecto demuestra prácticas modernas de ingeniería de software y sirve como implementación de referencia para:
+
+- Arquitectura Limpia en aplicaciones full-stack
+- Principios de Diseño Dirigido por el Dominio
+- Principios SOLID y patrones de diseño
+- Sistemas de autenticación seguros
+- Mejores prácticas de TypeScript
+
+Siéntete libre de usar este proyecto como recurso de aprendizaje o punto de partida para tus propias aplicaciones.
+
+---
+
+**Construido con ❤️ por Diego Rosas**
