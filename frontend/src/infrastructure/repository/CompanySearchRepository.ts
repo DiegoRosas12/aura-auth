@@ -1,5 +1,5 @@
 import { CompanySearchRepository as CompanySearchRepositoryInterface } from '@domain/repository/CompanySearchRepository'
-import { Company } from '@domain/entity/Company'
+import { Company } from '@/domain/dto/Company'
 import axios from 'axios'
 
 interface ClearbitCompanyDto {

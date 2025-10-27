@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { Company } from '@domain/entity/Company'
+import { Company } from '@/domain/dto/Company'
 import { SearchResultItem } from './SearchResultItem'
 
 interface CompanySearchInputProps {

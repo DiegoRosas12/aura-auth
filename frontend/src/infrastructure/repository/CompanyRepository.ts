@@ -1,5 +1,5 @@
 import { CompanyRepository as CompanyRepositoryInterface } from '@domain/repository/CompanyRepository'
-import { Company, CompanySearchCriteria } from '@domain/entity/Company'
+import { Company, CompanySearchCriteria } from '@/domain/dto/Company'
 
 export class CompanyRepositoryImpl implements CompanyRepositoryInterface {
   private companies: Company[] = [
@@ -23,8 +23,7 @@ export class CompanyRepositoryImpl implements CompanyRepositoryInterface {
       const query = criteria.query.toLowerCase()
       results = results.filter(
         (company) =>
-          company.domain.toLowerCase().includes(query) ||
-          company.name.toLowerCase().includes(query)
+          company.domain.toLowerCase().includes(query) || company.name.toLowerCase().includes(query)
       )
     }
 
@@ -36,9 +35,7 @@ export class CompanyRepositoryImpl implements CompanyRepositoryInterface {
   }
 
   async getCompanyByTicker(domain: string): Promise<Company | null> {
-    const company = this.companies.find(
-      (c) => c.domain.toLowerCase() === domain.toLowerCase()
-    )
+    const company = this.companies.find((c) => c.domain.toLowerCase() === domain.toLowerCase())
     return Promise.resolve(company || null)
   }
 }

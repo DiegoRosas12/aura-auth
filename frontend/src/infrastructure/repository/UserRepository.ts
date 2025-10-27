@@ -1,5 +1,5 @@
 import { UserRepository as UserRepositoryInterface } from '@domain/repository/UserRepository'
-import { UpdateUserDto, User } from '@domain/entity/User'
+import { UpdateUserDto, User } from '@/domain/dto/User'
 import { httpClient } from '../http/HttpClient'
 import { API_ENDPOINTS } from '../config/environment'
 import { UserMapper, UserDto } from '../mapper/UserMapper'

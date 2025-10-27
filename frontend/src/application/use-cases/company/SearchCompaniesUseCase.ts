@@ -1,5 +1,5 @@
 import { CompanySearchRepository } from '@domain/repository/CompanySearchRepository'
-import { Company } from '@domain/entity/Company'
+import { Company } from '@/domain/dto/Company'
 
 export class SearchCompaniesUseCase {
   constructor(private companySearchRepository: CompanySearchRepository) {}

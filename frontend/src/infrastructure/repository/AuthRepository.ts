@@ -1,5 +1,5 @@
 import { AuthRepository as AuthRepositoryInterface } from '@domain/repository/AuthRepository'
-import { AuthResponse, CreateUserDto, LoginCredentials } from '@domain/entity/User'
+import { AuthResponse, CreateUserDto, LoginCredentials } from '@/domain/dto/User'
 import { httpClient } from '../http/HttpClient'
 import { API_ENDPOINTS } from '../config/environment'
 import { UserMapper, UserDto } from '../mapper/UserMapper'

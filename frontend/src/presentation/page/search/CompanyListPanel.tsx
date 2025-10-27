@@ -1,4 +1,4 @@
-import { Company } from '@domain/entity/Company'
+import { Company } from '@/domain/dto/Company'
 import { CompanyTag } from '@presentation/components/CompanyTag'
 
 interface CompanyListPanelProps {

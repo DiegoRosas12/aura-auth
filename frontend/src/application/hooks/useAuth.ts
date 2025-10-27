@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { User, CreateUserDto, LoginCredentials } from '@domain/entity/User'
+import { User, CreateUserDto, LoginCredentials } from '@/domain/dto/User'
 import { container } from '../di/container'
 
 export const useAuth = () => {

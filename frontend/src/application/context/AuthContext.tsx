@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, ReactNode, useState } from 'react'
-import { User } from '@domain/entity/User'
+import { User } from '@/domain/dto/User'
 import { useAuth } from '../hooks/useAuth'
 import { container } from '../di/container'
 import { TokenStorage } from '@infrastructure/storage/TokenStorage'

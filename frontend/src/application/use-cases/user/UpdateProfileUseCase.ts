@@ -1,5 +1,5 @@
 import { UserRepository } from '@domain/repository/UserRepository'
-import { UpdateUserDto, User } from '@domain/entity/User'
+import { UpdateUserDto, User } from '@/domain/dto/User'
 
 export class UpdateProfileUseCase {
   constructor(private userRepository: UserRepository) {}

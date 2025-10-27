@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { User, UpdateUserDto } from '@domain/entity/User'
+import { User, UpdateUserDto } from '@/domain/dto/User'
 import { container } from '../di/container'
 
 export const useProfile = () => {

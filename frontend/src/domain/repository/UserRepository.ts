@@ -1,4 +1,4 @@
-import { UpdateUserDto, User } from '../entity/User'
+import { UpdateUserDto, User } from '../dto/User'
 
 export interface UserRepository {
   getProfile(): Promise<User>

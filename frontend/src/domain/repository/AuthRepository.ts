@@ -1,4 +1,4 @@
-import { AuthResponse, CreateUserDto, LoginCredentials } from '../entity/User'
+import { AuthResponse, CreateUserDto, LoginCredentials } from '../dto/User'
 
 export interface AuthRepository {
   register(userData: CreateUserDto): Promise<AuthResponse>

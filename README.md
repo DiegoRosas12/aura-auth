@@ -26,7 +26,7 @@ Aura Auth es un sistema de autenticación full-stack que demuestra patrones de a
 
 ---
 
-## Supuestos del Proyecto
+## Suposiciones del Proyecto
 
 - El usuario necesita una sección de registro para agregar un nuevo usuario y establecer una contraseña.
 - Existe una sección de búsqueda de empresas para encontrar una empresa por nombre. Se utiliza la API pública de autocomplete.clearbit.com para buscar empresas y agregarlas a la lista de favoritos.
@@ -34,8 +34,33 @@ Aura Auth es un sistema de autenticación full-stack que demuestra patrones de a
 - Se necesita un botón de cierre de sesión.
 - La contraseña necesita un nivel básico de seguridad, por lo que se requiere que tenga al menos 8 caracteres, una letra mayúscula y una letra minúscula.
 - El usuario solo puede editar su propio perfil.
+- Se realizó el mock de las secciones de busqueda y chat para que puedan ser completadas en un futuro.
 
 ---
+
+### 🏗️ Decisiones de arquitectura y técnicas del frontend
+
+- No implementar entidades de dominio a diferencia del backend debido a que la lógica de negocio es simple y no lo requiere.
+- Implementar una libreria de componentes que en este caso es Chakra UI para evitar crear componentes desde cero donde sea posible.
+- Separar componentes para mejorar la reutilización y la mantenibilidad.
+- Se decidio no utlizar la separación atómica de componentes (atom, molecule, organism) para evitar la complejidad innecesaria para las caracteristicas del proyecto.
+- Proteger rutas con el uso de un proveedor de contexto de React.
+- Implementar un enrutador de React para manejar las rutas de la aplicación.
+- Validación de entrada con Zod.
+
+### 🏗️ Decisiones de arquitectura y técnicas del backend
+
+- **Arquitectura Limpia** y **Domain-Driven Design (DDD)** con una clara separación de responsabilidades.
+
+- Usar entidades del dominio en lugar de DTOs para el manejo de validaciones de negocio como requerimientos de especificaciones en la contraseña por ejemplo.
+
+- Usar interfaces de repositorio para la capa de infraestructura para separar la lógica de la base de datos de la lógica de negocio.
+
+- Usar filtros de excepciones personalizados para manejar errores de manera consistente.
+
+- Uso de un unico application service en lugar de use cases separados debido a que el numero de acciones es manejable y todos estan relacionados con el manejo de usuarios.
+
+- Uso de migraciones para poder inicializar fácilmente la base de datos sin uso de scripts adicionales. Facilitó su manejo en CI.
 
 ## ✨ Características
 
@@ -49,7 +74,6 @@ Aura Auth es un sistema de autenticación full-stack que demuestra patrones de a
 - ✅ Arquitectura Limpia con principios DDD
 - ✅ Principios SOLID y patrones de diseño
 - ✅ Manejo integral de errores
-- ✅ Soporte Docker con docker-compose
 - ✅ Validación de entrada con class-validator
 
 ### Características del Frontend
@@ -62,6 +86,7 @@ Aura Auth es un sistema de autenticación full-stack que demuestra patrones de a
 - ✅ Implementación de Arquitectura Limpia
 - ✅ TypeScript para seguridad de tipos
 - ✅ UI moderna con TailwindCSS
+- ✅ Uso de componentes de Chakra UI
 - ✅ Biblioteca de componentes reutilizables (Diseño atómico)
 - ✅ Diseño responsivo
 
@@ -136,20 +161,27 @@ Tanto el backend como el frontend siguen los principios de **Arquitectura Limpia
 ```
 src/
 ├── domain/              # Lógica de negocio y reglas (independiente del framework)
-│   ├── entity/          # Entidades del dominio
-│   └── repository/      # Interfaces de repositorio
+│   └── user/
+│       ├── entity/          # Entidades del dominio
+│       ├── repository/      # Interfaces de repositorio
+│       └── value-object/    # Objetos de valor
 │
 ├── application/         # Casos de uso y lógica de aplicación
-│   ├── dto/            # Objetos de Transferencia de Datos
-│   └── service/        # Servicios de aplicación
+│   └── user/
+│       ├── dto/            # Objetos de Transferencia de Datos
+│       └── service/        # Servicios de aplicación
 │
 ├── infrastructure/      # Preocupaciones externas (base de datos, seguridad)
-│   ├── database/       # Entidades TypeORM y migraciones
-│   ├── repository/     # Implementaciones de repositorio
-│   └── security/       # Estrategia JWT y guards
+│   └── user/
+│       ├── database/       # Entidades TypeORM y migraciones
+│       └── security/       # Estrategia JWT y guards
 │
-└── presentation/        # Capa HTTP (controladores)
-    └── controller/     # Controladores de API REST
+├── presentation/        # Capa HTTP (controladores)
+│   └── user/
+│       ├── dto/            # DTOs de presentación
+│       └── *.controller.ts # Controladores de API REST
+│
+└── shared/              # Código compartido entre módulos
 ```
 
 ### Arquitectura del Frontend
@@ -157,24 +189,30 @@ src/
 ```
 src/
 ├── domain/              # Lógica de negocio y entidades (capa más interna)
-│   ├── entities/       # Modelos del dominio central
-│   ├── repositories/   # Interfaces de repositorio
-│   └── errors/         # Errores del dominio
+│   ├── entity/         # Modelos del dominio central
+│   ├── repository/     # Interfaces de repositorio
+│   ├── service/        # Servicios del dominio
+│   ├── validation/     # Esquemas de validación
+│   └── error/          # Errores del dominio
 │
 ├── infrastructure/      # Servicios externos e implementaciones
 │   ├── http/           # Cliente HTTP
-│   ├── repositories/   # Implementaciones de repositorio
-│   └── mock/           # API simulada para pruebas
+│   ├── repository/     # Implementaciones de repositorio
+│   ├── mapper/         # Mappers de datos
+│   ├── storage/        # Almacenamiento local
+│   └── config/         # Configuración
 │
 ├── application/         # Casos de uso y lógica de aplicación
 │   ├── use-cases/      # Casos de uso de negocio
 │   ├── hooks/          # Hooks personalizados de React
-│   └── context/        # Proveedores de contexto de React
+│   ├── context/        # Proveedores de contexto de React
+│   └── di/             # Inyección de dependencias
 │
 └── presentation/        # Capa de UI (capa más externa)
-    ├── components/     # Componentes React (Diseño atómico)
-    ├── pages/          # Componentes de página
-    └── routes/         # Configuración de enrutamiento
+    ├── components/     # Componentes React reutilizables
+    ├── page/           # Componentes de página
+    ├── route/          # Configuración de enrutamiento
+    └── styles/         # Estilos globales
 ```
 
 ### Regla de Dependencias
@@ -305,18 +343,18 @@ Esto asegura:
 
 ### Autenticación
 
-| Método | Endpoint             | Descripción           | Autenticación Requerida |
-| ------ | -------------------- | --------------------- | ----------------------- |
+| Método | Endpoint             | Descripción             | Autenticación Requerida |
+| ------ | -------------------- | ----------------------- | ----------------------- |
 | POST   | `/api/auth/register` | Registrar nuevo usuario | No                      |
-| POST   | `/api/auth/login`    | Iniciar sesión        | No                      |
+| POST   | `/api/auth/login`    | Iniciar sesión          | No                      |
 
 ### Gestión de Usuarios
 
-| Método | Endpoint             | Descripción                      | Autenticación Requerida |
-| ------ | -------------------- | -------------------------------- | ----------------------- |
+| Método | Endpoint             | Descripción                       | Autenticación Requerida |
+| ------ | -------------------- | --------------------------------- | ----------------------- |
 | GET    | `/api/users/profile` | Obtener perfil del usuario actual | Sí                      |
-| PUT    | `/api/users/profile` | Actualizar perfil de usuario     | Sí                      |
-| GET    | `/api/users`         | Listar todos los usuarios        | Sí                      |
+| PUT    | `/api/users/profile` | Actualizar perfil de usuario      | Sí                      |
+| GET    | `/api/users`         | Listar todos los usuarios         | Sí                      |
 
 Para documentación detallada de la API con ejemplos de solicitud/respuesta, consulta el [README del Backend](./backend/README.md).
 
@@ -390,25 +428,25 @@ yarn test:coverage
 
 ### Backend
 
-| Comando                    | Descripción                                    |
-| -------------------------- | ---------------------------------------------- |
+| Comando                    | Descripción                                   |
+| -------------------------- | --------------------------------------------- |
 | `npm run start:dev`        | Iniciar servidor de desarrollo con modo watch |
-| `npm run build`            | Compilar para producción                       |
-| `npm run start`            | Iniciar servidor de producción                 |
-| `npm run migration:run`    | Ejecutar migraciones de base de datos          |
-| `npm run migration:revert` | Revertir última migración                      |
-| `npm run lint`             | Ejecutar ESLint                                |
-| `npm run format`           | Formatear código con Prettier                  |
+| `npm run build`            | Compilar para producción                      |
+| `npm run start`            | Iniciar servidor de producción                |
+| `npm run migration:run`    | Ejecutar migraciones de base de datos         |
+| `npm run migration:revert` | Revertir última migración                     |
+| `npm run lint`             | Ejecutar ESLint                               |
+| `npm run format`           | Formatear código con Prettier                 |
 
 ### Frontend
 
-| Comando        | Descripción                                |
-| -------------- | ------------------------------------------ |
+| Comando        | Descripción                                  |
+| -------------- | -------------------------------------------- |
 | `yarn dev`     | Iniciar servidor de desarrollo (puerto 3000) |
-| `yarn build`   | Compilar para producción                   |
-| `yarn preview` | Vista previa de compilación de producción  |
-| `yarn lint`    | Ejecutar ESLint                            |
-| `yarn format`  | Formatear código con Prettier              |
+| `yarn build`   | Compilar para producción                     |
+| `yarn preview` | Vista previa de compilación de producción    |
+| `yarn lint`    | Ejecutar ESLint                              |
+| `yarn format`  | Formatear código con Prettier                |
 
 ---
 
@@ -416,17 +454,17 @@ yarn test:coverage
 
 ### Backend
 
-| Tecnología          | Propósito           |
-| ------------------- | ------------------- |
-| **NestJS**          | Framework Node.js   |
-| **TypeScript**      | Seguridad de tipos  |
-| **PostgreSQL**      | Base de datos       |
-| **TypeORM**         | ORM y migraciones   |
-| **Passport**        | Autenticación       |
+| Tecnología          | Propósito             |
+| ------------------- | --------------------- |
+| **NestJS**          | Framework Node.js     |
+| **TypeScript**      | Seguridad de tipos    |
+| **PostgreSQL**      | Base de datos         |
+| **TypeORM**         | ORM y migraciones     |
+| **Passport**        | Autenticación         |
 | **JWT**             | Auth basada en tokens |
-| **bcrypt**          | Hash de contraseñas |
+| **bcrypt**          | Hash de contraseñas   |
 | **class-validator** | Validación de entrada |
-| **Docker**          | Containerización    |
+| **Docker**          | Containerización      |
 
 ### Frontend
 

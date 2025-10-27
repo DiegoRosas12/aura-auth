@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   Box,
   Card,
@@ -10,12 +11,18 @@ import {
   Alert,
   CloseButton,
   Table,
+  Badge,
+  IconButton,
 } from '@chakra-ui/react'
+import { Eye } from 'lucide-react'
 import { useUsers } from '@application/hooks/useUsers'
+import { useAuthContext } from '@application/context/AuthContext'
 import { MainLayout } from '../components/MainLayout'
 
 export const UsersPage = () => {
   const { users, isLoading, error, fetchUsers, clearError } = useUsers()
+  const { user: currentUser } = useAuthContext()
+  const navigate = useNavigate()
 
   useEffect(() => {
     fetchUsers()
@@ -41,9 +48,9 @@ export const UsersPage = () => {
           )}
 
           <Card.Root w="full">
-            <Card.Header>
+            <Card.Header pb={4}>
               <HStack justify="space-between">
-                <Heading size="lg">All Users</Heading>
+                <Heading size="md">All Users</Heading>
                 <Text fontSize="sm" color="gray.500">
                   Total:{' '}
                   <Text as="span" fontWeight="semibold">
@@ -71,26 +78,42 @@ export const UsersPage = () => {
                     <Table.Row>
                       <Table.ColumnHeader>Name</Table.ColumnHeader>
                       <Table.ColumnHeader>Email</Table.ColumnHeader>
-                      <Table.ColumnHeader>User ID</Table.ColumnHeader>
                       <Table.ColumnHeader>Created At</Table.ColumnHeader>
                       <Table.ColumnHeader>Last Updated</Table.ColumnHeader>
+                      <Table.ColumnHeader>Actions</Table.ColumnHeader>
                     </Table.Row>
                   </Table.Header>
                   <Table.Body>
                     {users.map((user) => (
-                      <Table.Row key={user.id}>
+                      <Table.Row
+                        key={user.id}
+                        _hover={{
+                          bg: 'gray.50',
+                        }}
+                        transition="background-color 0.2s"
+                      >
                         <Table.Cell>
-                          <Text fontWeight="medium">
-                            {user.firstName} {user.lastName}
-                          </Text>
+                          <HStack gap={2}>
+                            <Text fontWeight="medium">
+                              {user.firstName} {user.lastName}
+                            </Text>
+                            {currentUser?.id === user.id && (
+                              <Badge
+                                bg="green.100"
+                                color="green.700"
+                                px={2}
+                                py={0.5}
+                                borderRadius="md"
+                                fontSize="xs"
+                                fontWeight="semibold"
+                              >
+                                👋 Me
+                              </Badge>
+                            )}
+                          </HStack>
                         </Table.Cell>
                         <Table.Cell>
                           <Text color="gray.600">{user.email}</Text>
-                        </Table.Cell>
-                        <Table.Cell>
-                          <Text fontFamily="mono" fontSize="xs" color="gray.500">
-                            {user.id}
-                          </Text>
                         </Table.Cell>
                         <Table.Cell>
                           <Text fontSize="sm" color="gray.600">
@@ -101,6 +124,21 @@ export const UsersPage = () => {
                           <Text fontSize="sm" color="gray.600">
                             {user.updatedAt.toLocaleDateString()}
                           </Text>
+                        </Table.Cell>
+                        <Table.Cell>
+                          {currentUser?.id === user.id && (
+                            <IconButton
+                              aria-label="View profile"
+                              size="sm"
+                              variant="ghost"
+                              onClick={() => navigate('/profile')}
+                              _hover={{
+                                bg: 'gray.100',
+                              }}
+                            >
+                              <Eye size={18} />
+                            </IconButton>
+                          )}
                         </Table.Cell>
                       </Table.Row>
                     ))}

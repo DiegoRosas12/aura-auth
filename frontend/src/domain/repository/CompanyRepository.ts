@@ -1,4 +1,4 @@
-import { Company, CompanySearchCriteria } from '../entity/Company'
+import { Company, CompanySearchCriteria } from '../dto/Company'
 
 export interface CompanyRepository {
   getAllCompanies(): Promise<Company[]>

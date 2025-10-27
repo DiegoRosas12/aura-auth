@@ -1,4 +1,4 @@
-import { User } from '@domain/entity/User'
+import { User } from '@/domain/dto/User'
 
 export interface UserDto {
   id: string
@@ -18,7 +18,11 @@ export class UserMapper {
       firstName: dto.firstName,
       lastName: dto.lastName,
       createdAt: dto.createdAt ? new Date(dto.createdAt) : now,
-      updatedAt: dto.updatedAt ? new Date(dto.updatedAt) : (dto.createdAt ? new Date(dto.createdAt) : now),
+      updatedAt: dto.updatedAt
+        ? new Date(dto.updatedAt)
+        : dto.createdAt
+          ? new Date(dto.createdAt)
+          : now,
     }
   }
 

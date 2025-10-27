@@ -1,5 +1,5 @@
 import { AuthRepository } from '@domain/repository/AuthRepository'
-import { AuthResponse, CreateUserDto } from '@domain/entity/User'
+import { AuthResponse, CreateUserDto } from '@/domain/dto/User'
 
 export class RegisterUseCase {
   constructor(private authRepository: AuthRepository) {}

@@ -1,55 +1,59 @@
-# Aura Auth - Frontend Application
+# Aura Auth - Aplicación Frontend
 
-A modern, production-ready React authentication system built with **Clean Architecture** principles, TypeScript, and TailwindCSS.
+Un sistema de autenticación moderno en React listo para producción, construido con principios de **Arquitectura Limpia**, TypeScript, TailwindCSS y Chakra UI.
 
-## 🎯 Overview
+## 🎯 Descripción General
 
-This project implements a complete authentication frontend with user management features, following industry best practices and Clean Architecture patterns for maintainability and scalability.
+Este proyecto implementa un frontend completo de autenticación con características de gestión de usuarios, siguiendo las mejores prácticas de la industria y patrones de Arquitectura Limpia para mantenibilidad y escalabilidad.
 
-### Key Features
+### Características Principales
 
-- ✅ **User Authentication** (Login/Register)
-- ✅ **User Profile Management** (View & Edit)
-- ✅ **User List View** (Browse all users)
-- ✅ **Protected Routes** (Authentication-based access control)
-- ✅ **Mock API Mode** (Local development without backend)
-- ✅ **Clean Architecture** (Separation of concerns)
-- ✅ **TypeScript** (Type safety throughout)
-- ✅ **TailwindCSS** (Modern, responsive UI)
-- ✅ **Reusable Components** (Atomic design principles)
+- ✅ **Autenticación de Usuario** (Inicio de sesión/Registro)
+- ✅ **Gestión de Perfil de Usuario** (Ver y Editar)
+- ✅ **Vista de Lista de Usuarios** (Explorar todos los usuarios)
+- ✅ **Rutas Protegidas** (Control de acceso basado en autenticación)
+- ✅ **Modo API Simulada** (Desarrollo local sin backend)
+- ✅ **Arquitectura Limpia** (Separación de responsabilidades)
+- ✅ **TypeScript** (Seguridad de tipos en todo el código)
+- ✅ **TailwindCSS & Chakra UI** (UI moderna y responsiva)
+- ✅ **Componentes Reutilizables** (Principios de diseño atómico)
 
 ---
 
-## 📁 Project Structure
+## 📁 Estructura del Proyecto
 
 ```
 src/
-├── domain/                    # Business logic & entities (innermost layer)
-│   ├── entities/             # Core domain models
-│   │   └── User.ts          # User entity and DTOs
-│   ├── repositories/         # Repository interfaces
+├── domain/                    # Lógica de negocio y entidades (capa más interna)
+│   ├── entity/               # Modelos del dominio central
+│   │   └── User.ts          # Entidad de usuario y DTOs
+│   ├── repository/           # Interfaces de repositorio
 │   │   ├── IAuthRepository.ts
-│   │   └── UserRepository.ts
-│   └── errors/              # Domain errors
+│   │   └── IUserRepository.ts
+│   ├── service/              # Servicios del dominio
+│   │   └── UserValidationService.ts
+│   ├── validation/           # Esquemas de validación
+│   │   └── authSchemas.ts
+│   └── error/                # Errores del dominio
 │       └── AppError.ts
 │
-├── infrastructure/           # External services & implementations
-│   ├── config/              # Configuration
+├── infrastructure/           # Servicios externos e implementaciones
+│   ├── config/              # Configuración
 │   │   └── environment.ts
-│   ├── http/                # HTTP client
+│   ├── http/                # Cliente HTTP
 │   │   └── HttpClient.ts
-│   ├── mappers/             # Data transformation
+│   ├── mapper/              # Transformación de datos
 │   │   └── UserMapper.ts
-│   ├── repositories/        # Repository implementations
+│   ├── repository/          # Implementaciones de repositorio
 │   │   ├── AuthRepository.ts
 │   │   ├── UserRepository.ts
 │   │   ├── MockAuthRepository.ts
 │   │   └── MockUserRepository.ts
-│   └── mock/                # Mock API for testing
-│       └── MockApi.ts
+│   └── storage/             # Almacenamiento local
+│       └── TokenStorage.ts
 │
-├── application/             # Use cases & application logic
-│   ├── use-cases/          # Business use cases
+├── application/             # Casos de uso y lógica de aplicación
+│   ├── use-cases/          # Casos de uso de negocio
 │   │   ├── auth/
 │   │   │   ├── RegisterUseCase.ts
 │   │   │   ├── LoginUseCase.ts
@@ -58,327 +62,226 @@ src/
 │   │       ├── GetProfileUseCase.ts
 │   │       ├── UpdateProfileUseCase.ts
 │   │       └── GetAllUsersUseCase.ts
-│   ├── hooks/              # Custom React hooks
+│   ├── hooks/              # Hooks personalizados de React
 │   │   ├── useAuth.ts
 │   │   ├── useProfile.ts
 │   │   └── useUsers.ts
-│   ├── context/            # React context providers
+│   ├── context/            # Proveedores de contexto de React
 │   │   └── AuthContext.tsx
-│   └── di/                 # Dependency injection
+│   └── di/                 # Inyección de dependencias
 │       └── container.ts
 │
-└── presentation/            # UI layer (outermost layer)
-    ├── components/
-    │   ├── atoms/          # Basic UI elements
-    │   │   ├── Button.tsx
-    │   │   ├── Input.tsx
-    │   │   ├── Card.tsx
-    │   │   ├── Alert.tsx
-    │   │   └── Spinner.tsx
-    │   ├── molecules/      # Composite components
-    │   │   └── Table.tsx
-    │   ├── organisms/      # Complex components
-    │   │   └── Navbar.tsx
-    │   └── templates/      # Page layouts
-    │       ├── AuthLayout.tsx
-    │       └── MainLayout.tsx
-    ├── pages/              # Page components
+└── presentation/            # Capa de UI (capa más externa)
+    ├── components/         # Componentes React reutilizables
+    │   ├── AuthLayout.tsx
+    │   ├── MainLayout.tsx
+    │   ├── Navbar.tsx
+    │   ├── Sidebar.tsx
+    │   ├── Spinner.tsx
+    │   └── ...
+    ├── page/              # Componentes de página
     │   ├── LoginPage.tsx
     │   ├── RegisterPage.tsx
     │   ├── DashboardPage.tsx
     │   ├── ProfilePage.tsx
-    │   └── UsersPage.tsx
-    ├── routes/             # Routing configuration
+    │   ├── UsersPage.tsx
+    │   └── UploadDataPage.tsx
+    ├── route/             # Configuración de rutas
     │   ├── AppRoutes.tsx
     │   └── ProtectedRoute.tsx
-    └── styles/             # Global styles
+    └── styles/            # Estilos globales
         └── index.css
 ```
 
 ---
 
-## 🏗️ Clean Architecture Explained
+## 🏗️ Arquitectura
 
-This project follows **Clean Architecture** principles with clear separation of concerns:
+### Decisiones de arquitectura y técnicas
 
-### Layer Responsibilities
+- No implementar entidades de dominio a diferencia del backend debido a que la lógica de negocio es simple y no lo requiere.
+- Implementar una libreria de componentes que en este caso es Chakra UI para evitar crear componentes desde cero donde sea posible.
+- Separar componentes para mejorar la reutilización y la mantenibilidad.
+- Se decidio no utlizar la separación atómica de componentes (atom, molecule, organism) para evitar la complejidad innecesaria para las caracteristicas del proyecto.
+- Proteger rutas con el uso de un proveedor de contexto de React.
+- Implementar un enrutador de React para manejar las rutas de la aplicación.
+- Validación de entrada con Zod.
 
-1. **Domain Layer** (Core Business Logic)
-   - Contains pure business logic
-   - No dependencies on external frameworks
-   - Defines entities, interfaces, and business rules
-   - **Independent of UI, database, or external services**
+Este proyecto sigue los principios de **Arquitectura Limpia** con clara separación de responsabilidades:
 
-2. **Infrastructure Layer** (External Services)
-   - Implements domain interfaces
-   - Handles HTTP requests, API calls
-   - Data transformation (DTOs ↔ Entities)
-   - Mock implementations for testing
+### Responsabilidades de las Capas
 
-3. **Application Layer** (Use Cases)
-   - Orchestrates data flow
-   - Implements business use cases
-   - Coordinates between domain and infrastructure
-   - Custom hooks for React integration
+1. **Capa de Dominio** (Lógica de Negocio Central)
+   - Contiene lógica de negocio pura
+   - Sin dependencias en frameworks externos
+   - Define entidades, interfaces y reglas de negocio
+   - **Independiente de UI, base de datos o servicios externos**
 
-4. **Presentation Layer** (UI)
-   - React components and pages
-   - User interface logic
-   - Routing and navigation
-   - Depends on application layer only
+2. **Capa de Infraestructura** (Servicios Externos)
+   - Implementa interfaces del dominio
+   - Maneja peticiones HTTP, llamadas a API
+   - Transformación de datos (DTOs ↔ Entidades)
+   - Implementaciones simuladas para pruebas
 
-### Dependency Rule
+3. **Capa de Aplicación** (Casos de Uso)
+   - Orquesta el flujo de datos
+   - Implementa casos de uso de negocio
+   - Coordina entre dominio e infraestructura
+   - Hooks personalizados para integración con React
 
-**Dependencies point inward**: Outer layers depend on inner layers, never the reverse.
+4. **Capa de Presentación** (UI)
+   - Componentes y páginas de React
+   - Lógica de interfaz de usuario
+   - Enrutamiento y navegación
+   - Depende solo de la capa de aplicación
+
+### Regla de Dependencias
+
+**Las dependencias apuntan hacia adentro**: Las capas externas dependen de las capas internas, nunca al revés.
 
 ```
-Presentation → Application → Domain ← Infrastructure
+Presentación → Aplicación → Dominio ← Infraestructura
 ```
 
 ---
 
-## 🚀 Getting Started
+## 🚀 Comenzando
 
-### Prerequisites
+### Requisitos Previos
 
-- Node.js 18+ or npm/yarn
-- (Optional) Backend API running on `http://localhost:8000`
+- Node.js 18+ o npm/yarn
+- (Opcional) API Backend ejecutándose en `http://localhost:3000`
 
-### Installation
+### Instalación
 
-1. **Clone and navigate to the project**:
+1. **Clonar y navegar al proyecto**:
 
    ```bash
    cd frontend
    ```
 
-2. **Install dependencies**:
+2. **Instalar dependencias**:
 
    ```bash
    yarn install
    ```
 
-3. **Configure environment**:
+3. **Configurar entorno**:
 
    ```bash
    cp .env.example .env
    ```
 
-   Edit `.env`:
+   Editar `.env`:
 
    ```env
-   VITE_API_BASE_URL=http://localhost:8000
-   VITE_USE_MOCK_API=true  # Set to false when backend is ready
+   VITE_API_BASE_URL=http://localhost:3000
+   VITE_USE_MOCK_API=true  # Cambiar a false cuando el backend esté listo
    ```
 
-4. **Start development server**:
+4. **Iniciar servidor de desarrollo**:
 
    ```bash
    yarn dev
    ```
 
-5. **Open browser**:
-   Navigate to `http://localhost:3000`
+5. **Abrir navegador**:
+   Navegar a `http://localhost:3000`
 
 ---
 
-## 📝 Available Scripts
+## 📝 Scripts Disponibles
 
-| Command        | Description                          |
-| -------------- | ------------------------------------ |
-| `yarn dev`     | Start development server (port 3000) |
-| `yarn build`   | Build for production                 |
-| `yarn preview` | Preview production build             |
-| `yarn lint`    | Run ESLint                           |
-| `yarn format`  | Format code with Prettier            |
+| Comando        | Descripción                                  |
+| -------------- | -------------------------------------------- |
+| `yarn dev`     | Iniciar servidor de desarrollo (puerto 5173) |
+| `yarn build`   | Compilar para producción                     |
+| `yarn preview` | Vista previa de compilación de producción    |
+| `yarn lint`    | Ejecutar ESLint                              |
+| `yarn format`  | Formatear código con Prettier                |
 
 ---
 
-## 🔌 API Integration
+## 🎨 Sistema de Diseño
 
-### Endpoints Used
+### Biblioteca de Componentes
+
+El proyecto utiliza **Chakra UI** como biblioteca principal de componentes, complementada con componentes personalizados:
+
+#### Componentes Personalizados
+
+- `<AuthLayout />` - Layout centrado para páginas de autenticación
+- `<MainLayout />` - Layout principal de la aplicación con sidebar
+- `<Sidebar />` - Barra lateral de navegación
+- `<Navbar />` - Barra de navegación superior
+- `<Spinner />` - Indicador de carga personalizado
+
+#### Componentes de Chakra UI
+
+- Botones, Inputs, Cards, Alerts, Tables, etc.
+- Sistema de diseño consistente y accesible
+- Modo responsivo integrado
+
+---
+
+## 🔐 Flujo de Autenticación
+
+1. **Usuario visita ruta protegida** → Redirigido a inicio de sesión
+2. **Usuario inicia sesión** → Token almacenado en localStorage
+3. **Token agregado a peticiones** → Vía interceptor del cliente HTTP
+4. **Sesión persiste** → Token verificado al montar la aplicación
+5. **Usuario cierra sesión** → Token eliminado, redirigido a inicio de sesión
+
+### Rutas Protegidas
+
+Todas las rutas excepto `/login` y `/register` requieren autenticación:
+
+- `/dashboard` - Panel principal
+- `/profile` - Gestión de perfil de usuario
+- `/users` - Vista de lista de usuarios
+- `/upload-data` - Carga de datos
+- `/search-data` - Búsqueda de datos
+- `/ask-ai` - Consultas a IA
+
+---
+
+## 🧩 Agregar Nuevas Características
+
+### 1. Agregar una Nueva Entidad
 
 ```typescript
-POST / api / auth / register // Register new user
-POST / api / auth / login // Login user
-GET / api / users / profile // Get current user profile
-PUT / api / users / profile // Update current user profile
-GET / api / users // List all users
-```
-
-### Request/Response Examples
-
-**Register**:
-
-```typescript
-// Request
-POST /api/auth/register
-{
-  "email": "user@example.com",
-  "password": "password123",
-  "firstName": "John",
-  "lastName": "Doe"
-}
-
-// Response
-{
-  "user": {
-    "id": "uuid",
-    "email": "user@example.com",
-    "firstName": "John",
-    "lastName": "Doe",
-    "createdAt": "2024-01-01T00:00:00Z",
-    "updatedAt": "2024-01-01T00:00:00Z"
-  },
-  "token": "jwt-token"
-}
-```
-
-**Login**:
-
-```typescript
-// Request
-POST /api/auth/login
-{
-  "email": "user@example.com",
-  "password": "password123"
-}
-
-// Response (same as register)
-```
-
-**Get Profile**:
-
-```typescript
-// Request
-GET /api/users/profile
-Headers: { Authorization: "Bearer jwt-token" }
-
-// Response
-{
-  "id": "uuid",
-  "email": "user@example.com",
-  "firstName": "John",
-  "lastName": "Doe",
-  "createdAt": "2024-01-01T00:00:00Z",
-  "updatedAt": "2024-01-01T00:00:00Z"
-}
-```
-
----
-
-## 🧪 Mock API Mode
-
-For local development without a backend, enable mock mode:
-
-```env
-VITE_USE_MOCK_API=true
-```
-
-### Mock Users
-
-The mock API includes 3 pre-configured users:
-
-- admin@example.com
-- john.doe@example.com
-- jane.smith@example.com
-
-**Any password works in mock mode** for demo purposes.
-
----
-
-## 🎨 Design System
-
-### Color Palette
-
-```css
-Primary: #0ea5e9 (Blue)
-Secondary: #a855f7 (Purple)
-Success: #10b981 (Green)
-Error: #ef4444 (Red)
-Warning: #f59e0b (Amber)
-```
-
-### Component Library
-
-#### Atoms (Basic Components)
-
-- `<Button />` - Multiple variants (primary, secondary, outline, danger)
-- `<Input />` - Form input with label and error handling
-- `<Card />` - Container with shadow and border
-- `<Alert />` - Contextual feedback messages
-- `<Spinner />` - Loading indicator
-
-#### Molecules (Composite Components)
-
-- `<Table />` - Responsive data table
-
-#### Organisms (Complex Components)
-
-- `<Navbar />` - Navigation bar with auth state
-
-#### Templates (Layouts)
-
-- `<AuthLayout />` - Centered layout for auth pages
-- `<MainLayout />` - Main app layout with navbar
-
----
-
-## 🔐 Authentication Flow
-
-1. **User visits protected route** → Redirected to login
-2. **User logs in** → Token stored in localStorage
-3. **Token added to requests** → Via HTTP client interceptor
-4. **Session persists** → Token checked on app mount
-5. **User logs out** → Token removed, redirected to login
-
-### Protected Routes
-
-All routes except `/login` and `/register` require authentication:
-
-- `/dashboard` - Main dashboard
-- `/profile` - User profile management
-- `/users` - User list view
-
----
-
-## 🧩 Adding New Features
-
-### 1. Add a New Entity
-
-```typescript
-// src/domain/entities/NewEntity.ts
+// src/domain/entity/NewEntity.ts
 export interface NewEntity {
   id: string
   name: string
-  // ... other fields
+  // ... otros campos
 }
 ```
 
-### 2. Create Repository Interface
+### 2. Crear Interfaz de Repositorio
 
 ```typescript
-// src/domain/repositories/INewRepository.ts
+// src/domain/repository/INewRepository.ts
 export interface INewRepository {
   getAll(): Promise<NewEntity[]>
   getById(id: string): Promise<NewEntity>
-  // ... other methods
+  // ... otros métodos
 }
 ```
 
-### 3. Implement Repository
+### 3. Implementar Repositorio
 
 ```typescript
-// src/infrastructure/repositories/NewRepository.ts
+// src/infrastructure/repository/NewRepository.ts
 export class NewRepository implements INewRepository {
   async getAll(): Promise<NewEntity[]> {
     return await httpClient.get<NewEntity[]>('/api/new-entities')
   }
-  // ... implement other methods
+  // ... implementar otros métodos
 }
 ```
 
-### 4. Create Use Case
+### 4. Crear Caso de Uso
 
 ```typescript
 // src/application/use-cases/new/GetAllNewEntitiesUseCase.ts
@@ -391,7 +294,7 @@ export class GetAllNewEntitiesUseCase {
 }
 ```
 
-### 5. Create Custom Hook
+### 5. Crear Hook Personalizado
 
 ```typescript
 // src/application/hooks/useNewEntities.ts
@@ -410,10 +313,10 @@ export const useNewEntities = () => {
 }
 ```
 
-### 6. Create Page Component
+### 6. Crear Componente de Página
 
 ```typescript
-// src/presentation/pages/NewEntitiesPage.tsx
+// src/presentation/page/NewEntitiesPage.tsx
 export const NewEntitiesPage = () => {
   const { entities, isLoading, fetchEntities } = useNewEntities()
 
@@ -423,16 +326,16 @@ export const NewEntitiesPage = () => {
 
   return (
     <MainLayout>
-      {/* Render entities */}
+      {/* Renderizar entidades */}
     </MainLayout>
   )
 }
 ```
 
-### 7. Add Route
+### 7. Agregar Ruta
 
 ```typescript
-// src/presentation/routes/AppRoutes.tsx
+// src/presentation/route/AppRoutes.tsx
 <Route
   path="/new-entities"
   element={
@@ -445,174 +348,135 @@ export const NewEntitiesPage = () => {
 
 ---
 
-## 🛠️ Development Guidelines
+## 🛠️ Guías de Desarrollo
 
-### Code Style
+### Estilo de Código
 
-- Use **TypeScript** for all files
-- Follow **ESLint** and **Prettier** configurations
-- Use **functional components** with hooks
-- Prefer **composition** over inheritance
-- Keep components **small and focused**
+- Usar **TypeScript** para todos los archivos
+- Seguir configuraciones de **ESLint** y **Prettier**
+- Usar **componentes funcionales** con hooks
+- Preferir **composición** sobre herencia
+- Mantener componentes **pequeños y enfocados**
 
-### Naming Conventions
+### Convenciones de Nomenclatura
 
-- **Components**: PascalCase (`UserProfile.tsx`)
-- **Hooks**: camelCase with `use` prefix (`useAuth.ts`)
-- **Use Cases**: PascalCase with `UseCase` suffix (`LoginUseCase.ts`)
-- **Interfaces**: PascalCase with `I` prefix (`IAuthRepository.ts`)
+- **Componentes**: PascalCase (`UserProfile.tsx`)
+- **Hooks**: camelCase con prefijo `use` (`useAuth.ts`)
+- **Casos de Uso**: PascalCase con sufijo `UseCase` (`LoginUseCase.ts`)
+- **Interfaces**: PascalCase con prefijo `I` (`IAuthRepository.ts`)
 
-### Component Guidelines
+### Guías de Componentes
 
-1. **One component per file**
-2. **Export at the bottom** (except default exports)
-3. **Props interface above component**
-4. **Document complex logic** with comments
-5. **Use TypeScript types** everywhere
+1. **Un componente por archivo**
+2. **Exportar al final** (excepto exportaciones por defecto)
+3. **Interfaz de props arriba del componente**
+4. **Documentar lógica compleja** con comentarios
+5. **Usar tipos de TypeScript** en todas partes
 
-### State Management
+### Gestión de Estado
 
-- **Local state**: `useState` for component-specific state
-- **Global state**: Context API for auth state
-- **Server state**: Custom hooks with use cases
-
----
-
-## 🧪 Testing Strategy
-
-### Recommended Testing Approach
-
-1. **Unit Tests**: Test use cases and business logic
-2. **Integration Tests**: Test repository implementations
-3. **Component Tests**: Test React components with React Testing Library
-4. **E2E Tests**: Test user flows with Cypress/Playwright
-
-### Example Test Structure
-
-```typescript
-// src/application/use-cases/auth/__tests__/LoginUseCase.test.ts
-describe('LoginUseCase', () => {
-  it('should login user with valid credentials', async () => {
-    // Arrange
-    const mockRepository = createMockAuthRepository()
-    const useCase = new LoginUseCase(mockRepository)
-
-    // Act
-    const result = await useCase.execute({
-      email: 'test@example.com',
-      password: 'password123',
-    })
-
-    // Assert
-    expect(result.user.email).toBe('test@example.com')
-    expect(result.token).toBeDefined()
-  })
-})
-```
+- **Estado local**: `useState` para estado específico del componente
+- **Estado global**: Context API para estado de autenticación
+- **Estado del servidor**: Hooks personalizados con casos de uso
 
 ---
 
-## 🚢 Deployment
+## 🧪 Estrategia de Pruebas
 
-### Build for Production
+### Enfoque de Pruebas Recomendado
+
+1. **Pruebas Unitarias**: Probar casos de uso y lógica de negocio
+2. **Pruebas de Integración**: Probar implementaciones de repositorio
+3. **Pruebas de Componentes**: Probar componentes React con React Testing Library
+4. **Pruebas E2E**: Probar flujos de usuario con Cypress/Playwright
+
+---
+
+## 🚢 Despliegue
+
+### Compilar para Producción
 
 ```bash
 yarn build
 ```
 
-This creates an optimized build in the `dist/` folder.
+Esto crea una compilación optimizada en la carpeta `dist/`.
 
-### Environment Variables for Production
+### Variables de Entorno para Producción
 
 ```env
-VITE_API_BASE_URL=https://api.yourdomain.com
+VITE_API_BASE_URL=https://api.tudominio.com
 VITE_USE_MOCK_API=false
 ```
 
-### Deploy to Vercel/Netlify
+### Desplegar en Vercel/Netlify
 
-1. Connect your Git repository
-2. Set build command: `yarn build`
-3. Set output directory: `dist`
-4. Add environment variables in dashboard
-
----
-
-## 📚 Tech Stack
-
-| Technology       | Purpose                 |
-| ---------------- | ----------------------- |
-| **React 18**     | UI library              |
-| **TypeScript**   | Type safety             |
-| **Vite**         | Build tool & dev server |
-| **TailwindCSS**  | Utility-first CSS       |
-| **React Router** | Client-side routing     |
-| **Axios**        | HTTP client             |
-| **ESLint**       | Code linting            |
-| **Prettier**     | Code formatting         |
+1. Conectar tu repositorio Git
+2. Establecer comando de compilación: `yarn build`
+3. Establecer directorio de salida: `dist`
+4. Agregar variables de entorno en el panel
 
 ---
 
-## 🤝 Contributing
+## 📚 Stack Tecnológico
 
-### Development Workflow
-
-1. Create a feature branch
-2. Make your changes following the architecture
-3. Test your changes
-4. Run linter: `yarn lint`
-5. Format code: `yarn format`
-6. Submit pull request
+| Tecnología          | Propósito                  |
+| ------------------- | -------------------------- |
+| **React 18**        | Biblioteca UI              |
+| **TypeScript**      | Seguridad de tipos         |
+| **Vite**            | Herramienta de compilación |
+| **TailwindCSS**     | CSS utility-first          |
+| **Chakra UI**       | Biblioteca de componentes  |
+| **React Router**    | Enrutamiento del cliente   |
+| **Axios**           | Cliente HTTP               |
+| **React Hook Form** | Gestión de formularios     |
+| **Zod**             | Validación de esquemas     |
+| **ESLint**          | Linting de código          |
+| **Prettier**        | Formato de código          |
 
 ---
 
-## 📄 License
+## 🆘 Solución de Problemas
 
-This project is licensed under the MIT License.
+### Problemas Comunes
 
----
-
-## 🆘 Troubleshooting
-
-### Common Issues
-
-**Port 3000 already in use**:
+**Puerto 5173 ya en uso**:
 
 ```bash
-# Change port in vite.config.ts
+# Cambiar puerto en vite.config.ts
 server: {
   port: 3001,
 }
 ```
 
-**TypeScript errors after install**:
+**Errores de TypeScript después de instalar**:
 
 ```bash
-# Clear cache and reinstall
+# Limpiar caché y reinstalar
 rm -rf node_modules yarn.lock
 yarn install
 ```
 
-**Mock API not working**:
+**API simulada no funciona**:
 
-- Check `.env` file has `VITE_USE_MOCK_API=true`
-- Restart dev server after changing `.env`
+- Verificar que el archivo `.env` tenga `VITE_USE_MOCK_API=true`
+- Reiniciar servidor de desarrollo después de cambiar `.env`
 
-**Authentication not persisting**:
+**Autenticación no persiste**:
 
-- Check browser localStorage for `auth_token`
-- Ensure cookies/localStorage not blocked
-
----
-
-## 📞 Support
-
-For questions or issues:
-
-- Check the documentation above
-- Review the code comments
-- Examine the example implementations
+- Verificar localStorage del navegador para `auth_token`
+- Asegurar que cookies/localStorage no estén bloqueadas
 
 ---
 
-**Built with ❤️ using Clean Architecture principles**
+## 📞 Soporte
+
+Para preguntas o problemas:
+
+- Consultar la documentación anterior
+- Revisar los comentarios del código
+- Examinar las implementaciones de ejemplo
+
+---
+
+**Construido con ❤️ usando principios de Arquitectura Limpia**

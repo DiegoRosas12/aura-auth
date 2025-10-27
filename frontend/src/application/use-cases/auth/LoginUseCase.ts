@@ -1,5 +1,5 @@
 import { AuthRepository } from '@domain/repository/AuthRepository'
-import { AuthResponse, LoginCredentials } from '@domain/entity/User'
+import { AuthResponse, LoginCredentials } from '@/domain/dto/User'
 
 export class LoginUseCase {
   constructor(private authRepository: AuthRepository) {}

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { MainLayout } from '../components/MainLayout'
-import { Company } from '@domain/entity/Company'
+import { Company } from '@/domain/dto/Company'
 import { companyRepository } from '@infrastructure/repository/CompanyRepository'
 import { useCompanySearch } from '@application/hooks/useCompanySearch'
 import { SearchHeroSection } from './search/SearchHeroSection'

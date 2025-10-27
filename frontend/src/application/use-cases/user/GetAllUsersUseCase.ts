@@ -1,5 +1,5 @@
 import { UserRepository } from '@domain/repository/UserRepository'
-import { User } from '@domain/entity/User'
+import { User } from '@/domain/dto/User'
 
 export class GetAllUsersUseCase {
   constructor(private userRepository: UserRepository) {}

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react'
-import { Company } from '@domain/entity/Company'
+import { Company } from '@/domain/dto/Company'
 import { SearchCompaniesUseCase } from '../use-cases/company/SearchCompaniesUseCase'
 import { companySearchRepository } from '@infrastructure/repository/CompanySearchRepository'
 
