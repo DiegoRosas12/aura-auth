@@ -115,8 +115,12 @@ export const SearchDataPage = () => {
             />
           </div>
 
-          <div className="mx-auto p-4">
-            <img src={stockGraphic} alt="Stock Graphic" className="w-full h-full" />
+          <div className="hidden md:flex flex-1 items-center justify-center p-4 min-w-[300px] max-w-[600px]">
+            <img
+              src={stockGraphic}
+              alt="Stock Graphic"
+              className="w-full h-auto object-contain"
+            />
           </div>
         </div>
       </div>
