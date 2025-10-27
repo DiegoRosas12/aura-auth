@@ -19,7 +19,7 @@ export const ProfilePage = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<ProfileUpdateFormData>({
     resolver: zodResolver(profileUpdateSchema),
     mode: 'onChange',
@@ -135,7 +135,7 @@ export const ProfilePage = () => {
 
               {isEditing && (
                 <div className="flex space-x-3 pt-4">
-                  <Button type="submit" isLoading={isLoading}>
+                  <Button type="submit" isLoading={isLoading} disabled={!isValid || isLoading}>
                     Save Changes
                   </Button>
                   <Button type="button" variant="outline" onClick={handleCancel}>
