@@ -5,7 +5,6 @@ interface CompanyListPanelProps {
   companies: Company[]
   savedCompanies: string[]
   isLoading: boolean
-  plusIcon: string
   onAddCompany: (companyName: string) => void
 }
 
@@ -13,9 +12,10 @@ export const CompanyListPanel = ({
   companies,
   savedCompanies,
   isLoading,
-  plusIcon,
   onAddCompany,
 }: CompanyListPanelProps) => {
+  const plusIcon = '/plus-icon.svg'
+
   if (isLoading) {
     return (
       <div className="bg-[#f9f5fd] rounded-[4px] p-[16px]">

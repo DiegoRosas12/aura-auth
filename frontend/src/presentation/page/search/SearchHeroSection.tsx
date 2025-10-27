@@ -1,18 +1,11 @@
 import { ActionCard } from '@presentation/components/ActionCard'
 
-interface SearchHeroSectionProps {
-  heroBackground: string
-  documentsIcon: string
-  fileBundleIcon: string
-  aiToolIcon: string
-}
+export const SearchHeroSection = () => {
+  const heroBackground = '/hero-background.png'
+  const documentsIcon = '/search-data.svg'
+  const fileBundleIcon = '/upload-data.svg'
+  const aiToolIcon = '/ai-tool.svg'
 
-export const SearchHeroSection = ({
-  heroBackground,
-  documentsIcon,
-  fileBundleIcon,
-  aiToolIcon,
-}: SearchHeroSectionProps) => {
   return (
     <div
       className="relative rounded-[4px] overflow-hidden"

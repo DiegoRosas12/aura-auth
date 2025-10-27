@@ -7,11 +7,6 @@ import { SearchHeroSection } from './search/SearchHeroSection'
 import { CompanySearchInput } from './search/CompanySearchInput'
 import { CompanyListPanel } from './search/CompanyListPanel'
 
-const plusIcon = '/plus-icon.svg'
-const heroBackground = '/hero-background.png'
-const documentsIcon = '/search-data.svg'
-const fileBundleIcon = '/upload-data.svg'
-const aiToolIcon = '/ai-tool.svg'
 const stockGraphic = '/stock-graphic.svg'
 
 export const SearchDataPage = () => {
@@ -88,12 +83,7 @@ export const SearchDataPage = () => {
   return (
     <MainLayout>
       <div className="min-h-screen bg-white">
-        <SearchHeroSection
-          heroBackground={heroBackground}
-          documentsIcon={documentsIcon}
-          fileBundleIcon={fileBundleIcon}
-          aiToolIcon={aiToolIcon}
-        />
+        <SearchHeroSection />
 
         <div className="flex justify-between px-[12%] py-[110px]">
           <div className="flex flex-col gap-[16px] w-[498px]">
@@ -121,7 +111,6 @@ export const SearchDataPage = () => {
               companies={companies}
               savedCompanies={savedCompanies}
               isLoading={isLoading}
-              plusIcon={plusIcon}
               onAddCompany={handleAddCompany}
             />
           </div>
