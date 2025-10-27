@@ -1,4 +1,6 @@
-import { useState, useEffect, FormEvent } from 'react'
+import { useState, useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useProfile } from '@application/hooks/useProfile'
 import { MainLayout } from '../components/MainLayout'
 import { Card, CardContent, CardHeader, CardTitle } from '../components/Card'
@@ -6,15 +8,21 @@ import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 import { Alert } from '../components/Alert'
 import { Spinner } from '../components/Spinner'
+import { profileUpdateSchema, type ProfileUpdateFormData } from '@domain/validation/authSchemas'
 
 export const ProfilePage = () => {
   const { profile, isLoading, error, fetchProfile, updateProfile, clearError } = useProfile()
   const [isEditing, setIsEditing] = useState(false)
   const [successMessage, setSuccessMessage] = useState<string | null>(null)
-  const [formData, setFormData] = useState({
-    email: '',
-    firstName: '',
-    lastName: '',
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<ProfileUpdateFormData>({
+    resolver: zodResolver(profileUpdateSchema),
+    mode: 'onChange',
   })
 
   useEffect(() => {
@@ -23,34 +31,30 @@ export const ProfilePage = () => {
 
   useEffect(() => {
     if (profile) {
-      setFormData({
+      reset({
         email: profile.email,
         firstName: profile.firstName,
         lastName: profile.lastName,
       })
     }
-  }, [profile])
+  }, [profile, reset])
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
+  const onSubmit = async (data: ProfileUpdateFormData) => {
     clearError()
     setSuccessMessage(null)
 
     try {
-      await updateProfile(formData)
+      await updateProfile(data)
       setSuccessMessage('Profile updated successfully!')
       setIsEditing(false)
     } catch (err) {
+      // Error handled by useProfile
     }
-  }
-
-  const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, [field]: e.target.value }))
   }
 
   const handleCancel = () => {
     if (profile) {
-      setFormData({
+      reset({
         email: profile.email,
         firstName: profile.firstName,
         lastName: profile.lastName,
@@ -102,34 +106,31 @@ export const ProfilePage = () => {
             </div>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input
                   label="First Name"
                   type="text"
-                  value={formData.firstName}
-                  onChange={handleChange('firstName')}
+                  {...register('firstName')}
+                  error={errors.firstName?.message}
                   disabled={!isEditing}
-                  required
                 />
 
                 <Input
                   label="Last Name"
                   type="text"
-                  value={formData.lastName}
-                  onChange={handleChange('lastName')}
+                  {...register('lastName')}
+                  error={errors.lastName?.message}
                   disabled={!isEditing}
-                  required
                 />
               </div>
 
               <Input
                 label="Email"
                 type="email"
-                value={formData.email}
-                onChange={handleChange('email')}
+                {...register('email')}
+                error={errors.email?.message}
                 disabled={!isEditing}
-                required
               />
 
               {isEditing && (

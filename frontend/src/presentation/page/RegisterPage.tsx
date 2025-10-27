@@ -1,50 +1,34 @@
-import { useState, FormEvent, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useAuthContext } from '@application/context/AuthContext'
 import { AuthLayout } from '@presentation/components/AuthLayout'
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 import { Alert } from '@presentation/components/Alert'
-import { UserValidationService } from '@domain/service/UserValidationService'
+import { registerSchema, type RegisterFormData } from '@domain/validation/authSchemas'
 
 export const RegisterPage = () => {
-  const { register, isLoading, error, clearError } = useAuthContext()
+  const { register: registerUser, isLoading, error, clearError } = useAuthContext()
   const navigate = useNavigate()
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    firstName: '',
-    lastName: '',
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+    mode: 'onChange',
   })
-  const [passwordErrors, setPasswordErrors] = useState<string[]>([])
-  const [isFormValid, setIsFormValid] = useState(false)
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
+  const onSubmit = async (data: RegisterFormData) => {
     clearError()
-
     try {
-      await register(formData)
+      await registerUser(data)
       navigate('/dashboard')
     } catch (err) {
       // Error is handled by AuthContext and displayed via error state
     }
-  }
-
-  useEffect(() => {
-    const validation = UserValidationService.validateRegistrationForm(formData)
-    setIsFormValid(validation.isValid)
-
-    if (formData.password) {
-      const passwordValidation = UserValidationService.validatePasswordStrength(formData.password)
-      setPasswordErrors(passwordValidation.errors)
-    } else {
-      setPasswordErrors([])
-    }
-  }, [formData])
-
-  const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, [field]: e.target.value }))
   }
 
   return (
@@ -60,61 +44,43 @@ export const RegisterPage = () => {
           </Alert>
         )}
 
-        <form onSubmit={handleSubmit} className="flex flex-col items-center gap-[40px]">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center gap-[40px]">
           <div className="flex flex-col gap-[32px]">
             <Input
               label="First Name"
               type="text"
-              value={formData.firstName}
-              onChange={handleChange('firstName')}
-              placeholder=""
-              required
+              {...register('firstName')}
+              error={errors.firstName?.message}
               autoComplete="given-name"
             />
 
             <Input
               label="Last Name"
               type="text"
-              value={formData.lastName}
-              onChange={handleChange('lastName')}
-              placeholder=""
-              required
+              {...register('lastName')}
+              error={errors.lastName?.message}
               autoComplete="family-name"
             />
 
             <Input
               label="Email"
               type="email"
-              value={formData.email}
-              onChange={handleChange('email')}
-              placeholder=""
-              required
+              {...register('email')}
+              error={errors.email?.message}
               autoComplete="email"
             />
 
             <Input
               label="Password"
               type="password"
-              value={formData.password}
-              onChange={handleChange('password')}
-              placeholder=""
-              required
+              {...register('password')}
+              error={errors.password?.message}
               autoComplete="new-password"
-              helperText={passwordErrors.length > 0 ? passwordErrors[0] : 'Must be at least 8 characters with uppercase, lowercase, and numbers'}
+              helperText="Must be at least 8 characters with uppercase, lowercase, and numbers"
             />
-
-            {formData.password && passwordErrors.length > 0 && (
-              <div className="w-[320px] -mt-4">
-                <ul className="text-xs text-red-500 space-y-1">
-                  {passwordErrors.map((error, index) => (
-                    <li key={index}>• {error}</li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
 
-          <Button type="submit" fullWidth isLoading={isLoading} disabled={!isFormValid || isLoading}>
+          <Button type="submit" fullWidth isLoading={isLoading} disabled={!isValid || isLoading}>
             Create Account
           </Button>
         </form>

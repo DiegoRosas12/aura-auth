@@ -1,33 +1,34 @@
-import { useState, FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { useAuthContext } from '@application/context/AuthContext'
 import { AuthLayout } from '@presentation/components/AuthLayout'
 import { Input } from '../components/Input'
 import { Button } from '../components/Button'
 import { Alert } from '@presentation/components/Alert'
+import { loginSchema, type LoginFormData } from '@domain/validation/authSchemas'
 
 export const LoginPage = () => {
   const { login, isLoading, error, clearError } = useAuthContext()
   const navigate = useNavigate()
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    mode: 'onChange',
   })
 
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault()
+  const onSubmit = async (data: LoginFormData) => {
     clearError()
-
     try {
-      await login(formData)
+      await login(data)
       navigate('/dashboard')
     } catch (err) {
       // Error is handled by AuthContext and displayed via error state
     }
-  }
-
-  const handleChange = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({ ...prev, [field]: e.target.value }))
   }
 
   return (
@@ -45,26 +46,21 @@ export const LoginPage = () => {
           </Alert>
         )}
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="flex flex-col items-center gap-[40px]">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center gap-[40px]">
           <div className="flex flex-col gap-[32px]">
             <Input
-              label="User"
+              label="Email"
               type="email"
-              value={formData.email}
-              onChange={handleChange('email')}
-              placeholder=""
-              required
+              {...register('email')}
+              error={errors.email?.message}
               autoComplete="email"
             />
 
             <Input
               label="Password"
               type="password"
-              value={formData.password}
-              onChange={handleChange('password')}
-              placeholder=""
-              required
+              {...register('password')}
+              error={errors.password?.message}
               autoComplete="current-password"
             />
           </div>

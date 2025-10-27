@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, ReactNode } from 'react'
+import { createContext, useContext, useEffect, ReactNode, useState } from 'react'
 import { User } from '@domain/entity/User'
 import { useAuth } from '../hooks/useAuth'
 import { container } from '../di/container'
@@ -23,6 +23,7 @@ interface AuthProviderProps {
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const auth = useAuth()
+  const [isInitializing, setIsInitializing] = useState(true)
 
   useEffect(() => {
     const initAuth = async () => {
@@ -35,6 +36,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           TokenStorage.removeToken()
         }
       }
+      setIsInitializing(false)
     }
 
     initAuth()
@@ -42,7 +44,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const value: AuthContextType = {
     user: auth.user,
-    isLoading: auth.isLoading,
+    isLoading: auth.isLoading || isInitializing,
     error: auth.error,
     login: auth.login,
     register: auth.register,
