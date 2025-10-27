@@ -1,11 +1,11 @@
 import { useState, useEffect, FormEvent } from 'react'
 import { useProfile } from '@application/hooks/useProfile'
-import { MainLayout } from '../component/template/MainLayout'
-import { Card, CardContent, CardHeader, CardTitle } from '../component/atom/Card'
-import { Input } from '../component/atom/Input'
-import { Button } from '../component/atom/Button'
-import { Alert } from '../component/atom/Alert'
-import { Spinner } from '../component/atom/Spinner'
+import { MainLayout } from '../components/MainLayout'
+import { Card, CardContent, CardHeader, CardTitle } from '../components/Card'
+import { Input } from '../components/Input'
+import { Button } from '../components/Button'
+import { Alert } from '../components/Alert'
+import { Spinner } from '../components/Spinner'
 
 export const ProfilePage = () => {
   const { profile, isLoading, error, fetchProfile, updateProfile, clearError } = useProfile()

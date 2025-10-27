@@ -1,10 +1,10 @@
 import { useState, FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '@application/context/AuthContext'
-import { AuthLayout } from '@presentation/component/template/AuthLayout'
-import { Input } from '../component/atom/Input'
-import { Button } from '../component/atom/Button'
-import { Alert } from '@presentation/component/atom/Alert'
+import { AuthLayout } from '@presentation/components/AuthLayout'
+import { Input } from '../components/Input'
+import { Button } from '../components/Button'
+import { Alert } from '@presentation/components/Alert'
 
 export const LoginPage = () => {
   const { login, isLoading, error, clearError } = useAuthContext()
@@ -22,6 +22,7 @@ export const LoginPage = () => {
       await login(formData)
       navigate('/dashboard')
     } catch (err) {
+      // Error is handled by AuthContext and displayed via error state
     }
   }
 

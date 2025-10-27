@@ -1,7 +1,7 @@
 import { useAuthContext } from '@application/context/AuthContext'
 import { Link } from 'react-router-dom'
-import { MainLayout } from '../component/template/MainLayout'
-import { Card, CardContent, CardHeader, CardTitle } from '../component/atom/Card'
+import { MainLayout } from '../components/MainLayout'
+import { Card, CardContent, CardHeader, CardTitle } from '../components/Card'
 
 export const DashboardPage = () => {
   const { user } = useAuthContext()

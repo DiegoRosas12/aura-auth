@@ -1,9 +1,10 @@
 import { useState, useEffect, useRef } from 'react'
-import { MainLayout } from '../component/template/MainLayout'
+import { MainLayout } from '../components/MainLayout'
 import { Company } from '@domain/entity/Company'
 import { companyRepository } from '@infrastructure/repository/CompanyRepository'
 import { useCompanySearch } from '@application/hooks/useCompanySearch'
-import { ActionCard } from '../component/molecule/ActionCard'
+import { ActionCard } from '../components/ActionCard'
+import { CompanyTag } from '../components/CompanyTag'
 
 const plusIcon = 'http://localhost:3845/assets/730c6372c1a0244c8c3a33b4c229c38267e1e5c0.svg'
 const heroBackground = 'http://localhost:3845/assets/f5a228e1337faff61e75ea74307586f380ea6814.png'
@@ -197,6 +198,7 @@ export const SearchDataPage = () => {
                           company={company}
                           onAdd={handleAddCompany}
                           isSaved={savedCompanies.includes(company.name)}
+                          plusIcon={plusIcon}
                         />
                       ))}
                     </div>
@@ -216,48 +218,5 @@ export const SearchDataPage = () => {
         </div>
       </div>
     </MainLayout>
-  )
-}
-
-interface CompanyTagProps {
-  company: Company
-  onAdd: (name: string) => void
-  isSaved: boolean
-}
-
-const CompanyTag = ({ company, onAdd, isSaved }: CompanyTagProps) => {
-  const ticker = company.domain ? company.domain.split('.')[0].toUpperCase() : 'N/A'
-
-  return (
-    <div
-      className={`border rounded-[4px] p-[8px] flex items-center gap-[8px] ${
-        isSaved ? 'bg-[#e8e5f9] border-[#6869ac]' : 'bg-white border-[#cfcfd4]'
-      }`}
-    >
-      {company.logo && (
-        <img
-          src={company.logo}
-          alt={company.name}
-          className="w-[24px] h-[24px] rounded"
-          onError={(e) => {
-            e.currentTarget.style.display = 'none'
-          }}
-        />
-      )}
-      <div className="flex items-center gap-[4px] text-[16px] text-[#101723]">
-        <span className="font-bold">{ticker}</span>
-        <span>{company.name}</span>
-      </div>
-      <button
-        onClick={() => !isSaved && onAdd(company.name)}
-        disabled={isSaved}
-        className={`w-[24px] h-[24px] flex items-center justify-center transition-opacity ${
-          isSaved ? 'opacity-30 cursor-not-allowed' : 'hover:opacity-70 cursor-pointer'
-        }`}
-        title={isSaved ? 'Already saved' : 'Add company'}
-      >
-        <img src={plusIcon} alt="Add" className="w-[18px] h-[18px]" />
-      </button>
-    </div>
   )
 }

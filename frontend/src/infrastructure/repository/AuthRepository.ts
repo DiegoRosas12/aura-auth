@@ -3,8 +3,7 @@ import { AuthResponse, CreateUserDto, LoginCredentials } from '@domain/entity/Us
 import { httpClient } from '../http/HttpClient'
 import { API_ENDPOINTS } from '../config/environment'
 import { UserMapper, UserDto } from '../mapper/UserMapper'
-
-const AUTH_TOKEN_KEY = 'auth_token'
+import { TokenStorage } from '../storage/TokenStorage'
 
 export class AuthRepositoryImpl implements AuthRepositoryInterface {
   async register(userData: CreateUserDto): Promise<AuthResponse> {
@@ -40,19 +39,19 @@ export class AuthRepositoryImpl implements AuthRepositoryInterface {
   }
 
   async logout(): Promise<void> {
-    this.removeToken()
+    TokenStorage.removeToken()
   }
 
   getToken(): string | null {
-    return localStorage.getItem(AUTH_TOKEN_KEY)
+    return TokenStorage.getToken()
   }
 
   setToken(token: string): void {
-    localStorage.setItem(AUTH_TOKEN_KEY, token)
+    TokenStorage.setToken(token)
   }
 
   removeToken(): void {
-    localStorage.removeItem(AUTH_TOKEN_KEY)
+    TokenStorage.removeToken()
   }
 }
 

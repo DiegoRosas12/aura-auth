@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '@application/context/AuthContext'
-import { Button } from '../atom/Button'
+import { Button } from './Button'
 
 export const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuthContext()
@@ -59,15 +59,17 @@ export const Navbar = () => {
               </>
             ) : (
               <>
-                <Link to="/login">
-                  <Button variant="outline" size="sm">
-                    Login
-                  </Button>
+                <Link
+                  to="/login"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-md hover:bg-gray-50 transition-colors"
+                >
+                  Login
                 </Link>
-                <Link to="/register">
-                  <Button variant="primary" size="sm">
-                    Sign Up
-                  </Button>
+                <Link
+                  to="/register"
+                  className="px-4 py-2 text-sm font-medium text-white bg-primary-600 rounded-md hover:bg-primary-700 transition-colors"
+                >
+                  Sign Up
                 </Link>
               </>
             )}

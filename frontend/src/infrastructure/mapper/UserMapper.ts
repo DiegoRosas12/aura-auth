@@ -22,17 +22,6 @@ export class UserMapper {
     }
   }
 
-  static toDto(user: User): UserDto {
-    return {
-      id: user.id,
-      email: user.email,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      createdAt: user.createdAt.toISOString(),
-      updatedAt: user.updatedAt.toISOString(),
-    }
-  }
-
   static toDomainList(dtos: UserDto[]): User[] {
     return dtos.map((dto) => this.toDomain(dto))
   }

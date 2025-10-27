@@ -1,9 +1,9 @@
 import { useEffect } from 'react'
 import { useUsers } from '@application/hooks/useUsers'
-import { MainLayout } from '../component/template/MainLayout'
-import { Card, CardContent, CardHeader, CardTitle } from '../component/atom/Card'
-import { Alert } from '../component/atom/Alert'
-import { Spinner } from '../component/atom/Spinner'
+import { MainLayout } from '../components/MainLayout'
+import { Card, CardContent, CardHeader, CardTitle } from '../components/Card'
+import { Alert } from '../components/Alert'
+import { Spinner } from '../components/Spinner'
 import {
   Table,
   TableHeader,
@@ -11,7 +11,7 @@ import {
   TableRow,
   TableHead,
   TableCell,
-} from '../component/molecule/Table'
+} from '../components/Table'
 
 export const UsersPage = () => {
   const { users, isLoading, error, fetchUsers, clearError } = useUsers()

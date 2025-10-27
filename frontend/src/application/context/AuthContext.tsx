@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, ReactNode } from 'react'
 import { User } from '@domain/entity/User'
 import { useAuth } from '../hooks/useAuth'
 import { container } from '../di/container'
+import { TokenStorage } from '@infrastructure/storage/TokenStorage'
 
 interface AuthContextType {
   user: User | null
@@ -25,19 +26,19 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   useEffect(() => {
     const initAuth = async () => {
-      const token = localStorage.getItem('auth_token')
+      const token = TokenStorage.getToken()
       if (token && !auth.user) {
         try {
           const profile = await container.getProfileUseCase.execute()
           auth.setUser(profile)
         } catch (error) {
-          localStorage.removeItem('auth_token')
+          TokenStorage.removeToken()
         }
       }
     }
 
     initAuth()
-  }, [])
+  }, [auth.user, auth.setUser])
 
   const value: AuthContextType = {
     user: auth.user,

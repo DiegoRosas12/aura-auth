@@ -1,6 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { environment } from '../config/environment'
 import { AppError, AuthError, NetworkError } from '@domain/error/AppError'
+import { TokenStorage } from '../storage/TokenStorage'
 
 export class HttpClient {
   private client: AxiosInstance
@@ -19,7 +20,7 @@ export class HttpClient {
   private setupInterceptors(): void {
     this.client.interceptors.request.use(
       (config) => {
-        const token = localStorage.getItem('auth_token')
+        const token = TokenStorage.getToken()
         if (token) {
           config.headers.Authorization = `Bearer ${token}`
         }
@@ -38,7 +39,7 @@ export class HttpClient {
         const { status, data } = error.response
 
         if (status === 401) {
-          localStorage.removeItem('auth_token')
+          TokenStorage.removeToken()
           throw new AuthError(data?.message || 'Authentication failed')
         }
 

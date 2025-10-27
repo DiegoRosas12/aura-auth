@@ -7,6 +7,10 @@ export const useAuth = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
+  const setUserCallback = useCallback((newUser: User | null) => {
+    setUser(newUser)
+  }, [])
+
   const register = useCallback(async (userData: CreateUserDto) => {
     setIsLoading(true)
     setError(null)
@@ -60,7 +64,7 @@ export const useAuth = () => {
 
   return {
     user,
-    setUser,
+    setUser: setUserCallback,
     isLoading,
     error,
     register,
