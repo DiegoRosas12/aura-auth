@@ -1,6 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '@application/context/AuthContext'
-import { Button } from './Button'
+import { Button } from '@chakra-ui/react'
 
 export const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuthContext()
