@@ -38,7 +38,7 @@ export const LoginPage = () => {
           fontSize="48px"
           fontWeight="bold"
           textAlign="center"
-          mb={20}
+          mb={6}
           style={{ textShadow: '0px 4px 4px rgba(0,0,0,0.25)' }}
         >
           Welcome
