@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useAuthContext } from '@application/context/AuthContext'
-import { Search, Home, User, Users, LogOut } from 'lucide-react'
+import { Search, Home, User, Users, Upload, LogOut } from 'lucide-react'
 
 const logoUrl = '/aura-logo.svg'
 
@@ -19,6 +19,11 @@ export const Sidebar = () => {
       path: '/search-data',
       icon: <Search className="h-6 w-6" />,
       label: 'Search Data',
+    },
+    {
+      path: '/upload-data',
+      icon: <Upload className="h-6 w-6" />,
+      label: 'Upload Data',
     },
     {
       path: '/dashboard',

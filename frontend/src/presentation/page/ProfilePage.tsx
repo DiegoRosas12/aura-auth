@@ -1,13 +1,23 @@
 import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import {
+  Box,
+  Card,
+  Heading,
+  Text,
+  Button,
+  Input,
+  HStack,
+  VStack,
+  Spinner,
+  Alert,
+  CloseButton,
+  Grid,
+  GridItem,
+} from '@chakra-ui/react'
 import { useProfile } from '@application/hooks/useProfile'
 import { MainLayout } from '../components/MainLayout'
-import { Card, CardContent, CardHeader, CardTitle } from '../components/Card'
-import { Input } from '../components/Input'
-import { Button } from '../components/Button'
-import { Alert } from '../components/Alert'
-import { Spinner } from '../components/Spinner'
 import { profileUpdateSchema, type ProfileUpdateFormData } from '@domain/validation/authSchemas'
 
 export const ProfilePage = () => {
@@ -67,110 +77,162 @@ export const ProfilePage = () => {
   if (isLoading && !profile) {
     return (
       <MainLayout>
-        <div className="flex justify-center items-center min-h-[400px]">
-          <Spinner size="lg" />
-        </div>
+        <Box display="flex" justifyContent="center" alignItems="center" minH="400px">
+          <Spinner size="xl" />
+        </Box>
       </MainLayout>
     )
   }
 
   return (
     <MainLayout>
-      <div className="max-w-3xl mx-auto space-y-6 m-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Profile Settings</h1>
-          <p className="mt-2 text-gray-600">Manage your personal information</p>
-        </div>
+      <Box maxW="5xl" mx="auto" p={6}>
+        <VStack align="start" gap={6}>
+          <Box>
+            <Heading size="2xl" mb={2}>
+              Profile Settings
+            </Heading>
+            <Text color="gray.600">Manage your personal information</Text>
+          </Box>
 
-        {successMessage && (
-          <Alert variant="success" onClose={() => setSuccessMessage(null)}>
-            {successMessage}
-          </Alert>
-        )}
+          {successMessage && (
+            <Alert.Root status="success" w="full">
+              <Alert.Indicator />
+              <Box flex="1">{successMessage}</Box>
+              <CloseButton onClick={() => setSuccessMessage(null)} />
+            </Alert.Root>
+          )}
 
-        {error && (
-          <Alert variant="error" onClose={clearError}>
-            {error}
-          </Alert>
-        )}
+          {error && (
+            <Alert.Root status="error" w="full">
+              <Alert.Indicator />
+              <Box flex="1">{error}</Box>
+              <CloseButton onClick={clearError} />
+            </Alert.Root>
+          )}
 
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <CardTitle>Personal Information</CardTitle>
-              {!isEditing && (
-                <Button onClick={() => setIsEditing(true)} variant="outline" size="sm">
-                  Edit Profile
-                </Button>
-              )}
-            </div>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Input
-                  label="First Name"
-                  type="text"
-                  {...register('firstName')}
-                  error={errors.firstName?.message}
-                  disabled={!isEditing}
-                />
-
-                <Input
-                  label="Last Name"
-                  type="text"
-                  {...register('lastName')}
-                  error={errors.lastName?.message}
-                  disabled={!isEditing}
-                />
-              </div>
-
-              <Input
-                label="Email"
-                type="email"
-                {...register('email')}
-                error={errors.email?.message}
-                disabled={!isEditing}
-              />
-
-              {isEditing && (
-                <div className="flex space-x-3 pt-4">
-                  <Button type="submit" isLoading={isLoading} disabled={!isValid || isLoading}>
-                    Save Changes
+          <Card.Root w="full">
+            <Card.Header>
+              <HStack justify="space-between">
+                <Heading size="lg">Personal Information</Heading>
+                {!isEditing && (
+                  <Button onClick={() => setIsEditing(true)} variant="outline" size="sm">
+                    Edit Profile
                   </Button>
-                  <Button type="button" variant="outline" onClick={handleCancel}>
-                    Cancel
-                  </Button>
-                </div>
-              )}
-            </form>
-          </CardContent>
-        </Card>
+                )}
+              </HStack>
+            </Card.Header>
+            <Card.Body>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <VStack gap={4} align="stretch">
+                  <Grid templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }} gap={4}>
+                    <GridItem>
+                      <Text fontWeight="medium" mb={2}>
+                        First Name
+                      </Text>
+                      <Input
+                        {...register('firstName')}
+                        disabled={!isEditing}
+                        borderColor={errors.firstName ? 'red.500' : undefined}
+                      />
+                      {errors.firstName && (
+                        <Text color="red.500" fontSize="sm" mt={1}>
+                          {errors.firstName.message}
+                        </Text>
+                      )}
+                    </GridItem>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Account Information</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              <div>
-                <label className="text-sm font-medium text-gray-500">User ID</label>
-                <p className="mt-1 text-sm text-gray-900 font-mono">{profile?.id}</p>
-              </div>
+                    <GridItem>
+                      <Text fontWeight="medium" mb={2}>
+                        Last Name
+                      </Text>
+                      <Input
+                        {...register('lastName')}
+                        disabled={!isEditing}
+                        borderColor={errors.lastName ? 'red.500' : undefined}
+                      />
+                      {errors.lastName && (
+                        <Text color="red.500" fontSize="sm" mt={1}>
+                          {errors.lastName.message}
+                        </Text>
+                      )}
+                    </GridItem>
+                  </Grid>
 
-              <div>
-                <label className="text-sm font-medium text-gray-500">Account Created</label>
-                <p className="mt-1 text-sm text-gray-900">{profile?.createdAt.toLocaleString()}</p>
-              </div>
+                  <Box>
+                    <Text fontWeight="medium" mb={2}>
+                      Email
+                    </Text>
+                    <Input
+                      type="email"
+                      {...register('email')}
+                      disabled={!isEditing}
+                      borderColor={errors.email ? 'red.500' : undefined}
+                    />
+                    {errors.email && (
+                      <Text color="red.500" fontSize="sm" mt={1}>
+                        {errors.email.message}
+                      </Text>
+                    )}
+                  </Box>
 
-              <div>
-                <label className="text-sm font-medium text-gray-500">Last Updated</label>
-                <p className="mt-1 text-sm text-gray-900">{profile?.updatedAt.toLocaleString()}</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+                  {isEditing && (
+                    <HStack pt={4} gap={3}>
+                      <Button
+                        type="submit"
+                        colorScheme="blue"
+                        loading={isLoading}
+                        disabled={!isValid || isLoading}
+                      >
+                        Save Changes
+                      </Button>
+                      <Button variant="outline" onClick={handleCancel}>
+                        Cancel
+                      </Button>
+                    </HStack>
+                  )}
+                </VStack>
+              </form>
+            </Card.Body>
+          </Card.Root>
+
+          <Card.Root w="full">
+            <Card.Header>
+              <Heading size="lg">Account Information</Heading>
+            </Card.Header>
+            <Card.Body>
+              <VStack align="stretch" gap={4}>
+                <Box>
+                  <Text fontSize="sm" fontWeight="medium" color="gray.500">
+                    User ID
+                  </Text>
+                  <Text mt={1} fontSize="sm" fontFamily="mono">
+                    {profile?.id}
+                  </Text>
+                </Box>
+
+                <Box>
+                  <Text fontSize="sm" fontWeight="medium" color="gray.500">
+                    Account Created
+                  </Text>
+                  <Text mt={1} fontSize="sm">
+                    {profile?.createdAt ? new Date(profile.createdAt).toLocaleDateString() : 'N/A'}
+                  </Text>
+                </Box>
+
+                <Box>
+                  <Text fontSize="sm" fontWeight="medium" color="gray.500">
+                    Last Updated
+                  </Text>
+                  <Text mt={1} fontSize="sm">
+                    {profile?.updatedAt ? new Date(profile.updatedAt).toLocaleDateString() : 'N/A'}
+                  </Text>
+                </Box>
+              </VStack>
+            </Card.Body>
+          </Card.Root>
+        </VStack>
+      </Box>
     </MainLayout>
   )
 }

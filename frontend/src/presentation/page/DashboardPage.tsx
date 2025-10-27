@@ -1,93 +1,117 @@
 import { useAuthContext } from '@application/context/AuthContext'
 import { Link } from 'react-router-dom'
+import { Box, Card, Heading, Text, VStack, Grid, GridItem } from '@chakra-ui/react'
 import { MainLayout } from '../components/MainLayout'
-import { Card, CardContent, CardHeader, CardTitle } from '../components/Card'
 
 export const DashboardPage = () => {
   const { user } = useAuthContext()
 
   return (
     <MainLayout>
-      <div className="space-y-6 m-6">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Welcome back, {user?.firstName}!</h1>
-          <p className="mt-2 text-gray-600">Here's what's happening with your account today.</p>
-        </div>
+      <Box maxW="5xl" mx="auto" p={6}>
+        <VStack align="start" gap={6}>
+          <Box>
+            <Heading size="2xl" mb={2}>
+              Welcome back, {user?.firstName}!
+            </Heading>
+            <Text color="gray.600">Here's what's happening with your account today.</Text>
+          </Box>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Profile</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 mb-4">View and manage your personal information</p>
-              <Link
-                to="/profile"
-                className="text-primary-600 hover:text-primary-700 font-medium text-sm"
-              >
-                Go to Profile →
-              </Link>
-            </CardContent>
-          </Card>
+          <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={6} w="full">
+            <GridItem>
+              <Card.Root>
+                <Card.Header>
+                  <Heading size="md">Profile</Heading>
+                </Card.Header>
+                <Card.Body>
+                  <Text color="gray.600" mb={4}>
+                    View and manage your personal information
+                  </Text>
+                  <Link
+                    to="/profile"
+                    style={{ color: '#2563eb', fontWeight: 500, fontSize: '0.875rem' }}
+                  >
+                    Go to Profile →
+                  </Link>
+                </Card.Body>
+              </Card.Root>
+            </GridItem>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Users</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-gray-600 mb-4">Browse and manage all registered users</p>
-              <Link
-                to="/users"
-                className="text-primary-600 hover:text-primary-700 font-medium text-sm"
-              >
-                View Users →
-              </Link>
-            </CardContent>
-          </Card>
+            <GridItem>
+              <Card.Root>
+                <Card.Header>
+                  <Heading size="md">Users</Heading>
+                </Card.Header>
+                <Card.Body>
+                  <Text color="gray.600" mb={4}>
+                    Browse and manage all registered users
+                  </Text>
+                  <Link
+                    to="/users"
+                    style={{ color: '#2563eb', fontWeight: 500, fontSize: '0.875rem' }}
+                  >
+                    View Users →
+                  </Link>
+                </Card.Body>
+              </Card.Root>
+            </GridItem>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Account Info</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2 text-sm">
-                <div>
-                  <span className="text-gray-500">Email:</span>
-                  <p className="font-medium">{user?.email}</p>
-                </div>
-                <div>
-                  <span className="text-gray-500">Member since:</span>
-                  <p className="font-medium">{user?.createdAt.toLocaleDateString()}</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+            <GridItem>
+              <Card.Root>
+                <Card.Header>
+                  <Heading size="md">Account Info</Heading>
+                </Card.Header>
+                <Card.Body>
+                  <VStack align="start" gap={2} fontSize="sm">
+                    <Box>
+                      <Text color="gray.500">Email:</Text>
+                      <Text fontWeight="medium">{user?.email}</Text>
+                    </Box>
+                    <Box>
+                      <Text color="gray.500">Member since:</Text>
+                      <Text fontWeight="medium">{user?.createdAt.toLocaleDateString()}</Text>
+                    </Box>
+                  </VStack>
+                </Card.Body>
+              </Card.Root>
+            </GridItem>
+          </Grid>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Quick Stats</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="text-center p-4">
-                <div className="text-3xl font-bold text-primary-600">1</div>
-                <div className="text-sm text-gray-600 mt-1">Active Sessions</div>
-              </div>
-              <div className="text-center p-4">
-                <div className="text-3xl font-bold text-primary-600">
-                  {user?.updatedAt.toLocaleDateString()}
-                </div>
-                <div className="text-sm text-gray-600 mt-1">Last Updated</div>
-              </div>
-              <div className="text-center p-4">
-                <div className="text-3xl font-bold text-green-600">Active</div>
-                <div className="text-sm text-gray-600 mt-1">Account Status</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+          <Card.Root w="full">
+            <Card.Header>
+              <Heading size="md">Quick Stats</Heading>
+            </Card.Header>
+            <Card.Body>
+              <Grid templateColumns={{ base: '1fr', md: 'repeat(3, 1fr)' }} gap={6}>
+                <GridItem textAlign="center" p={4}>
+                  <Text fontSize="3xl" fontWeight="bold" color="blue.600">
+                    1
+                  </Text>
+                  <Text fontSize="sm" color="gray.600" mt={1}>
+                    Active Sessions
+                  </Text>
+                </GridItem>
+                <GridItem textAlign="center" p={4}>
+                  <Text fontSize="3xl" fontWeight="bold" color="blue.600">
+                    {user?.updatedAt.toLocaleDateString()}
+                  </Text>
+                  <Text fontSize="sm" color="gray.600" mt={1}>
+                    Last Updated
+                  </Text>
+                </GridItem>
+                <GridItem textAlign="center" p={4}>
+                  <Text fontSize="3xl" fontWeight="bold" color="green.600">
+                    Active
+                  </Text>
+                  <Text fontSize="sm" color="gray.600" mt={1}>
+                    Account Status
+                  </Text>
+                </GridItem>
+              </Grid>
+            </Card.Body>
+          </Card.Root>
+        </VStack>
+      </Box>
     </MainLayout>
   )
 }

@@ -5,6 +5,7 @@ import { DashboardPage } from '../page/DashboardPage'
 import { ProfilePage } from '../page/ProfilePage'
 import { UsersPage } from '../page/UsersPage'
 import { SearchDataPage } from '../page/SearchDataPage'
+import { UploadDataPage } from '../page/UploadDataPage'
 import { ProtectedRoute } from './ProtectedRoute'
 
 export const AppRoutes = () => {
@@ -42,6 +43,14 @@ export const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <UsersPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/upload-data"
+        element={
+          <ProtectedRoute>
+            <UploadDataPage />
           </ProtectedRoute>
         }
       />
