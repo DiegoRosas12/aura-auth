@@ -116,7 +116,17 @@ export const ProfilePage = () => {
               <HStack justify="space-between">
                 <Heading size="lg">Personal Information</Heading>
                 {!isEditing && (
-                  <Button onClick={() => setIsEditing(true)} variant="outline" size="sm">
+                  <Button
+                    onClick={() => setIsEditing(true)}
+                    size="sm"
+                    bg="#1b093c"
+                    color="white"
+                    px={6}
+                    py={2}
+                    _hover={{
+                      bg: '#2a1555',
+                    }}
+                  >
                     Edit Profile
                   </Button>
                 )}
@@ -133,7 +143,9 @@ export const ProfilePage = () => {
                       <Input
                         {...register('firstName')}
                         disabled={!isEditing}
-                        borderColor={errors.firstName ? 'red.500' : undefined}
+                        borderWidth="2px"
+                        borderColor={errors.firstName ? 'red.500' : 'gray.300'}
+                        px={4}
                       />
                       {errors.firstName && (
                         <Text color="red.500" fontSize="sm" mt={1}>
@@ -149,7 +161,9 @@ export const ProfilePage = () => {
                       <Input
                         {...register('lastName')}
                         disabled={!isEditing}
-                        borderColor={errors.lastName ? 'red.500' : undefined}
+                        borderWidth="2px"
+                        borderColor={errors.lastName ? 'red.500' : 'gray.300'}
+                        px={4}
                       />
                       {errors.lastName && (
                         <Text color="red.500" fontSize="sm" mt={1}>
@@ -167,7 +181,9 @@ export const ProfilePage = () => {
                       type="email"
                       {...register('email')}
                       disabled={!isEditing}
-                      borderColor={errors.email ? 'red.500' : undefined}
+                      borderWidth="2px"
+                      borderColor={errors.email ? 'red.500' : 'gray.300'}
+                      px={4}
                     />
                     {errors.email && (
                       <Text color="red.500" fontSize="sm" mt={1}>
@@ -180,13 +196,28 @@ export const ProfilePage = () => {
                     <HStack pt={4} gap={3}>
                       <Button
                         type="submit"
-                        colorScheme="blue"
+                        bg="#1b093c"
+                        color="white"
+                        px={6}
+                        py={2}
                         loading={isLoading}
                         disabled={!isValid || isLoading}
+                        _hover={{
+                          bg: '#2a1555',
+                        }}
                       >
                         Save Changes
                       </Button>
-                      <Button variant="outline" onClick={handleCancel}>
+                      <Button
+                        onClick={handleCancel}
+                        bg="gray.200"
+                        color="black"
+                        px={6}
+                        py={2}
+                        _hover={{
+                          bg: 'gray.300',
+                        }}
+                      >
                         Cancel
                       </Button>
                     </HStack>
