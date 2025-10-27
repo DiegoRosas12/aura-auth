@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useAuthContext } from '@application/context/AuthContext'
-import { Search, Home, User, Users, Upload, LogOut } from 'lucide-react'
+import { Search, Home, User, Users, Upload, Brain, LogOut } from 'lucide-react'
 
 const logoUrl = '/aura-logo.svg'
 
@@ -16,16 +16,6 @@ export const Sidebar = () => {
 
   const navItems: NavItem[] = [
     {
-      path: '/search-data',
-      icon: <Search className="h-6 w-6" />,
-      label: 'Search Data',
-    },
-    {
-      path: '/upload-data',
-      icon: <Upload className="h-6 w-6" />,
-      label: 'Upload Data',
-    },
-    {
       path: '/dashboard',
       icon: <Home className="h-6 w-6" />,
       label: 'Dashboard',
@@ -39,6 +29,21 @@ export const Sidebar = () => {
       path: '/users',
       icon: <Users className="h-6 w-6" />,
       label: 'Users',
+    },
+    {
+      path: '/search-data',
+      icon: <Search className="h-6 w-6" />,
+      label: 'Search Data',
+    },
+    {
+      path: '/upload-data',
+      icon: <Upload className="h-6 w-6" />,
+      label: 'Upload Data',
+    },
+    {
+      path: '/ask-ai',
+      icon: <Brain className="h-6 w-6" />,
+      label: 'Ask AI',
     },
   ]
 

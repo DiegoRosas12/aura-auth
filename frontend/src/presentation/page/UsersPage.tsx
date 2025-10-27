@@ -55,9 +55,12 @@ export const UsersPage = () => {
             </Card.Header>
             <Card.Body p={0}>
               {isLoading ? (
-                <Box display="flex" justifyContent="center" alignItems="center" py={12}>
-                  <Spinner size="xl" />
-                </Box>
+                <VStack py={20} gap={4}>
+                  <Spinner size="xl" color="purple.500" />
+                  <Text color="gray.600" fontSize="md" fontWeight="medium">
+                    Loading users...
+                  </Text>
+                </VStack>
               ) : users.length === 0 ? (
                 <Box textAlign="center" py={12}>
                   <Text color="gray.500">No users found</Text>

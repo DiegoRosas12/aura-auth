@@ -6,6 +6,7 @@ import { ProfilePage } from '../page/ProfilePage'
 import { UsersPage } from '../page/UsersPage'
 import { SearchDataPage } from '../page/SearchDataPage'
 import { UploadDataPage } from '../page/UploadDataPage'
+import { AskAIPage } from '../page/AskAIPage'
 import { ProtectedRoute } from './ProtectedRoute'
 
 export const AppRoutes = () => {
@@ -51,6 +52,14 @@ export const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <UploadDataPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/ask-ai"
+        element={
+          <ProtectedRoute>
+            <AskAIPage />
           </ProtectedRoute>
         }
       />
