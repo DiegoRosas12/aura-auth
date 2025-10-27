@@ -1,15 +1,10 @@
 import { UserRepository } from '@domain/repository/UserRepository'
 import { UpdateUserDto, User } from '@domain/entity/User'
 
-/**
- * Update Profile Use Case
- * Updates current user profile
- */
 export class UpdateProfileUseCase {
   constructor(private userRepository: UserRepository) {}
 
   async execute(userData: UpdateUserDto): Promise<User> {
-    // Validate input
     this.validateUserData(userData)
 
     return await this.userRepository.updateProfile(userData)

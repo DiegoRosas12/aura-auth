@@ -2,10 +2,6 @@ import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { environment } from '../config/environment'
 import { AppError, AuthError, NetworkError } from '@domain/error/AppError'
 
-/**
- * HTTP Client
- * Wrapper around axios with error handling and authentication
- */
 export class HttpClient {
   private client: AxiosInstance
 
@@ -21,7 +17,6 @@ export class HttpClient {
   }
 
   private setupInterceptors(): void {
-    // Request interceptor - Add auth token
     this.client.interceptors.request.use(
       (config) => {
         const token = localStorage.getItem('auth_token')
@@ -33,7 +28,6 @@ export class HttpClient {
       (error) => Promise.reject(error)
     )
 
-    // Response interceptor - Handle errors
     this.client.interceptors.response.use(
       (response) => response,
       (error) => {
@@ -91,5 +85,4 @@ export class HttpClient {
   }
 }
 
-// Singleton instance
 export const httpClient = new HttpClient()

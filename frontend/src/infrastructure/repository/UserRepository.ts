@@ -4,9 +4,6 @@ import { httpClient } from '../http/HttpClient'
 import { API_ENDPOINTS } from '../config/environment'
 import { UserMapper, UserDto } from '../mapper/UserMapper'
 
-/**
- * User Repository Implementation
- */
 export class UserRepositoryImpl implements UserRepositoryInterface {
   async getProfile(): Promise<User> {
     const response = await httpClient.get<{ data: UserDto }>(API_ENDPOINTS.users.profile)
@@ -24,5 +21,4 @@ export class UserRepositoryImpl implements UserRepositoryInterface {
   }
 }
 
-// Singleton instance
 export const userRepository = new UserRepositoryImpl()

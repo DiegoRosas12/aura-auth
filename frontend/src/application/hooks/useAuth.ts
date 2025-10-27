@@ -2,10 +2,6 @@ import { useState, useCallback } from 'react'
 import { User, CreateUserDto, LoginCredentials } from '@domain/entity/User'
 import { container } from '../di/container'
 
-/**
- * Authentication Hook
- * Manages authentication state and operations
- */
 export const useAuth = () => {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(false)

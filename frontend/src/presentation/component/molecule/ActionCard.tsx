@@ -5,10 +5,6 @@ interface ActionCardProps {
   onClick?: () => void
 }
 
-/**
- * Action Card Component
- * Reusable card with icon and label for hero section actions
- */
 export const ActionCard = ({ icon, label, iconClassName, onClick }: ActionCardProps) => {
   const handleClick = onClick ? { onClick } : {}
   const cursorClass = onClick ? 'cursor-pointer' : ''

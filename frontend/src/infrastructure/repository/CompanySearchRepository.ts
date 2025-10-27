@@ -2,19 +2,12 @@ import { CompanySearchRepository as CompanySearchRepositoryInterface } from '@do
 import { Company } from '@domain/entity/Company'
 import axios from 'axios'
 
-/**
- * Clearbit API Response DTO
- */
 interface ClearbitCompanyDto {
   name: string
   domain: string
   logo?: string
 }
 
-/**
- * Company Search Repository Implementation
- * Uses Clearbit Autocomplete API to search for companies
- */
 export class CompanySearchRepositoryImpl implements CompanySearchRepositoryInterface {
   private readonly CLEARBIT_API_URL = 'https://autocomplete.clearbit.com/v1/companies/suggest'
 
@@ -40,5 +33,4 @@ export class CompanySearchRepositoryImpl implements CompanySearchRepositoryInter
   }
 }
 
-// Singleton instance
 export const companySearchRepository = new CompanySearchRepositoryImpl()

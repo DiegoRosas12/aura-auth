@@ -1,21 +1,14 @@
 import { AuthRepository } from '@domain/repository/AuthRepository'
 import { AuthResponse, CreateUserDto } from '@domain/entity/User'
 
-/**
- * Register Use Case
- * Handles user registration business logic
- */
 export class RegisterUseCase {
   constructor(private authRepository: AuthRepository) {}
 
   async execute(userData: CreateUserDto): Promise<AuthResponse> {
-    // Validate input
     this.validateUserData(userData)
 
-    // Register user
     const response = await this.authRepository.register(userData)
 
-    // Store token
     this.authRepository.setToken(response.token)
 
     return response

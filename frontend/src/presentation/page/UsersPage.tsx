@@ -13,10 +13,6 @@ import {
   TableCell,
 } from '../component/molecule/Table'
 
-/**
- * Users Page
- * Display list of all users
- */
 export const UsersPage = () => {
   const { users, isLoading, error, fetchUsers, clearError } = useUsers()
 

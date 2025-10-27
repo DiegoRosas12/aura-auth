@@ -2,10 +2,6 @@ import { BrowserRouter } from 'react-router-dom'
 import { AuthProvider } from '@application/context/AuthContext'
 import { AppRoutes } from '@presentation/route/AppRoutes'
 
-/**
- * Main App Component
- * Sets up routing and global providers
- */
 function App() {
   return (
     <BrowserRouter>

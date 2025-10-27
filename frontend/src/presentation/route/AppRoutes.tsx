@@ -7,18 +7,12 @@ import { UsersPage } from '../page/UsersPage'
 import { SearchDataPage } from '../page/SearchDataPage'
 import { ProtectedRoute } from './ProtectedRoute'
 
-/**
- * Application Routes
- * Defines all routes and their protection
- */
 export const AppRoutes = () => {
   return (
     <Routes>
-      {/* Public routes */}
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
 
-      {/* Protected routes */}
       <Route
         path="/search-data"
         element={
@@ -52,10 +46,8 @@ export const AppRoutes = () => {
         }
       />
 
-      {/* Default redirect */}
-      <Route path="/" element={<Navigate to="/search-data" replace />} />
+      <Route path="/" element={<Navigate to="/dashboard" replace />} />
       
-      {/* 404 - Redirect to search-data */}
       <Route path="*" element={<Navigate to="/search-data" replace />} />
     </Routes>
   )

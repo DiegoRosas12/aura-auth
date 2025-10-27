@@ -5,10 +5,6 @@ interface TableProps {
   className?: string
 }
 
-/**
- * Table Component
- * Responsive table wrapper
- */
 export const Table = ({ children, className = '' }: TableProps) => {
   return (
     <div className="overflow-x-auto">

@@ -2,10 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { User } from '../../../domain/user/entity/user.entity';
-import { Password } from '../../../domain/user/value-object/password.vo';
-import { UserRepository } from '../../../domain/user/repository/user.repository.interface';
-import { UserOrmEntity } from '../database/entity/user.orm-entity';
+import { User } from '../../../../domain/user/entity/user.entity';
+import { Password } from '../../../../domain/user/value-object/password.vo';
+import { UserRepository } from '../../../../domain/user/repository/user.repository.interface';
+import { UserOrmEntity } from '../entity/user.orm-entity';
 
 @Injectable()
 export class UserDBRepository implements UserRepository {

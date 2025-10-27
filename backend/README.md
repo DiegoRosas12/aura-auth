@@ -7,37 +7,14 @@ Una API RESTful construida con NestJS, TypeScript, Arquitectura Limpia y princip
 - Node.js (v18 o superior)
 - Docker y Docker Compose
 - PostgreSQL (si se ejecuta sin Docker)
+- Yarn (recomendado)
 
 ## 🛠️ Instalación
-
-### Opción 1: Usando Docker (Recomendado)
-
-1. **Clonar el repositorio**
-
-   ```bash
-   cd backend
-   ```
-
-2. **Crear archivo `.env`**
-
-   ```bash
-   cp .env.example .env
-   ```
-
-3. **Iniciar la aplicación**
-
-   ```bash
-   docker-compose up --build
-   ```
-
-   La API estará disponible en `http://localhost:3000`
-
-### Opción 2: Desarrollo Local
 
 1. **Instalar dependencias**
 
    ```bash
-   npm install
+   yarn install
    ```
 
 2. **Crear archivo `.env`**
@@ -68,17 +45,29 @@ Una API RESTful construida con NestJS, TypeScript, Arquitectura Limpia y princip
 5. **Ejecutar migraciones**
 
    ```bash
-   npm run migration:run
+   yarn migration:run
    ```
 
 6. **Iniciar el servidor de desarrollo**
    ```bash
-   npm run start:dev
+   yarn start:dev
    ```
 
 ## 🏗️ Arquitectura
 
-Este proyecto sigue los principios de **Arquitectura Limpia** y **Domain-Driven Design (DDD)** con una clara separación de responsabilidades:
+### Decisiones de arquitectura tomadas
+
+1. **Arquitectura Limpia** y **Domain-Driven Design (DDD)** con una clara separación de responsabilidades.
+
+2. Usar entidades del dominio en lugar de DTOs para el manejo de validaciones de negocio como requerimientos de especificaciones en la contraseña por ejemplo.
+
+3. Usar interfaces de repositorio para la capa de infraestructura para separar la lógica de la base de datos de la lógica de negocio.
+
+4. Usar filtros de excepciones personalizados para manejar errores de manera consistente.
+
+5. Uso de un unico application service en lugar de use cases separados debido a que el numero de acciones es manejable y todos estan relacionados con el manejo de usuarios.
+
+6. Uso de migraciones para poder inicializar fácilmente la base de datos sin uso de scripts adicionales. Facilitó su manejo en CI.
 
 ```
 src/
@@ -92,11 +81,11 @@ src/
 │       ├── dto/               # Objetos de Transferencia de Datos
 │       └── service/           # Servicios de aplicación
 │
-├── infrastructure/      # Preocupaciones externas (base de datos, seguridad)
+├── infrastructure/      # Responsabilidades externas (base de datos, seguridad)
 │   ├── database/
 │   │   ├── entity/            # Entidades TypeORM
-│   │   ├── migrations/        # Migraciones de base de datos
-│   │   └── database.module.ts
+│   │   └── repository/        # Implementaciones de repositorios
+│   │
 │   ├── repository/            # Implementaciones de repositorios
 │   └── security/              # Estrategia JWT y guards
 │

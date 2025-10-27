@@ -6,10 +6,6 @@ interface CardProps {
   padding?: 'none' | 'sm' | 'md' | 'lg'
 }
 
-/**
- * Card Component
- * Container with shadow and border
- */
 export const Card = ({ children, className = '', padding = 'md' }: CardProps) => {
   const paddingStyles = {
     none: '',

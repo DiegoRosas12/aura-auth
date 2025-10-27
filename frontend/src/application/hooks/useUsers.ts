@@ -2,10 +2,6 @@ import { useState, useCallback } from 'react'
 import { User } from '@domain/entity/User'
 import { container } from '../di/container'
 
-/**
- * Users Hook
- * Manages users list state and operations
- */
 export const useUsers = () => {
   const [users, setUsers] = useState<User[]>([])
   const [isLoading, setIsLoading] = useState(false)

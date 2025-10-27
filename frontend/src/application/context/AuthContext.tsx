@@ -20,14 +20,9 @@ interface AuthProviderProps {
   children: ReactNode
 }
 
-/**
- * Authentication Provider
- * Provides authentication state and methods to the entire app
- */
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const auth = useAuth()
 
-  // Check for existing session on mount
   useEffect(() => {
     const initAuth = async () => {
       const token = localStorage.getItem('auth_token')
@@ -36,14 +31,12 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
           const profile = await container.getProfileUseCase.execute()
           auth.setUser(profile)
         } catch (error) {
-          // Token is invalid, clear it
           localStorage.removeItem('auth_token')
         }
       }
     }
 
     initAuth()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const value: AuthContextType = {
@@ -60,9 +53,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
-/**
- * Hook to use authentication context
- */
 export const useAuthContext = (): AuthContextType => {
   const context = useContext(AuthContext)
   if (context === undefined) {

@@ -12,10 +12,6 @@ const fileBundleIcon = 'http://localhost:3845/assets/e3ad1e48ddfb4955851c7f971e0
 const aiToolIcon = 'http://localhost:3845/assets/0948bd5a7b488f0d37da3c027162de3154169c56.svg'
 const stockGraphic = '/stock-graphic.svg'
 
-/**
- * Search Data Page
- * Main page for searching company data
- */
 export const SearchDataPage = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [savedCompanies, setSavedCompanies] = useState<string[]>([])
@@ -26,12 +22,10 @@ export const SearchDataPage = () => {
   const searchTimeoutRef = useRef<number | null>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
-  // Load companies on mount
   useEffect(() => {
     loadCompanies()
   }, [])
 
-  // Search companies when query changes (with debounce)
   useEffect(() => {
     if (searchTimeoutRef.current) {
       clearTimeout(searchTimeoutRef.current)
@@ -53,7 +47,6 @@ export const SearchDataPage = () => {
     }
   }, [searchQuery, searchCompanies])
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -81,11 +74,9 @@ export const SearchDataPage = () => {
     setSearchQuery('')
     setShowDropdown(false)
 
-    // Add to saved companies if not already saved
     if (!savedCompanies.includes(company.name)) {
       setSavedCompanies([...savedCompanies, company.name])
 
-      // Also add to the displayed companies list if not already there
       const companyExists = companies.some((c) => c.name === company.name)
       if (!companyExists) {
         setCompanies([...companies, company])
@@ -102,7 +93,6 @@ export const SearchDataPage = () => {
   return (
     <MainLayout>
       <div className="min-h-screen bg-white">
-        {/* Hero Section */}
         <div
           className="relative rounded-[4px] overflow-hidden"
           style={{
@@ -112,7 +102,6 @@ export const SearchDataPage = () => {
             paddingBottom: '32px',
           }}
         >
-          {/* Title */}
           <div className="pt-[32px] flex flex-col items-center gap-[8px]">
             <div className="flex gap-[16px] items-center justify-center h-[60px]">
               <p className="text-[#fcfcfc] text-[32px] font-bold">AURA</p>
@@ -125,7 +114,6 @@ export const SearchDataPage = () => {
             </p>
           </div>
 
-          {/* Action Cards */}
           <div className="mt-[32px] flex justify-center gap-[32px]">
             <ActionCard icon={documentsIcon} label="Search Data" />
             <ActionCard icon={fileBundleIcon} label="Upload your Data" />
@@ -137,11 +125,8 @@ export const SearchDataPage = () => {
           </div>
         </div>
 
-        {/* Content Section */}
         <div className="flex justify-between px-[12%] py-[110px]">
-          {/* Left Side - Search and Companies */}
           <div className="flex flex-col gap-[16px] w-[498px]">
-            {/* Title */}
             <div className="flex flex-col gap-[8px]">
               <p className="text-[#6869ac] text-[22px] font-bold whitespace-nowrap">
                 5,000+ companies with data and insight for you
@@ -152,7 +137,6 @@ export const SearchDataPage = () => {
               </div>
             </div>
 
-            {/* Search Input with Dropdown */}
             <div className="relative" ref={dropdownRef}>
               <input
                 type="text"
@@ -162,7 +146,6 @@ export const SearchDataPage = () => {
                 className="border border-[#cfcfd4] rounded-[4px] px-[16px] py-[12px] w-full text-[16px] font-bold focus:outline-none focus:border-[#6869ac]"
               />
 
-              {/* Dropdown Results */}
               {showDropdown && searchQuery.trim().length >= 2 && (
                 <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#cfcfd4] rounded-[4px] shadow-lg max-h-[200px] overflow-y-auto z-10">
                   {isSearching ? (
@@ -199,7 +182,6 @@ export const SearchDataPage = () => {
               )}
             </div>
 
-            {/* Companies List */}
             <div className="bg-[#f9f5fd] rounded-[4px] p-[16px] flex flex-col gap-[16px]">
               {isLoading ? (
                 <div className="text-center py-8 text-[#6869ac]">Loading companies...</div>
@@ -207,7 +189,6 @@ export const SearchDataPage = () => {
                 <div className="text-center py-8 text-[#6869ac]">No companies found</div>
               ) : (
                 <>
-                  {/* Render companies in rows of 2 */}
                   {Array.from({ length: Math.ceil(companies.length / 2) }).map((_, rowIndex) => (
                     <div key={rowIndex} className="flex gap-[16px]">
                       {companies.slice(rowIndex * 2, rowIndex * 2 + 2).map((company, idx) => (
@@ -221,7 +202,6 @@ export const SearchDataPage = () => {
                     </div>
                   ))}
 
-                  {/* Saved Count */}
                   <div className="flex items-center justify-between text-[#4e5159] text-[14px] font-bold">
                     <p>{savedCompanies.length} Companies saved</p>
                   </div>
@@ -230,7 +210,6 @@ export const SearchDataPage = () => {
             </div>
           </div>
 
-          {/* Right Side - Illustration */}
           <div className="mx-auto p-4">
             <img src={stockGraphic} alt="Stock Graphic" className="w-full h-full" />
           </div>

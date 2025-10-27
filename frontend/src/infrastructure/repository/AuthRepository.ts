@@ -56,5 +56,4 @@ export class AuthRepositoryImpl implements AuthRepositoryInterface {
   }
 }
 
-// Singleton instance
 export const authRepository = new AuthRepositoryImpl()

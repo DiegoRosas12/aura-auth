@@ -2,10 +2,6 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from '@application/context/AuthContext'
 import { Button } from '../atom/Button'
 
-/**
- * Navigation Bar Component
- * Main navigation with authentication actions
- */
 export const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuthContext()
   const navigate = useNavigate()

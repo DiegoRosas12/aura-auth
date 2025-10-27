@@ -1,9 +1,5 @@
-/**
- * User Entity
- * Represents the core user domain model
- */
 export interface User {
-  id: string // UUID
+  id: string
   email: string
   firstName: string
   lastName: string
@@ -11,9 +7,6 @@ export interface User {
   updatedAt: Date
 }
 
-/**
- * User creation data (for registration)
- */
 export interface CreateUserDto {
   email: string
   password: string
@@ -21,26 +14,17 @@ export interface CreateUserDto {
   lastName: string
 }
 
-/**
- * User update data (for profile updates)
- */
 export interface UpdateUserDto {
   email?: string
   firstName?: string
   lastName?: string
 }
 
-/**
- * Login credentials
- */
 export interface LoginCredentials {
   email: string
   password: string
 }
 
-/**
- * Authentication response
- */
 export interface AuthResponse {
   user: User
   token: string

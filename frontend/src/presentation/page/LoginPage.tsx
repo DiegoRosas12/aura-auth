@@ -6,10 +6,6 @@ import { Input } from '../component/atom/Input'
 import { Button } from '../component/atom/Button'
 import { Alert } from '@presentation/component/atom/Alert'
 
-/**
- * Login Page
- * User authentication page
- */
 export const LoginPage = () => {
   const { login, isLoading, error, clearError } = useAuthContext()
   const navigate = useNavigate()
@@ -26,7 +22,6 @@ export const LoginPage = () => {
       await login(formData)
       navigate('/dashboard')
     } catch (err) {
-      // Error is handled by context
     }
   }
 

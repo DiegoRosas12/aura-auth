@@ -3,10 +3,6 @@ interface SpinnerProps {
   className?: string
 }
 
-/**
- * Spinner Component
- * Loading indicator
- */
 export const Spinner = ({ size = 'md', className = '' }: SpinnerProps) => {
   const sizeStyles = {
     sm: 'h-4 w-4',

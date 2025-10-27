@@ -6,14 +6,9 @@ interface AuthLayoutProps {
 
 const logoUrl = 'http://localhost:3845/assets/f240a11f0568f3f5840ceb8444f3252649015fbf.png'
 
-/**
- * Authentication Layout
- * Layout for login and register pages
- */
 export const AuthLayout = ({ children }: AuthLayoutProps) => {
   return (
     <div className="min-h-screen bg-[#1b093c] relative">
-      {/* Logo */}
       <div className="absolute left-[37px] top-[22px] h-[45px] w-[150px]">
         <img 
           src={logoUrl} 
@@ -22,7 +17,6 @@ export const AuthLayout = ({ children }: AuthLayoutProps) => {
         />
       </div>
       
-      {/* Content */}
       <div className="flex items-center justify-center min-h-screen">
         {children}
       </div>

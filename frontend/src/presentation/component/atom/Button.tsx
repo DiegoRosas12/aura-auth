@@ -8,10 +8,6 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   fullWidth?: boolean
 }
 
-/**
- * Button Component
- * Reusable button with multiple variants
- */
 export const Button = ({
   children,
   variant = 'primary',

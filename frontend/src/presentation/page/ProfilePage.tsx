@@ -7,10 +7,6 @@ import { Button } from '../component/atom/Button'
 import { Alert } from '../component/atom/Alert'
 import { Spinner } from '../component/atom/Spinner'
 
-/**
- * Profile Page
- * User profile management
- */
 export const ProfilePage = () => {
   const { profile, isLoading, error, fetchProfile, updateProfile, clearError } = useProfile()
   const [isEditing, setIsEditing] = useState(false)
@@ -45,7 +41,6 @@ export const ProfilePage = () => {
       setSuccessMessage('Profile updated successfully!')
       setIsEditing(false)
     } catch (err) {
-      // Error is handled by hook
     }
   }
 

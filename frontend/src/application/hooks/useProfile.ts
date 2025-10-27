@@ -2,10 +2,6 @@ import { useState, useCallback } from 'react'
 import { User, UpdateUserDto } from '@domain/entity/User'
 import { container } from '../di/container'
 
-/**
- * Profile Hook
- * Manages user profile state and operations
- */
 export const useProfile = () => {
   const [profile, setProfile] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(false)

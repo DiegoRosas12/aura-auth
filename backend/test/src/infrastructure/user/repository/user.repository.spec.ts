@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { UserDBRepository } from '../../../../../src/infrastructure/user/repository/user-db.repository';
+import { UserDBRepository } from '../../../../../src/infrastructure/user/database/repository/user-db.repository';
 import { UserRepository } from '../../../../../src/domain/user/repository/user.repository.interface';
 import { UserOrmEntity } from '../../../../../src/infrastructure/user/database/entity/user.orm-entity';
 import { User } from '../../../../../src/domain/user/entity/user.entity';

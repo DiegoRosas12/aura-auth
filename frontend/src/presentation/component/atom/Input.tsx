@@ -6,15 +6,10 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   helperText?: string
 }
 
-/**
- * Input Component
- * Reusable input field with label and error handling
- */
 export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, helperText, className = '', id, disabled, ...props }, ref) => {
     const inputId = id || label?.toLowerCase().replace(/\s+/g, '-')
     
-    // Check if we're in auth context (purple background) by checking label color
     const isAuthContext = !disabled
 
     return (

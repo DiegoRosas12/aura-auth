@@ -7,10 +7,6 @@ interface AlertProps {
   className?: string
 }
 
-/**
- * Alert Component
- * Displays contextual feedback messages
- */
 export const Alert = ({ children, variant = 'info', onClose, className = '' }: AlertProps) => {
   const variantStyles = {
     info: 'bg-blue-50 border-blue-200 text-blue-800',

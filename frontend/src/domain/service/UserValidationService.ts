@@ -1,22 +1,9 @@
-/**
- * User Validation Service
- * Contains business logic for user validation
- * Matches backend validation rules from user.domain-service.ts
- */
-
 export interface PasswordValidationResult {
   isValid: boolean
   errors: string[]
 }
 
 export class UserValidationService {
-  /**
-   * Validates password strength according to backend rules:
-   * - Minimum 8 characters
-   * - Must contain uppercase letter
-   * - Must contain lowercase letter
-   * - Must contain number
-   */
   static validatePasswordStrength(password: string): PasswordValidationResult {
     const errors: string[] = []
 
@@ -46,24 +33,15 @@ export class UserValidationService {
     }
   }
 
-  /**
-   * Validates email format
-   */
   static validateEmail(email: string): boolean {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     return emailRegex.test(email)
   }
 
-  /**
-   * Validates required field is not empty
-   */
   static validateRequired(value: string): boolean {
     return value.trim().length > 0
   }
 
-  /**
-   * Validates registration form data
-   */
   static validateRegistrationForm(formData: {
     email: string
     password: string
@@ -72,27 +50,23 @@ export class UserValidationService {
   }): { isValid: boolean; errors: Record<string, string> } {
     const errors: Record<string, string> = {}
 
-    // Validate first name
     if (!this.validateRequired(formData.firstName)) {
       errors.firstName = 'First name is required'
     }
 
-    // Validate last name
     if (!this.validateRequired(formData.lastName)) {
       errors.lastName = 'Last name is required'
     }
 
-    // Validate email
     if (!this.validateRequired(formData.email)) {
       errors.email = 'Email is required'
     } else if (!this.validateEmail(formData.email)) {
       errors.email = 'Invalid email format'
     }
 
-    // Validate password
     const passwordValidation = this.validatePasswordStrength(formData.password)
     if (!passwordValidation.isValid) {
-      errors.password = passwordValidation.errors[0] // Show first error
+      errors.password = passwordValidation.errors[0]
     }
 
     return {

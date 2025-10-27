@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 import { DatabaseModule } from './shared/database/database.module';
 import { AuthModule } from './infrastructure/user/security/auth.module';
-import { UserDBRepository } from './infrastructure/user/repository/user-db.repository';
+import { UserDBRepository } from './infrastructure/user/database/repository/user-db.repository';
 import { USER_REPOSITORY } from './domain/user/repository/user.repository.interface';
 import { UserApplicationService } from './application/user/service/user.application-service';
 import { AuthController } from './presentation/user/auth.controller';

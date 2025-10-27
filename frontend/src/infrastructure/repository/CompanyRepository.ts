@@ -1,11 +1,6 @@
 import { CompanyRepository as CompanyRepositoryInterface } from '@domain/repository/CompanyRepository'
 import { Company, CompanySearchCriteria } from '@domain/entity/Company'
 
-/**
- * Company Repository Implementation
- * Handles company catalog data access
- * Currently uses in-memory data, can be extended to use API calls
- */
 export class CompanyRepositoryImpl implements CompanyRepositoryInterface {
   private companies: Company[] = [
     { name: 'Amazon', domain: 'amazon.com' },
@@ -18,14 +13,12 @@ export class CompanyRepositoryImpl implements CompanyRepositoryInterface {
   ]
 
   async getAllCompanies(): Promise<Company[]> {
-    // Simulate async operation
     return Promise.resolve([...this.companies])
   }
 
   async searchCompanies(criteria: CompanySearchCriteria): Promise<Company[]> {
     let results = [...this.companies]
 
-    // Filter by query if provided
     if (criteria.query && criteria.query.trim() !== '') {
       const query = criteria.query.toLowerCase()
       results = results.filter(
@@ -35,7 +28,6 @@ export class CompanyRepositoryImpl implements CompanyRepositoryInterface {
       )
     }
 
-    // Apply limit if provided
     if (criteria.limit && criteria.limit > 0) {
       results = results.slice(0, criteria.limit)
     }
@@ -51,5 +43,4 @@ export class CompanyRepositoryImpl implements CompanyRepositoryInterface {
   }
 }
 
-// Singleton instance
 export const companyRepository = new CompanyRepositoryImpl()

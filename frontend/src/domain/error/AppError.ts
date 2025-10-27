@@ -1,6 +1,3 @@
-/**
- * Base Application Error
- */
 export class AppError extends Error {
   constructor(
     message: string,
@@ -13,9 +10,6 @@ export class AppError extends Error {
   }
 }
 
-/**
- * Authentication Error
- */
 export class AuthError extends AppError {
   constructor(message: string, code?: string) {
     super(message, code, 401)
@@ -23,9 +17,6 @@ export class AuthError extends AppError {
   }
 }
 
-/**
- * Validation Error
- */
 export class ValidationError extends AppError {
   constructor(message: string, public fields?: Record<string, string>) {
     super(message, 'VALIDATION_ERROR', 400)
@@ -33,9 +24,6 @@ export class ValidationError extends AppError {
   }
 }
 
-/**
- * Network Error
- */
 export class NetworkError extends AppError {
   constructor(message: string = 'Network request failed') {
     super(message, 'NETWORK_ERROR', 0)

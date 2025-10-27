@@ -7,10 +7,6 @@ import { Button } from '../component/atom/Button'
 import { Alert } from '@presentation/component/atom/Alert'
 import { UserValidationService } from '@domain/service/UserValidationService'
 
-/**
- * Register Page
- * New user registration page
- */
 export const RegisterPage = () => {
   const { register, isLoading, error, clearError } = useAuthContext()
   const navigate = useNavigate()
@@ -31,16 +27,13 @@ export const RegisterPage = () => {
       await register(formData)
       navigate('/dashboard')
     } catch (err) {
-      // Error is handled by context
     }
   }
 
-  // Validate form whenever data changes
   useEffect(() => {
     const validation = UserValidationService.validateRegistrationForm(formData)
     setIsFormValid(validation.isValid)
 
-    // Update password-specific errors for display
     if (formData.password) {
       const passwordValidation = UserValidationService.validatePasswordStrength(formData.password)
       setPasswordErrors(passwordValidation.errors)
@@ -56,19 +49,16 @@ export const RegisterPage = () => {
   return (
     <AuthLayout>
       <div className="flex flex-col items-center">
-        {/* Welcome Title */}
         <h1 className="text-white text-[48px] font-bold leading-[1.2] tracking-[0.48px] text-center mb-[122px] [text-shadow:0px_4px_4px_rgba(0,0,0,0.25)]">
           Welcome
         </h1>
 
-        {/* Error Alert */}
         {error && (
           <Alert variant="error" onClose={clearError} className="mb-4 w-[320px]">
             {error}
           </Alert>
         )}
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="flex flex-col items-center gap-[40px]">
           <div className="flex flex-col gap-[32px]">
             <Input
@@ -112,7 +102,6 @@ export const RegisterPage = () => {
               helperText={passwordErrors.length > 0 ? passwordErrors[0] : 'Must be at least 8 characters with uppercase, lowercase, and numbers'}
             />
 
-            {/* Password validation feedback */}
             {formData.password && passwordErrors.length > 0 && (
               <div className="w-[320px] -mt-4">
                 <ul className="text-xs text-red-500 space-y-1">
@@ -129,7 +118,6 @@ export const RegisterPage = () => {
           </Button>
         </form>
 
-        {/* Sign in link */}
         <div className="mt-8 text-center text-sm">
           <span className="text-white">Already have an account? </span>
           <Link to="/login" className="font-medium text-white hover:text-gray-300 underline">

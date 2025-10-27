@@ -3,10 +3,6 @@ import { Link } from 'react-router-dom'
 import { MainLayout } from '../component/template/MainLayout'
 import { Card, CardContent, CardHeader, CardTitle } from '../component/atom/Card'
 
-/**
- * Dashboard Page
- * Main landing page after authentication
- */
 export const DashboardPage = () => {
   const { user } = useAuthContext()
 
