@@ -1,8 +1,3 @@
-/**
- * DTO: Create User
- * Data Transfer Object for user registration
- */
-
 import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class CreateUserDto {

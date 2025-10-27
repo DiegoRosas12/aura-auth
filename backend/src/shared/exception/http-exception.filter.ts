@@ -1,8 +1,3 @@
-/**
- * HTTP Exception Filter
- * Global exception filter for handling and formatting errors
- */
-
 import {
   ExceptionFilter,
   Catch,
@@ -38,10 +33,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       }
     } else if (exception instanceof Error) {
       message = exception.message;
-      this.logger.error(
-        `Error: ${exception.message}`,
-        exception.stack,
-      );
+      this.logger.error(`Error: ${exception.message}`, exception.stack);
     }
 
     const errorResponse = {
@@ -53,9 +45,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       ...(errors && { errors }),
     };
 
-    this.logger.error(
-      `${request.method} ${request.url} - Status: ${status} - Message: ${message}`,
-    );
+    this.logger.error(`${request.method} ${request.url} - Status: ${status} - Message: ${message}`);
 
     response.status(status).json(errorResponse);
   }

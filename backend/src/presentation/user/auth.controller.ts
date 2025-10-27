@@ -1,8 +1,3 @@
-/**
- * Controller: Auth Controller
- * Handles authentication-related HTTP requests
- */
-
 import { Controller, Post, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { UserApplicationService } from '../../application/user/service/user.application-service';
 import { CreateUserDto } from '../../application/user/dto/create-user.dto';
@@ -12,10 +7,6 @@ import { LoginDto } from './dto/login.dto';
 export class AuthController {
   constructor(private readonly userApplicationService: UserApplicationService) {}
 
-  /**
-   * POST /api/auth/register
-   * Register a new user and return JWT token
-   */
   @Post('register')
   @HttpCode(HttpStatus.CREATED)
   async register(@Body() createUserDto: CreateUserDto) {
@@ -36,10 +27,6 @@ export class AuthController {
     };
   }
 
-  /**
-   * POST /api/auth/login
-   * Login user and return JWT token
-   */
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: LoginDto) {

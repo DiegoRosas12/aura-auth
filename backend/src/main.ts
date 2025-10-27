@@ -1,8 +1,3 @@
-/**
- * Main Application Entry Point
- * Bootstraps the NestJS application
- */
-
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
@@ -12,7 +7,6 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
 
-  // Enable CORS for development
   app.enableCors({
     origin: process.env.CORS_ORIGIN || '*',
     credentials: true,
@@ -20,7 +14,6 @@ async function bootstrap() {
 
   const port = process.env.PORT || 3000;
 
-  // Bind to 0.0.0.0 to allow access from Windows host
   await app.listen(port, '0.0.0.0');
 
   logger.log(`🚀 Application is running on: http://localhost:${port}`);

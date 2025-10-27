@@ -1,29 +1,26 @@
-/**
- * Repository Implementation: User Repository
- * Implements the IUserRepository interface using TypeORM
- * Handles data persistence and retrieval operations
- */
-
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { User } from '../../../domain/user/entity/user.entity';
-import { IUserRepository } from '../../../domain/user/repository/user.repository.interface';
+import { Password } from '../../../domain/user/value-object/password.vo';
+import { UserRepository } from '../../../domain/user/repository/user.repository.interface';
 import { UserOrmEntity } from '../database/entity/user.orm-entity';
 
 @Injectable()
-export class UserRepository implements IUserRepository {
+export class UserDBRepository implements UserRepository {
   constructor(
     @InjectRepository(UserOrmEntity)
     private readonly userOrmRepository: Repository<UserOrmEntity>,
   ) {}
 
   private toDomain(ormEntity: UserOrmEntity): User {
+    const hashedPassword = Password.createFromHash(ormEntity.password);
+
     return new User(
       ormEntity.id,
       ormEntity.email,
-      ormEntity.password,
+      hashedPassword,
       ormEntity.firstName,
       ormEntity.lastName,
       ormEntity.createdAt,

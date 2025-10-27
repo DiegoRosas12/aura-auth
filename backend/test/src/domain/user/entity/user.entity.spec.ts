@@ -1,16 +1,12 @@
 import { User } from '../../../../../src/domain/user/entity/user.entity';
-import { Email } from '../../../../../src/domain/user/value-object/email.vo';
+import { Password } from '../../../../../src/domain/user/value-object/password.vo';
 
 describe('User Entity', () => {
-  let validEmail: Email;
+  const validEmail = 'john.doe@example.com';
   const validId = '123e4567-e89b-12d3-a456-426614174000';
-  const validPassword = 'hashedPassword123';
+  const validPassword = Password.createFromHash('$2a$10$hashedPassword123');
   const validFirstName = 'John';
   const validLastName = 'Doe';
-
-  beforeEach(() => {
-    validEmail = new Email('john.doe@example.com');
-  });
 
   describe('constructor', () => {
     it('should create a valid user with all required fields', () => {
@@ -18,7 +14,7 @@ describe('User Entity', () => {
 
       expect(user.id).toBe(validId);
       expect(user.email).toBe(validEmail);
-      expect(user.password).toBe(validPassword);
+      expect(user.password).toBe(validPassword.value);
       expect(user.firstName).toBe(validFirstName);
       expect(user.lastName).toBe(validLastName);
       expect(user.createdAt).toBeInstanceOf(Date);
@@ -80,7 +76,7 @@ describe('User Entity', () => {
 
     it('should throw error for empty password', () => {
       expect(() => {
-        new User(validId, validEmail, '', validFirstName, validLastName);
+        Password.createFromHash('');
       }).toThrow('Password cannot be empty');
     });
   });
@@ -111,7 +107,7 @@ describe('User Entity', () => {
     });
 
     it('should update email', () => {
-      const newEmail = new Email('jane.smith@example.com');
+      const newEmail = 'jane.smith@example.com';
       user.updateProfile(undefined, undefined, newEmail);
 
       expect(user.firstName).toBe(validFirstName);
@@ -122,7 +118,7 @@ describe('User Entity', () => {
     it('should update all fields at once', () => {
       const newFirstName = 'Jane';
       const newLastName = 'Smith';
-      const newEmail = new Email('jane.smith@example.com');
+      const newEmail = 'jane.smith@example.com';
 
       user.updateProfile(newFirstName, newLastName, newEmail);
 
@@ -186,36 +182,37 @@ describe('User Entity', () => {
     });
 
     it('should update password', () => {
-      const newPassword = 'newHashedPassword456';
+      const newPassword = Password.createFromHash('$2a$10$newHashedPassword456');
       user.updatePassword(newPassword);
 
-      expect(user.password).toBe(newPassword);
+      expect(user.password).toBe(newPassword.value);
     });
 
     it('should update updatedAt timestamp', () => {
       const originalUpdatedAt = user.updatedAt;
 
       setTimeout(() => {
-        user.updatePassword('newPassword');
+        const newPassword = Password.createFromHash('$2a$10$newPassword');
+        user.updatePassword(newPassword);
         expect(user.updatedAt.getTime()).toBeGreaterThan(originalUpdatedAt.getTime());
       }, 10);
     });
 
     it('should throw error for empty password', () => {
       expect(() => {
-        user.updatePassword('');
+        Password.createFromHash('');
       }).toThrow('Password cannot be empty');
     });
 
     it('should throw error for undefined password', () => {
       expect(() => {
-        user.updatePassword(undefined as any);
+        Password.createFromHash(undefined as any);
       }).toThrow('Password cannot be empty');
     });
 
     it('should throw error for null password', () => {
       expect(() => {
-        user.updatePassword(null as any);
+        Password.createFromHash(null as any);
       }).toThrow('Password cannot be empty');
     });
   });
@@ -246,7 +243,7 @@ describe('User Entity', () => {
     });
 
     it('should return password', () => {
-      expect(user.password).toBe(validPassword);
+      expect(user.password).toBe(validPassword.value);
     });
 
     it('should return firstName', () => {

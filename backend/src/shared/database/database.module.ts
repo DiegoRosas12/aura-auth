@@ -1,8 +1,3 @@
-/**
- * Database Module
- * Configures TypeORM connection and provides database-related services
- */
-
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -24,7 +19,7 @@ import { UserOrmEntity } from '../../infrastructure/user/database/entity/user.or
         migrations: ['dist/shared/database/migrations/**/*.js'],
         synchronize: false,
         logging: configService.get('NODE_ENV') === 'development',
-        migrationsRun: true, // Auto-run migrations on startup
+        migrationsRun: true,
       }),
     }),
     TypeOrmModule.forFeature([UserOrmEntity]),

@@ -1,8 +1,3 @@
-/**
- * Controller: User Controller
- * Handles user-related HTTP requests (profile management, user listing)
- */
-
 import {
   Controller,
   Get,
@@ -22,10 +17,6 @@ import { UpdateUserDto } from '../../application/user/dto/update-user.dto';
 export class UserController {
   constructor(private readonly userApplicationService: UserApplicationService) {}
 
-  /**
-   * GET /api/users/profile
-   * Get current authenticated user profile
-   */
   @Get('profile')
   @HttpCode(HttpStatus.OK)
   async getProfile(@Request() req) {
@@ -44,10 +35,6 @@ export class UserController {
     };
   }
 
-  /**
-   * PUT /api/users/profile
-   * Update current authenticated user profile
-   */
   @Put('profile')
   @HttpCode(HttpStatus.OK)
   async updateProfile(@Request() req, @Body() updateUserDto: UpdateUserDto) {
@@ -68,10 +55,6 @@ export class UserController {
     };
   }
 
-  /**
-   * GET /api/users
-   * List all users (authentication required)
-   */
   @Get()
   @HttpCode(HttpStatus.OK)
   async listUsers() {

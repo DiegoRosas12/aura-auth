@@ -1,8 +1,3 @@
-/**
- * DTO: Update User
- * Data Transfer Object for updating user profile
- */
-
 import { IsEmail, IsOptional, IsString } from 'class-validator';
 
 export class UpdateUserDto {

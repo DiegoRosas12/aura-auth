@@ -1,8 +1,3 @@
-/**
- * TypeORM Data Source Configuration
- * Used for migrations and CLI commands
- */
-
 import { DataSource } from 'typeorm';
 import { config } from 'dotenv';
 import * as path from 'path';
@@ -20,5 +15,5 @@ export const AppDataSource = new DataSource({
   entities: [UserOrmEntity],
   migrations: [path.join(__dirname, 'migrations/**/*.{ts,js}')],
   synchronize: false,
-  logging: true, // Enable logging to see what's happening
+  logging: true,
 });

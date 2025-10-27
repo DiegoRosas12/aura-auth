@@ -1,8 +1,3 @@
-/**
- * JWT Strategy
- * Passport strategy for validating JWT tokens
- */
-
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -23,10 +18,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  /**
-   * Validates the JWT payload and returns the user information
-   * This method is called automatically by Passport after token verification
-   */
   async validate(payload: JwtPayload) {
     if (!payload.sub || !payload.email) {
       throw new UnauthorizedException('Invalid token payload');

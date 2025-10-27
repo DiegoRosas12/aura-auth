@@ -1,8 +1,3 @@
-/**
- * DTO: Login
- * Data Transfer Object for user login
- */
-
 import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
 
 export class LoginDto {

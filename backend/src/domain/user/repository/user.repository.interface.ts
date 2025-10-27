@@ -1,6 +1,6 @@
 import { User } from '../entity/user.entity';
 
-export interface IUserRepository {
+export interface UserRepository {
   save(user: User): Promise<User>;
 
   findById(id: string): Promise<User | null>;
@@ -16,4 +16,4 @@ export interface IUserRepository {
   existsByEmail(email: string): Promise<boolean>;
 }
 
-export const USER_REPOSITORY = Symbol('IUserRepository');
+export const USER_REPOSITORY = Symbol('UserRepository');

@@ -29,7 +29,7 @@ src/
 │   │   └── User.ts          # User entity and DTOs
 │   ├── repositories/         # Repository interfaces
 │   │   ├── IAuthRepository.ts
-│   │   └── IUserRepository.ts
+│   │   └── UserRepository.ts
 │   └── errors/              # Domain errors
 │       └── AppError.ts
 │
@@ -147,27 +147,32 @@ Presentation → Application → Domain ← Infrastructure
 ### Installation
 
 1. **Clone and navigate to the project**:
+
    ```bash
    cd frontend
    ```
 
 2. **Install dependencies**:
+
    ```bash
    yarn install
    ```
 
 3. **Configure environment**:
+
    ```bash
    cp .env.example .env
    ```
 
    Edit `.env`:
+
    ```env
    VITE_API_BASE_URL=http://localhost:8000
    VITE_USE_MOCK_API=true  # Set to false when backend is ready
    ```
 
 4. **Start development server**:
+
    ```bash
    yarn dev
    ```
@@ -179,13 +184,13 @@ Presentation → Application → Domain ← Infrastructure
 
 ## 📝 Available Scripts
 
-| Command | Description |
-|---------|-------------|
-| `yarn dev` | Start development server (port 3000) |
-| `yarn build` | Build for production |
-| `yarn preview` | Preview production build |
-| `yarn lint` | Run ESLint |
-| `yarn format` | Format code with Prettier |
+| Command        | Description                          |
+| -------------- | ------------------------------------ |
+| `yarn dev`     | Start development server (port 3000) |
+| `yarn build`   | Build for production                 |
+| `yarn preview` | Preview production build             |
+| `yarn lint`    | Run ESLint                           |
+| `yarn format`  | Format code with Prettier            |
 
 ---
 
@@ -194,16 +199,17 @@ Presentation → Application → Domain ← Infrastructure
 ### Endpoints Used
 
 ```typescript
-POST /api/auth/register      // Register new user
-POST /api/auth/login         // Login user
-GET  /api/users/profile      // Get current user profile
-PUT  /api/users/profile      // Update current user profile
-GET  /api/users              // List all users
+POST / api / auth / register // Register new user
+POST / api / auth / login // Login user
+GET / api / users / profile // Get current user profile
+PUT / api / users / profile // Update current user profile
+GET / api / users // List all users
 ```
 
 ### Request/Response Examples
 
 **Register**:
+
 ```typescript
 // Request
 POST /api/auth/register
@@ -229,6 +235,7 @@ POST /api/auth/register
 ```
 
 **Login**:
+
 ```typescript
 // Request
 POST /api/auth/login
@@ -241,6 +248,7 @@ POST /api/auth/login
 ```
 
 **Get Profile**:
+
 ```typescript
 // Request
 GET /api/users/profile
@@ -270,6 +278,7 @@ VITE_USE_MOCK_API=true
 ### Mock Users
 
 The mock API includes 3 pre-configured users:
+
 - admin@example.com
 - john.doe@example.com
 - jane.smith@example.com
@@ -293,6 +302,7 @@ Warning: #f59e0b (Amber)
 ### Component Library
 
 #### Atoms (Basic Components)
+
 - `<Button />` - Multiple variants (primary, secondary, outline, danger)
 - `<Input />` - Form input with label and error handling
 - `<Card />` - Container with shadow and border
@@ -300,12 +310,15 @@ Warning: #f59e0b (Amber)
 - `<Spinner />` - Loading indicator
 
 #### Molecules (Composite Components)
+
 - `<Table />` - Responsive data table
 
 #### Organisms (Complex Components)
+
 - `<Navbar />` - Navigation bar with auth state
 
 #### Templates (Layouts)
+
 - `<AuthLayout />` - Centered layout for auth pages
 - `<MainLayout />` - Main app layout with navbar
 
@@ -322,6 +335,7 @@ Warning: #f59e0b (Amber)
 ### Protected Routes
 
 All routes except `/login` and `/register` require authentication:
+
 - `/dashboard` - Main dashboard
 - `/profile` - User profile management
 - `/users` - User list view
@@ -370,7 +384,7 @@ export class NewRepository implements INewRepository {
 // src/application/use-cases/new/GetAllNewEntitiesUseCase.ts
 export class GetAllNewEntitiesUseCase {
   constructor(private repository: INewRepository) {}
-  
+
   async execute(): Promise<NewEntity[]> {
     return await this.repository.getAll()
   }
@@ -384,14 +398,14 @@ export class GetAllNewEntitiesUseCase {
 export const useNewEntities = () => {
   const [entities, setEntities] = useState<NewEntity[]>([])
   const [isLoading, setIsLoading] = useState(false)
-  
+
   const fetchEntities = useCallback(async () => {
     setIsLoading(true)
     const data = await container.getAllNewEntitiesUseCase.execute()
     setEntities(data)
     setIsLoading(false)
   }, [])
-  
+
   return { entities, isLoading, fetchEntities }
 }
 ```
@@ -402,11 +416,11 @@ export const useNewEntities = () => {
 // src/presentation/pages/NewEntitiesPage.tsx
 export const NewEntitiesPage = () => {
   const { entities, isLoading, fetchEntities } = useNewEntities()
-  
+
   useEffect(() => {
     fetchEntities()
   }, [fetchEntities])
-  
+
   return (
     <MainLayout>
       {/* Render entities */}
@@ -482,13 +496,13 @@ describe('LoginUseCase', () => {
     // Arrange
     const mockRepository = createMockAuthRepository()
     const useCase = new LoginUseCase(mockRepository)
-    
+
     // Act
     const result = await useCase.execute({
       email: 'test@example.com',
-      password: 'password123'
+      password: 'password123',
     })
-    
+
     // Assert
     expect(result.user.email).toBe('test@example.com')
     expect(result.token).toBeDefined()
@@ -526,16 +540,16 @@ VITE_USE_MOCK_API=false
 
 ## 📚 Tech Stack
 
-| Technology | Purpose |
-|------------|---------|
-| **React 18** | UI library |
-| **TypeScript** | Type safety |
-| **Vite** | Build tool & dev server |
-| **TailwindCSS** | Utility-first CSS |
-| **React Router** | Client-side routing |
-| **Axios** | HTTP client |
-| **ESLint** | Code linting |
-| **Prettier** | Code formatting |
+| Technology       | Purpose                 |
+| ---------------- | ----------------------- |
+| **React 18**     | UI library              |
+| **TypeScript**   | Type safety             |
+| **Vite**         | Build tool & dev server |
+| **TailwindCSS**  | Utility-first CSS       |
+| **React Router** | Client-side routing     |
+| **Axios**        | HTTP client             |
+| **ESLint**       | Code linting            |
+| **Prettier**     | Code formatting         |
 
 ---
 
@@ -563,6 +577,7 @@ This project is licensed under the MIT License.
 ### Common Issues
 
 **Port 3000 already in use**:
+
 ```bash
 # Change port in vite.config.ts
 server: {
@@ -571,6 +586,7 @@ server: {
 ```
 
 **TypeScript errors after install**:
+
 ```bash
 # Clear cache and reinstall
 rm -rf node_modules yarn.lock
@@ -578,10 +594,12 @@ yarn install
 ```
 
 **Mock API not working**:
+
 - Check `.env` file has `VITE_USE_MOCK_API=true`
 - Restart dev server after changing `.env`
 
 **Authentication not persisting**:
+
 - Check browser localStorage for `auth_token`
 - Ensure cookies/localStorage not blocked
 
@@ -590,6 +608,7 @@ yarn install
 ## 📞 Support
 
 For questions or issues:
+
 - Check the documentation above
 - Review the code comments
 - Examine the example implementations

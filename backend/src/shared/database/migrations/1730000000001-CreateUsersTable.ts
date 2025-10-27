@@ -1,8 +1,3 @@
-/**
- * Migration: Create Users Table
- * Creates the initial users table with all required columns and constraints
- */
-
 import { MigrationInterface, QueryRunner, Table } from 'typeorm';
 
 export class CreateUsersTable1730000000001 implements MigrationInterface {

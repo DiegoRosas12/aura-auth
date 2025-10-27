@@ -1,3 +1,5 @@
+import { Password } from '../value-object/password.vo';
+
 export class User {
   private readonly _id: string;
   private _email: string;
@@ -10,7 +12,7 @@ export class User {
   constructor(
     id: string,
     email: string,
-    password: string,
+    password: Password,
     firstName: string,
     lastName: string,
     createdAt?: Date,
@@ -18,7 +20,7 @@ export class User {
   ) {
     this._id = id;
     this._email = email.toLowerCase().trim();
-    this._password = password;
+    this._password = password.value;
     this._firstName = firstName;
     this._lastName = lastName;
     this._createdAt = createdAt || new Date();
@@ -42,15 +44,15 @@ export class User {
   }
 
   public updateProfile(firstName?: string, lastName?: string, email?: string): void {
-    if (firstName) {
+    if (firstName !== undefined) {
       this._firstName = firstName;
     }
 
-    if (lastName) {
+    if (lastName !== undefined) {
       this._lastName = lastName;
     }
 
-    if (email) {
+    if (email !== undefined) {
       this._email = email.toLowerCase().trim();
     }
 
@@ -58,11 +60,8 @@ export class User {
     this.validate();
   }
 
-  public updatePassword(newPassword: string): void {
-    if (!newPassword || newPassword.length === 0) {
-      throw new Error('Password cannot be empty');
-    }
-    this._password = newPassword;
+  public updatePassword(newPassword: Password): void {
+    this._password = newPassword.value;
     this._updatedAt = new Date();
   }
 

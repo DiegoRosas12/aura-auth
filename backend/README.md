@@ -357,6 +357,7 @@ La API utiliza códigos de estado HTTP estándar y un filtro de excepciones glob
 ### Códigos de Estado Utilizados
 
 #### 2xx - Éxito
+
 - **200 OK**: Solicitud exitosa (GET, PUT)
 - **201 Created**: Recurso creado exitosamente (POST)
 
@@ -366,20 +367,18 @@ La API utiliza códigos de estado HTTP estándar y un filtro de excepciones glob
   - Validación de datos fallida
   - Usuario ya existe (email duplicado)
   - Contraseña no cumple requisitos de seguridad
-  
 - **401 Unauthorized**: Autenticación fallida o token inválido
   - Credenciales incorrectas
   - Token JWT expirado o inválido
   - Token no proporcionado
-  
 - **403 Forbidden**: Usuario autenticado pero sin permisos
   - Acceso denegado a recurso
-  
 - **404 Not Found**: Recurso no encontrado
   - Usuario no existe
   - Endpoint no existe
 
 #### 5xx - Errores del Servidor
+
 - **500 Internal Server Error**: Error inesperado del servidor
 
 ### Formato de Respuesta de Error
@@ -423,6 +422,7 @@ Para errores de validación con múltiples campos:
 #### Registro con Email Duplicado
 
 **Request:**
+
 ```http
 POST /api/auth/register
 Content-Type: application/json
@@ -436,6 +436,7 @@ Content-Type: application/json
 ```
 
 **Response (400):**
+
 ```json
 {
   "statusCode": 400,
@@ -449,6 +450,7 @@ Content-Type: application/json
 #### Contraseña Débil
 
 **Request:**
+
 ```http
 POST /api/auth/register
 Content-Type: application/json
@@ -462,6 +464,7 @@ Content-Type: application/json
 ```
 
 **Response (400):**
+
 ```json
 {
   "statusCode": 400,
@@ -475,6 +478,7 @@ Content-Type: application/json
 #### Credenciales Inválidas
 
 **Request:**
+
 ```http
 POST /api/auth/login
 Content-Type: application/json
@@ -486,6 +490,7 @@ Content-Type: application/json
 ```
 
 **Response (401):**
+
 ```json
 {
   "statusCode": 401,
@@ -499,12 +504,14 @@ Content-Type: application/json
 #### Token JWT Inválido o Expirado
 
 **Request:**
+
 ```http
 GET /api/users/profile
 Authorization: Bearer invalid_or_expired_token
 ```
 
 **Response (401):**
+
 ```json
 {
   "statusCode": 401,
@@ -529,14 +536,14 @@ El proyecto utiliza:
 // En Application Service
 async registerUser(dto: CreateUserDto) {
   const existingUser = await this.userRepository.findByEmail(dto.email);
-  
+
   if (existingUser) {
     throw new BadRequestException('The user already exists');
   }
-  
+
   // Validate password strength
   PasswordValidator.validate(dto.password);
-  
+
   // ... resto del código
 }
 ```
@@ -544,6 +551,7 @@ async registerUser(dto: CreateUserDto) {
 ### Reglas de Validación de Contraseña
 
 Las contraseñas deben cumplir los siguientes requisitos:
+
 - Mínimo 8 caracteres
 - Al menos una letra mayúscula
 - Al menos una letra minúscula

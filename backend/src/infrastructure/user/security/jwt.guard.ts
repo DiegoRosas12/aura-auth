@@ -1,8 +1,3 @@
-/**
- * JWT Guard
- * Guard that protects routes requiring authentication
- */
-
 import { Injectable, ExecutionContext } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
