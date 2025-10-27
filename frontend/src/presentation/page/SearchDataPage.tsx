@@ -1,16 +1,17 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { MainLayout } from '../components/MainLayout'
 import { Company } from '@domain/entity/Company'
 import { companyRepository } from '@infrastructure/repository/CompanyRepository'
 import { useCompanySearch } from '@application/hooks/useCompanySearch'
-import { ActionCard } from '../components/ActionCard'
-import { CompanyTag } from '../components/CompanyTag'
+import { SearchHeroSection } from './search/SearchHeroSection'
+import { CompanySearchInput } from './search/CompanySearchInput'
+import { CompanyListPanel } from './search/CompanyListPanel'
 
-const plusIcon = 'http://localhost:3845/assets/730c6372c1a0244c8c3a33b4c229c38267e1e5c0.svg'
-const heroBackground = 'http://localhost:3845/assets/f5a228e1337faff61e75ea74307586f380ea6814.png'
-const documentsIcon = 'http://localhost:3845/assets/c1a868a62fcf4ab930b333c1eca88967385e4508.svg'
-const fileBundleIcon = 'http://localhost:3845/assets/e3ad1e48ddfb4955851c7f971e03af16acdb805a.svg'
-const aiToolIcon = 'http://localhost:3845/assets/0948bd5a7b488f0d37da3c027162de3154169c56.svg'
+const plusIcon = '/plus-icon.svg'
+const heroBackground = '/hero-background.png'
+const documentsIcon = '/search-data.svg'
+const fileBundleIcon = '/upload-data.svg'
+const aiToolIcon = '/ai-tool.svg'
 const stockGraphic = '/stock-graphic.svg'
 
 export const SearchDataPage = () => {
@@ -20,44 +21,29 @@ export const SearchDataPage = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [showDropdown, setShowDropdown] = useState(false)
   const { companies: searchResults, isLoading: isSearching, searchCompanies } = useCompanySearch()
-  const searchTimeoutRef = useRef<number | null>(null)
-  const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     loadCompanies()
   }, [])
 
   useEffect(() => {
-    if (searchTimeoutRef.current) {
-      clearTimeout(searchTimeoutRef.current)
-    }
+    let timeoutId: number | null = null
 
     if (searchQuery.trim().length >= 2) {
       setShowDropdown(true)
-      searchTimeoutRef.current = setTimeout(() => {
+      timeoutId = setTimeout(() => {
         searchCompanies(searchQuery)
-      }, 300)
+      }, 300) as unknown as number
     } else {
       setShowDropdown(false)
     }
 
     return () => {
-      if (searchTimeoutRef.current) {
-        clearTimeout(searchTimeoutRef.current)
+      if (timeoutId) {
+        clearTimeout(timeoutId)
       }
     }
   }, [searchQuery, searchCompanies])
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setShowDropdown(false)
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
 
   const loadCompanies = async () => {
     setIsLoading(true)
@@ -85,6 +71,14 @@ export const SearchDataPage = () => {
     }
   }
 
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query)
+  }
+
+  const handleCloseDropdown = () => {
+    setShowDropdown(false)
+  }
+
   const handleAddCompany = (companyName: string) => {
     if (!savedCompanies.includes(companyName)) {
       setSavedCompanies([...savedCompanies, companyName])
@@ -94,37 +88,12 @@ export const SearchDataPage = () => {
   return (
     <MainLayout>
       <div className="min-h-screen bg-white">
-        <div
-          className="relative rounded-[4px] overflow-hidden"
-          style={{
-            backgroundImage: `linear-gradient(90deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.6) 100%), url(${heroBackground})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            paddingBottom: '32px',
-          }}
-        >
-          <div className="pt-[32px] flex flex-col items-center gap-[8px]">
-            <div className="flex gap-[16px] items-center justify-center h-[60px]">
-              <p className="text-[#fcfcfc] text-[32px] font-bold">AURA</p>
-            </div>
-            <p className="text-white text-[24px] font-bold whitespace-nowrap">
-              Augmented Universal Research Assistant
-            </p>
-            <p className="text-white text-[16px] text-center whitespace-nowrap [text-shadow:0px_4px_4px_rgba(0,0,0,0.25)]">
-              Your in one single intuitive platform along side with your team.
-            </p>
-          </div>
-
-          <div className="mt-[32px] flex justify-center gap-[32px]">
-            <ActionCard icon={documentsIcon} label="Search Data" />
-            <ActionCard icon={fileBundleIcon} label="Upload your Data" />
-            <ActionCard
-              icon={aiToolIcon}
-              label="Try our AI Tool"
-              iconClassName="w-full h-full transform rotate-180 scale-y-[-1]"
-            />
-          </div>
-        </div>
+        <SearchHeroSection
+          heroBackground={heroBackground}
+          documentsIcon={documentsIcon}
+          fileBundleIcon={fileBundleIcon}
+          aiToolIcon={aiToolIcon}
+        />
 
         <div className="flex justify-between px-[12%] py-[110px]">
           <div className="flex flex-col gap-[16px] w-[498px]">
@@ -138,78 +107,23 @@ export const SearchDataPage = () => {
               </div>
             </div>
 
-            <div className="relative" ref={dropdownRef}>
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search companies..."
-                className="border border-[#cfcfd4] rounded-[4px] px-[16px] py-[12px] w-full text-[16px] font-bold focus:outline-none focus:border-[#6869ac]"
-              />
+            <CompanySearchInput
+              searchQuery={searchQuery}
+              onSearchChange={handleSearchChange}
+              searchResults={searchResults}
+              isSearching={isSearching}
+              showDropdown={showDropdown}
+              onSelectCompany={handleSelectCompany}
+              onCloseDropdown={handleCloseDropdown}
+            />
 
-              {showDropdown && searchQuery.trim().length >= 2 && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-[#cfcfd4] rounded-[4px] shadow-lg max-h-[200px] overflow-y-auto z-10">
-                  {isSearching ? (
-                    <div className="p-[8px] text-[#101723] text-[16px]">Searching...</div>
-                  ) : searchResults.length === 0 ? (
-                    <div className="p-[8px] text-[#101723] text-[16px]">No companies found</div>
-                  ) : (
-                    searchResults.map((company, index) => (
-                      <div
-                        key={`${company.domain}-${index}`}
-                        onClick={() => handleSelectCompany(company)}
-                        className="p-[8px] hover:bg-[#e8e5f9] cursor-pointer flex items-center gap-[8px] text-[16px] text-[#101723]"
-                      >
-                        {company.logo && (
-                          <img
-                            src={company.logo}
-                            alt={company.name}
-                            className="w-[24px] h-[24px] rounded"
-                            onError={(e) => {
-                              e.currentTarget.style.display = 'none'
-                            }}
-                          />
-                        )}
-                        <div className="flex gap-[4px]">
-                          <span className="font-bold">
-                            {company.domain.split('.')[0].toUpperCase()}
-                          </span>
-                          <span className="font-normal">{company.name}</span>
-                        </div>
-                      </div>
-                    ))
-                  )}
-                </div>
-              )}
-            </div>
-
-            <div className="bg-[#f9f5fd] rounded-[4px] p-[16px] flex flex-col gap-[16px]">
-              {isLoading ? (
-                <div className="text-center py-8 text-[#6869ac]">Loading companies...</div>
-              ) : companies.length === 0 ? (
-                <div className="text-center py-8 text-[#6869ac]">No companies found</div>
-              ) : (
-                <>
-                  {Array.from({ length: Math.ceil(companies.length / 2) }).map((_, rowIndex) => (
-                    <div key={rowIndex} className="flex gap-[16px]">
-                      {companies.slice(rowIndex * 2, rowIndex * 2 + 2).map((company, idx) => (
-                        <CompanyTag
-                          key={`${company.name}-${idx}`}
-                          company={company}
-                          onAdd={handleAddCompany}
-                          isSaved={savedCompanies.includes(company.name)}
-                          plusIcon={plusIcon}
-                        />
-                      ))}
-                    </div>
-                  ))}
-
-                  <div className="flex items-center justify-between text-[#4e5159] text-[14px] font-bold">
-                    <p>{savedCompanies.length} Companies saved</p>
-                  </div>
-                </>
-              )}
-            </div>
+            <CompanyListPanel
+              companies={companies}
+              savedCompanies={savedCompanies}
+              isLoading={isLoading}
+              plusIcon={plusIcon}
+              onAddCompany={handleAddCompany}
+            />
           </div>
 
           <div className="mx-auto p-4">
